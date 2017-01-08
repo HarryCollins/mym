@@ -1,0 +1,23 @@
+<%= render 'shared/errors', obj: @user %>
+
+<div class= "container">
+  <div class="row">
+    <div class= "well col-md-8 col-md-offset-2">
+      <%= form_for @user do |f| %>
+        <%= f.label :firstname %>
+        <%= f.text_field :firstname %>
+
+        <%= f.label :secondname %>
+        <%= f.text_field :secondname %>
+
+        <%= f.label :email %>
+        <%= f.email_field :email %>
+
+        <%= f.label :password %>
+        <%= f.password_field :password %>
+
+        <%= f.submit(@user.new_record? ? 'New User' : 'Edit User', class: "btn btn-success") %>
+      <% end %>
+    </div>
+  </div>
+</div>
