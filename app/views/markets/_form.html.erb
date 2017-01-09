@@ -1,0 +1,17 @@
+<%= render 'shared/errors', obj: @market %>
+
+<div class= "container">
+  <div class="row">
+    <div class= "well col-md-8 col-md-offset-2">
+      <%= form_for @market do |f| %>
+        <%= f.label :name %>
+        <%= f.text_field :name %>
+
+        <%= f.label :description %>
+        <%= f.text_field :description %>
+
+        <%= f.submit(@market.new_record? ? 'New Market' : 'Edit Market', class: "btn btn-success") %>
+      <% end %>
+    </div>
+  </div>
+</div>

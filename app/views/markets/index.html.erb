@@ -1,0 +1,15 @@
+<p class="text-center"><%= link_to "New Market", new_market_path, class: "btn btn-primary" %></p>
+
+<% @markets.each do |market| %>
+	<div class="panel panel-default">
+		<div class="panel-heading text-center">
+			<%= link_to market.name, market_path(market) %>
+		</div>	
+		<div class="panel-body text-center">
+			<%= market.description %>		
+		</div>
+		<div class="panel-footer text-center">
+			Nice market!
+		</div>
+	</div>
+<% end %>
