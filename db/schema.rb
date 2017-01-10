@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170109213336) do
+ActiveRecord::Schema.define(version: 20170110065233) do
 
   create_table "accounts", force: :cascade do |t|
     t.integer  "user_id"
@@ -21,24 +21,24 @@ ActiveRecord::Schema.define(version: 20170109213336) do
 
   create_table "market_outcomes", force: :cascade do |t|
     t.text     "outcome"
-    t.integer  "markets_id"
+    t.integer  "market_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["markets_id"], name: "index_market_outcomes_on_markets_id"
+    t.index ["market_id"], name: "index_market_outcomes_on_market_id"
   end
 
   create_table "market_types", force: :cascade do |t|
-    t.string   "market_type"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.string   "mechanism"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "markets", force: :cascade do |t|
     t.string   "name"
     t.text     "description"
-    t.datetime "created_at",      null: false
-    t.datetime "updated_at",      null: false
-    t.integer  "market_types_id"
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
+    t.integer  "market_type_id"
   end
 
   create_table "user_markets", force: :cascade do |t|

@@ -1,0 +1,10 @@
+<div class= "well">
+	<h1><%= @market.name %></h1>
+	<h2><%= @market.description %></h2>
+	<h2><%= @market.market_type.mechanism %></h2>
+	<% @market.market_outcomes.each do |oc| %>
+		<h3><%= oc.outcome %></h3>
+	<% end %>
+</div>
+
+<p class="text-center"><%= link_to "Edit Market", edit_market_path, class: "btn btn-warning" %></p>

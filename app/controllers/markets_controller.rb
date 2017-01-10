@@ -5,11 +5,15 @@ class MarketsController < ApplicationController
 	end
 
 	def show
-		@markets = Market.find(params[:id])
+		@market = Market.find(params[:id])
 	end
 
 	def new
 		@market = Market.new
+	end
+
+	def edit
+		@market = Market.find(params[:id])
 	end
 
 end
