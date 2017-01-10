@@ -13,4 +13,12 @@ Rails.application.routes.draw do
 
 	resources :markets
 
+	resources :markets do
+		member do
+		  resources :market_outcomes
+		end
+	end
+
+
+
 end

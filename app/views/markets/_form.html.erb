@@ -9,7 +9,19 @@
 
         <%= f.label :description %>
         <%= f.text_field :description %>
+        
+        <%= f.label 'Market Type' %>
+        <%= f.collection_select(:market_type_id, @marketTypes, :id, :mechanism) %> </br></br>
 
+        <%= f.label 'Outcomes' %>
+        <% @market.market_outcomes.each do |oc| %>
+      		<ul class="list-group">
+      			<li class="list-group-item"><%= oc.outcome %></li>
+      		</ul>
+	      <% end %>
+	      
+	      <p><%= link_to "New Outcome", new_market_outcome_path, class: "btn btn-warning btn-xs" %></p><hr>
+	      
         <%= f.submit(@market.new_record? ? 'New Market' : 'Edit Market', class: "btn btn-success") %>
       <% end %>
     </div>

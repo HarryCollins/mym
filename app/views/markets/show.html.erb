@@ -1,9 +1,11 @@
 <div class= "well">
 	<h1><%= @market.name %></h1>
 	<h2><%= @market.description %></h2>
-	<h2><%= @market.market_type.mechanism %></h2>
+	<h3>Market Type: <%= @market.market_type.mechanism %></h3>
 	<% @market.market_outcomes.each do |oc| %>
-		<h3><%= oc.outcome %></h3>
+		<ul class="list-group">
+			<li class="list-group-item"><%= oc.outcome %></li>
+		</ul>
 	<% end %>
 </div>
 

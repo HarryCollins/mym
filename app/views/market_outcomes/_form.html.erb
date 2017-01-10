@@ -1,0 +1,15 @@
+<%= render 'shared/errors', obj: @mo %>
+
+<h4><%= @mo.market.name %></h4>
+
+<div class= "container">
+  <div class="row">
+    <div class= "well col-md-8 col-md-offset-2">
+      <%= form_for @mo do |f| %>
+        <%= f.label 'Add a new outcome below:' %>
+        <%= f.text_field :outcome %>
+        <%= f.submit(@mo.new_record? ? 'New Outcome' : 'Edit Outcome', class: "btn btn-success") %>
+      <% end %>
+    </div>
+  </div>
+</div>
