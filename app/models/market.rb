@@ -4,4 +4,5 @@ class Market < ApplicationRecord
 	belongs_to :market_type
 	has_many :market_outcomes	
 
+	accepts_nested_attributes_for :market_outcomes
 end

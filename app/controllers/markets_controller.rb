@@ -10,6 +10,13 @@ class MarketsController < ApplicationController
 
 	def new
 		@market = Market.new
+		#scope the below (although should never be more than 2 results)
+		@marketTypes = MarketType.all
+	end
+
+	def create
+		fff.fff
+		@market = Market.new(market_params)
 	end
 
 	def edit

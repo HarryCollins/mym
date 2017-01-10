@@ -13,5 +13,15 @@
 //= require jquery
 //= require jquery_ujs
 //= require bootstrap-sprockets
-//= require turbolinks
 //= require_tree .
+
+
+$( document ).ready(function() {
+
+	$("#add_outcome").click(function(){
+
+		$("#new_outcomes_input_group").append('<input type="text" class="form-control" placeholder="Outcome" >');
+	});
+
+});
+
