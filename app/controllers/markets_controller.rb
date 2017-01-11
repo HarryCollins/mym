@@ -10,13 +10,18 @@ class MarketsController < ApplicationController
 
 	def new
 		@market = Market.new
-		#scope the below (although should never be more than 2 results)
-		@marketTypes = MarketType.all
+		#create blank outcomes
+		2.times { @market.market_outcomes.build }
 	end
 
 	def create
-		fff.fff
 		@market = Market.new(market_params)
+	    if @market.update(market_params)
+	      flash[:success] = "You have sucessfully updated this market"  
+	      redirect_to market_path(@market)
+	    else
+	      render :edit
+	    end
 	end
 
 	def edit
@@ -37,7 +42,7 @@ class MarketsController < ApplicationController
 	private
 	
 	def market_params
-		  params.require(:market).permit(:name, :description, :market_type_id)	
+		  params.require(:market).permit(:name, :description, :market_type_id, market_outcomes_attributes: [:outcome])	
 	end
 
 end
