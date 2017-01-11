@@ -18,10 +18,7 @@
 
 $( document ).ready(function() {
 
-	$("#add_outcome").click(function(){
-
-		$("#new_outcomes_input_group").append('<input type="text" class="form-control" placeholder="Outcome" name="market_outcome[outcome]" id="market_outcome_outcome" >');
-	});
-
+    console.log('Application.js Loaded')
+    
 });
 

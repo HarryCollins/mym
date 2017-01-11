@@ -1,1 +1,14 @@
+
+<div class= "container">
+  <div class="row">
+    <div class= "col-md-8 col-md-offset-2">
+        <h3>
+            <%= @market.name %>
+            <%= link_to "Delete Market", @market, method: :delete, data:{confirm: "Are you sure?"}, class:"btn btn-danger btn-xs pull-right" %>
+        </h3>
+    </div>
+  </div>
+</div>
+
 <%= render 'form' %>
+

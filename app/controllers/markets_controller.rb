@@ -11,12 +11,12 @@ class MarketsController < ApplicationController
 	def new
 		@market = Market.new
 		#create blank outcomes
-		2.times { @market.market_outcomes.build }
+		1.times { @market.market_outcomes.build }
 	end
 
 	def create
 		@market = Market.new(market_params)
-	    if @market.update(market_params)
+	    if @market.save(market_params)
 	      flash[:success] = "You have sucessfully updated this market"  
 	      redirect_to market_path(@market)
 	    else
@@ -26,7 +26,9 @@ class MarketsController < ApplicationController
 
 	def edit
 		@market = Market.find(params[:id])
-		@marketTypes = MarketType.all
+		if @market.market_outcomes.empty?
+			1.times { @market.market_outcomes.build }
+		end
 	end
 	
 	def update
@@ -39,10 +41,19 @@ class MarketsController < ApplicationController
 	    end
 	end
 	
+	def destroy
+	    if Market.find(params[:id]).destroy
+		    flash[:success] = "Market Deleted"
+		    redirect_to markets_path	    	
+	    else
+	      render :edit	    	
+	    end
+	end
+	
 	private
 	
 	def market_params
-		  params.require(:market).permit(:name, :description, :market_type_id, market_outcomes_attributes: [:outcome])	
+		  params.require(:market).permit(:name, :description, :market_type_id, market_outcomes_attributes: [:id, :outcome, :_destroy])	
 	end
 
 end

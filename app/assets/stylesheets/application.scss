@@ -17,12 +17,19 @@
  @import "bootstrap-sprockets";
  @import "bootstrap";
 
-
-input{
+input, textarea, select, .uneditable-input{
   border: 1px solid #D2D2D2;
-  border-radius: 2px;
+  border-radius: 3px;
   width: 100%;
   margin-bottom: 15px;
+}
+
+input_checkbox input {
+  width: auto !important;
+}
+
+input {
+  height: auto !important;
 }
 
 .no-indent{
@@ -31,4 +38,8 @@ input{
 
 .no-bullets {
 	list-style-type: none;	
+}
+
+.no-return {
+    display:inline;
 }

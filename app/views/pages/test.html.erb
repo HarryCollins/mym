@@ -1,3 +1,5 @@
+<%= render 'shared/errors', obj: @market %>
+
 
 <div class= "container">
   <div class="row">
@@ -10,13 +12,17 @@
         <%= f.text_field :description %>
         
         <%= f.label 'Market Type' %>
-        <%= f.collection_select(:market_type_id, @marketTypes, :id, :mechanism) %> </br></br>
+        <%= f.collection_select(:market_type_id, MarketType.all, :id, :mechanism) %> </br></br>
 
         <%= f.label 'Outcomes' %> <i class="glyphicon glyphicon-plus" id="add_outcome"></i>
 
-        <ul class="input-group" id="new_outcomes_input_group">
-        	<% @market.market_outcomes.each do |oc| %>
-				<input type="text" class="form-control" placeholder="Username" value=<%= oc.outcome %>>
+        <ul class="no-indent no-bullets" id='new_outcomes_input_group'>
+        	<%= f.fields_for :market_outcomes do |mo_form| %>
+        		<li>
+        		  <%= mo_form.label 'Delete Outcome' %>
+        		  <%= mo_form.check_box :_destroy, class:'no-return' %>
+        			<%= mo_form.text_field :outcome %>
+        		</li>
         	<% end %>
         </ul>
 
