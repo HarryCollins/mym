@@ -1,15 +1,24 @@
-<p class="text-center"><%= link_to "New Market", new_market_path, class: "btn btn-primary" %></p>
 
-<% @markets.each do |market| %>
-	<div class="panel panel-default">
-		<div class="panel-heading text-center">
-			<%= link_to market.name, market_path(market) %>
-		</div>	
-		<div class="panel-body text-center">
-			<%= market.description %>		
-		</div>
-		<div class="panel-footer text-center">
-			Nice market!
+<div class= "container">
+	<div class="row">
+		<div class= "col-md-8 col-md-offset-2">
+
+		<p class="text-center"><%= link_to "New Market", new_market_path, class: "btn btn-primary" %></p>
+
+		<% @markets.each do |market| %>
+			<div class="panel panel-success">
+				<div class="panel-heading text-center">
+					<p><%= link_to market.name, market_path(market) %></p>
+				</div>	
+				<div class="panel-body text-center">
+					<p><%= market.description %></p>	
+				</div>
+				<div class="panel-footer text-center">
+					<p>Outcomes: <%= market.market_outcomes.count %></p>
+				</div>
+			</div>
+		<% end %>
+
 		</div>
 	</div>
-<% end %>
+</div>
