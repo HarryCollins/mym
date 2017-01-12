@@ -12,7 +12,8 @@ Rails.application.routes.draw do
 	end
 
 	get '/register' => 'users#new'
-
+	get '/login' => 'logins#new'
+	
 	resources :markets
 
 	resources :markets do
