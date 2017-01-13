@@ -1,5 +1,7 @@
 class MarketsController < ApplicationController
 
+	before_action :require_user, except: [:show, :index]
+
 	def index
 		@markets = Market.all
 	end
@@ -15,10 +17,13 @@ class MarketsController < ApplicationController
 	end
 
 	def create
-		@market = Market.new(market_params)
-	    if @market.save(market_params)
-	      flash[:success] = "You have sucessfully updated this market"  
-	      redirect_to market_path(@market)
+		market = Market.new(market_params)
+		#current_user.markets << market
+		market.user_markets << UserMarket.new(user: current_user, is_founder: true)
+
+	    if market.save(market_params)
+			flash[:success] = "You have sucessfully created this market"
+			redirect_to market_path(market)
 	    else
 	      render :edit
 	    end
