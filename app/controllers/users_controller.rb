@@ -14,7 +14,8 @@ class UsersController < ApplicationController
 
 	    #need to modify to test for possibility of user saving and account not saving
 		if @user.save && account.save 
-			flash[:success] = "#{params[:firstname]} #{params[:secondname]} was created successfully"
+			flash[:success] = "Your account has been created successfully"
+			session[:user_id] = @user.id
 			redirect_to users_path				
 		else
       		render :new
