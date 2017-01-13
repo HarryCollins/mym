@@ -22,6 +22,8 @@ Rails.application.routes.draw do
 		end
 	end
 
-
+	get '/login' => 'logins#new'
+	post '/login' => 'logins#create'
+	get '/logout' => 'logins#destroy'
 
 end

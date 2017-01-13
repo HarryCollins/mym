@@ -22,6 +22,6 @@ $( document ).ready(function() {
         $("#new_outcomes_input_group").append('<li><input type="text" placeholder="New Outcome" name=' + nameAttributOutcome + ' id=' + idAttributOutcome + '></li>');
         
 	});
-
+	
 });
 

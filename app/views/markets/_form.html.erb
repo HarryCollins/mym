@@ -17,9 +17,12 @@
 
         <ul class="no-indent no-bullets" id='new_outcomes_input_group'>
         	<%= f.fields_for :market_outcomes do |mo_form| %>
-        		<li>
-        			<%= mo_form.text_field :outcome, html_options={ placeholder:'New Outcome' } %>
-        		</li>
+
+          		<li>
+          		    <%= mo_form.check_box '_destroy', class:"delete_checkbox" %>
+          			  <%= mo_form.text_field :outcome, html_options={ placeholder:'New Outcome' } %>
+          		</li>        			  
+    			  
         	<% end %>
         </ul>
 
