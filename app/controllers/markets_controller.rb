@@ -4,7 +4,7 @@ class MarketsController < ApplicationController
 
 	def index
 		@markets = Market.all
-		@markets = Market.where(founder: current_user) if params[:founder].present? # creates an anonymous scope
+		@markets = Market.founded_by_user(current_user) if params[:founder].present?
   		#@markets = @markets.current_user_founded_markets(params[:founder]) if params[:founder].present?
 	end
 

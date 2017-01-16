@@ -6,6 +6,10 @@ class Market < ApplicationRecord
 
 	accepts_nested_attributes_for :market_outcomes, allow_destroy: true
 
+	def self.founded_by_user(current_user)
+		current_user.markets.includes(:user_markets).where('user_markets.is_founder = ?', true)
+	end
+	
 	#instance methods
 	def mkfounder
 		users.includes(:user_markets).where('user_markets.is_founder = ?', true).first
