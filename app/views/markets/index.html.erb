@@ -9,7 +9,7 @@
 				</li>
 				<% if logged_in? %>
 					<li>
-					<%= link_to "Your Markets", markets_path %>
+					<%= link_to "Your Markets", markets_path(joined: true) %>
 					</li>
 					<li>
 					<%= link_to "Markets you Founded", markets_path(founder: true) %>

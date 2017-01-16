@@ -5,7 +5,7 @@ class MarketsController < ApplicationController
 	def index
 		@markets = Market.all
 		@markets = Market.founded_by_user(current_user) if params[:founder].present?
-  		#@markets = @markets.current_user_founded_markets(params[:founder]) if params[:founder].present?
+		@markets = Market.joined_by_user(current_user) if params[:joined].present?
 	end
 
 	def show
@@ -55,6 +55,12 @@ class MarketsController < ApplicationController
 	    else
 	      render :edit	    	
 	    end
+	end
+
+	def join
+		@market = Market.find(params[:id])
+		@current_user.markets << @market
+		render :show
 	end
 
 

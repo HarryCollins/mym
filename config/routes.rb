@@ -14,11 +14,11 @@ Rails.application.routes.draw do
 	get '/register' => 'users#new'
 	get '/login' => 'logins#new'
 	
-	resources :markets
 
 	resources :markets do
 		member do
 		  resources :market_outcomes
+		  get '/join' => 'markets#join'
 		end
 	end
 

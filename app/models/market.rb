@@ -9,6 +9,10 @@ class Market < ApplicationRecord
 	def self.founded_by_user(current_user)
 		current_user.markets.includes(:user_markets).where('user_markets.is_founder = ?', true)
 	end
+
+	def self.joined_by_user(current_user)
+		current_user.markets
+	end
 	
 	#instance methods
 	def mkfounder
