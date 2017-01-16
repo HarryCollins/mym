@@ -1,23 +1,42 @@
 
+
 <div class= "container">
+	<div class="row">
+		<div class= "col-md-10 col-md-offset-1">
+			<ul class="nav nav-tabs">
+				<li class="active">
+				<%= link_to "All Markets", markets_path %>
+				</li>
+				<% if logged_in? %>
+					<li>
+					<%= link_to "Your Markets", markets_path %>
+					</li>
+					<li>
+					<%= link_to "Markets you Founded", markets_path(founder: true) %>
+					</li>
+				<% end %>
+			</ul></br>
+		</div>
+	</div>
+
 	<div class="row">
 		<div class= "col-md-8 col-md-offset-2">
 
 		<p class="text-center"><%= link_to "New Market", new_market_path, class: "btn btn-primary" %></p>
 
 		<% @markets.each do |market| %>
-			<div class="panel panel-success">
-				<div class="panel-heading text-center">
-					<p><%= link_to market.name, market_path(market) %></p>
-				</div>	
-				<div class="panel-body text-center">
-					<p><%= market.description %></p>	
-				</div>
-				<div class="panel-footer text-center">
-					<p>Outcomes: <%= market.market_outcomes.count %></p>
-					<%= market.founder.firstname %>
-				</div>
+		<div class="panel panel-success">
+			<div class="panel-heading text-center">
+				<p><%= link_to market.name, market_path(market) %></p>
+			</div>	
+			<div class="panel-body text-center">
+				<p><%= market.description %></p>	
 			</div>
+			<div class="panel-footer text-center">
+				<p><span class="pull-right">Outcomes: <%= market.market_outcomes.count %></span>
+				<span class="pull-left">Founder: <%= market.mkfounder.firstname %></span></p>
+			</div>
+		</div>
 		<% end %>
 
 		</div>

@@ -4,6 +4,8 @@ class MarketsController < ApplicationController
 
 	def index
 		@markets = Market.all
+		@markets = Market.where(founder: current_user) if params[:founder].present? # creates an anonymous scope
+  		#@markets = @markets.current_user_founded_markets(params[:founder]) if params[:founder].present?
 	end
 
 	def show
@@ -54,11 +56,16 @@ class MarketsController < ApplicationController
 	      render :edit	    	
 	    end
 	end
-	
+
+
 	private
 	
 	def market_params
 		  params.require(:market).permit(:name, :description, :market_type_id, market_outcomes_attributes: [:id, :outcome, :_destroy])	
 	end
+
+	# def filtering_params(params)
+	#   params.slice(:founder)
+	# end
 
 end
