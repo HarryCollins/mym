@@ -6,9 +6,11 @@
 
 $( document ).ready(function() {
 
-    urlParamArray =  $.urlParam('founder');
-    console.log(urlParamArray[0])
+	
+});
 
+//the below only fires on markets#edit and markets#new
+$(".markets.edit, .markets.new").ready(function(){
 	$("#add_outcome").click(function(){
 	    
         //create Date object 
@@ -25,17 +27,37 @@ $( document ).ready(function() {
         $("#new_outcomes_input_group").append('<li><input type="text" placeholder="New Outcome" name=' + nameAttributOutcome + ' id=' + idAttributOutcome + '></li>');
         
 	});
-	
 });
 
 
-$.urlParam = function(name){
-    var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
-    if (results==null){
-       return null;
-    }
-    else{
-       return results[1] || 0;
-    }
-}
+//the below only fires on markets#index
 
+//remove active class from all_markets tab and add to selected tab
+$(".markets.index").ready(function(){
+    var joined_query_string = getParameterByName('joined');
+    var founder_query_string = getParameterByName('founder');
+    
+    if (!!joined_query_string) {
+        $("li.active").removeClass("active");        
+        $('#joined_markets').addClass('active');
+    } else if (!!founder_query_string) {
+        $("li.active").removeClass("active");        
+        $('#founder_markets').addClass('active');
+    } else {
+        $('#all_markets').addClass('active');
+    }
+});
+
+
+//functions
+function getParameterByName(name, url) {
+    if (!url) {
+      url = window.location.href;
+    }
+    name = name.replace(/[\[\]]/g, "\\$&");
+    var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+        results = regex.exec(url);
+    if (!results) return null;
+    if (!results[2]) return '';
+    return decodeURIComponent(results[2].replace(/\+/g, " "));
+}
