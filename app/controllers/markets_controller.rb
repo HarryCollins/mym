@@ -59,8 +59,15 @@ class MarketsController < ApplicationController
 
 	def join
 		@market = Market.find(params[:id])
-		@current_user.markets << @market
-		render :show
+		user_market = @market.user_markets.build(user: current_user)
+		
+		if user_market.save
+			flash[:success] = "Your have successfully joined this market!"
+			redirect_to market_path(@market)
+		else	
+			redirect_to market_path(@market)			
+		end
+		
 	end
 
 
