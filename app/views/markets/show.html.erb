@@ -10,26 +10,26 @@
 
 
             <h4>Outcomes</h4><hr>
-            <h4>
-                <div class="col-md-offset-7">
-                    Back | Lay
-                </div>
-            </h4>
-            <% @market.market_outcomes.each do |oc| %>
+            <% @market.market_outcomes.includes(:backs, :lays).each do |oc| %>
                 <ul class="list-group">
                     <li class="no-bullets list-group-item">
-                        <h4><div class="col-md-6">
-                            <%= oc.outcome %>
-                        </div></h4>
-
-                        <div class="col-md-offset-6">
-                            <span class="label label-default lb-sm">4</span>
-                            <span class="label label-default lb-md">4</span>
-                            <span class="btn label label-warning lb-lg">4</span>
-                            <span class="btn label label-info lb-lg">4</span>
-                            <span class="label label-default lb-md">4</span>
-                            <span class="label label-default lb-sm">4</span>
-                        </div> 
+                        Outcome:<%= oc.outcome %>
+                        <% oc.backs.group(:odds).count.each do |group_odds, group_count| %>
+                            Backs:<%= group_odds %>--><%= group_count %>
+                        <% end %>
+                        </br>
+                        
+                        <% oc.lays.group_by(&:odds).each_with_index do |(odds, lay_group), index| %>
+                       
+                            
+                            <% sum = 0 %>
+                            <% lay_group.each do |lay| %>
+                                <% sum = sum + lay.amount %>
+                            <% end %>
+                            <%= odds %>@<%= sum %>
+                            
+                        <% end %>
+                        
                     </li>
                 </ul>
             <% end %>

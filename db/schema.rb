@@ -10,13 +10,46 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170110065233) do
+ActiveRecord::Schema.define(version: 20170118215146) do
 
   create_table "accounts", force: :cascade do |t|
     t.integer  "user_id"
     t.integer  "balance"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "backs", force: :cascade do |t|
+    t.decimal  "amount"
+    t.datetime "time_bet_made"
+    t.decimal  "odds"
+    t.boolean  "is_full"
+    t.integer  "user_id"
+    t.datetime "created_at",        null: false
+    t.datetime "updated_at",        null: false
+    t.integer  "market_outcome_id"
+    t.index ["market_outcome_id"], name: "index_backs_on_market_outcome_id"
+    t.index ["user_id"], name: "index_backs_on_user_id"
+  end
+
+  create_table "hits", force: :cascade do |t|
+    t.integer "back_id"
+    t.integer "lay_id"
+    t.index ["back_id"], name: "index_hits_on_back_id"
+    t.index ["lay_id"], name: "index_hits_on_lay_id"
+  end
+
+  create_table "lays", force: :cascade do |t|
+    t.decimal  "amount"
+    t.datetime "time_bet_made"
+    t.decimal  "odds"
+    t.boolean  "is_full"
+    t.integer  "user_id"
+    t.datetime "created_at",        null: false
+    t.datetime "updated_at",        null: false
+    t.integer  "market_outcome_id"
+    t.index ["market_outcome_id"], name: "index_lays_on_market_outcome_id"
+    t.index ["user_id"], name: "index_lays_on_user_id"
   end
 
   create_table "market_outcomes", force: :cascade do |t|

@@ -70,15 +70,10 @@ class MarketsController < ApplicationController
 		
 	end
 
-
 	private
 	
 	def market_params
 		  params.require(:market).permit(:name, :description, :market_type_id, market_outcomes_attributes: [:id, :outcome, :_destroy])	
 	end
-
-	# def filtering_params(params)
-	#   params.slice(:founder)
-	# end
 
 end
