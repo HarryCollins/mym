@@ -14,17 +14,30 @@
                 <ul class="list-group">
                     <li class="no-bullets list-group-item">
                         Outcome:<%= oc.outcome %>
-                        <% oc.backs.group(:odds).count.each do |group_odds, group_count| %>
-                            Backs:<%= group_odds %>--><%= group_count %>
-                        <% end %>
+                        
                         </br>
                         
+                        Backs:
+                        <% oc.backs.group_by(&:odds).each_with_index do |(odds, back_group), index| %>
+                       
+                            
+                            <% sum = 0 %>
+                            <% back_group.each do |back| %>
+                                <% sum += back.amount %>
+                            <% end %>
+                            <%= odds %>@<%= sum %>
+                            
+                        <% end %>
+                        
+                        </br>
+                        
+                        Lays:
                         <% oc.lays.group_by(&:odds).each_with_index do |(odds, lay_group), index| %>
                        
                             
                             <% sum = 0 %>
                             <% lay_group.each do |lay| %>
-                                <% sum = sum + lay.amount %>
+                                <% sum += lay.amount %>
                             <% end %>
                             <%= odds %>@<%= sum %>
                             
