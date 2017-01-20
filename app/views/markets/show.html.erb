@@ -10,39 +10,20 @@
 
 
             <h4>Outcomes</h4><hr>
-            <% @market.market_outcomes.includes(:backs, :lays).each do |oc| %>
+            <% @market.market_outcomes.each do |mo| %>
                 <ul class="list-group">
                     <li class="no-bullets list-group-item">
-                        Outcome:<%= oc.outcome %>
-                        
+                        Outcome:<%= mo.outcome %>
                         </br>
-                        
                         Backs:
-                        <% oc.backs.group_by(&:odds).each_with_index do |(odds, back_group), index| %>
-                       
-                            
-                            <% sum = 0 %>
-                            <% back_group.each do |back| %>
-                                <% sum += back.amount %>
-                            <% end %>
-                            <%= odds %>@<%= sum %>
-                            
+                        <% mo.outcome_back_groups.each do |key, value| %>
+                            <%= value %> @ <%= key %>
                         <% end %>
-                        
                         </br>
-                        
                         Lays:
-                        <% oc.lays.group_by(&:odds).each_with_index do |(odds, lay_group), index| %>
-                       
-                            
-                            <% sum = 0 %>
-                            <% lay_group.each do |lay| %>
-                                <% sum += lay.amount %>
-                            <% end %>
-                            <%= odds %>@<%= sum %>
-                            
+                        <% mo.outcome_lay_groups.each do |key, value| %>
+                            <%= value %> @ <%= key %>
                         <% end %>
-                        
                     </li>
                 </ul>
             <% end %>
