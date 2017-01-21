@@ -6,31 +6,47 @@
 
             <h1><%= @market.name %> </br>
             <small><%= @market.description %></h1></small>
-            <h5>Market Type: <%= @market.market_type.mechanism %></h5></br>
+            <h5>Market Type: <%= @market.market_type.mechanism %></h5>
+            <h5>Founder: <%= "#{@market.mkfounder.firstname} #{@market.mkfounder.secondname}" %></h5>
 
-
-            <h4>Outcomes</h4><hr>
+            <h2>Outcomes</h2>
             <% @market.market_outcomes.each do |mo| %>
-                <ul class="list-group">
-                    <li class="no-bullets list-group-item">
-                        Outcome:<%= mo.outcome %>
-                        </br>
-                        Backs:
-                        <% mo.outcome_back_groups.each do |key, value| %>
-                            <%= value %> @ <%= key %>
-                        <% end %>
-                        </br>
-                        Lays:
-                        <% mo.outcome_lay_groups.each do |key, value| %>
-                            <%= value %> @ <%= key %>
-                        <% end %>
-                    </li>
-                </ul>
+                <span class="h3 col-md-3 col-md-offset-5"><%= mo.outcome %></span><br>
+                <div class= "col-md-6">     
+                    <p class="text-center">Backs</p>
+                    <button type="button" class="btn btn-default pull-right">
+                      <span class="glyphicon glyphicon glyphicon-plus" aria-hidden="true"></br>New</span>
+                    </button>
+                    <% mo.outcome_back_groups.each do |key, value| %>
+                        <span class="btn btn-sm btn-primary pull-right margin_1px"><%= "#{key}" %></br>
+                            <%= "(£#{value})" %></span>
+                    <% end %>
+                </div>
+
+                <div class= "col-md-6">
+                    <p class="text-center">Lays</p>
+                    <button type="button" class="btn btn-default pull-left">
+                        <span class="glyphicon glyphicon glyphicon-plus" aria-hidden="true"></br>New</span>
+                    </button>                    
+                    <% mo.outcome_lay_groups.each do |key, value| %>
+                        <span class="btn btn-sm btn-danger pull-left margin_1px"><%= "#{key}" %></br>
+                            <%= "(£#{value})" %></span>
+                    <% end %>
+                </div>
+                            </br></br></br>
             <% end %>
         </div>
 
-        <div class= "col-md-4">
-            <p class="text-center inline"><%= link_to "Join Market", join_market_path, class: "btn btn-primary" %></p>
+        <div class= "col-md-4 standard_box">
+            <h2 class="text-center">Open Bets</h2>
+            <% @open_bets.each do |mo, lays_hash| %>
+                <% lays_hash.each do |odds, amount| %>
+                    <%= "#{mo.outcome} #{odds} £#{amount}" %></span>
+                <% end %>
+            <% end %>
+        </div>
+
+        <div class= "col-md-4 standard_box box_height_medium">
 
             <h2 class="text-center">Users</h2>
             <% @market.users.each do |user| %>
@@ -44,7 +60,10 @@
 
     <div class="row">
         <div class= "col-md-8">
-            <p class="text-center"><%= link_to "Edit Market", edit_market_path, class: "btn btn-warning" %></p>
+            <% if current_user && current_user == @market.mkfounder %>
+                <p class="text-center"><%= link_to "Edit Market", edit_market_path, class: "btn btn-warning" %></p>
+            <% end %>
+            <p class="text-center inline"><%= link_to "Join Market", join_market_path, class: "btn btn-primary" %></p>
         </div>
     </div>
 </div>

@@ -2,6 +2,8 @@ class MarketOutcome < ApplicationRecord
 	belongs_to :market, inverse_of: :market_outcomes
     has_many :backs, dependent: :destroy
     has_many :lays, dependent: :destroy
+
+    #instance variables
  
 	def outcome_back_groups
         return self.create_back_hash_array
@@ -12,36 +14,43 @@ class MarketOutcome < ApplicationRecord
 	end
 
 	def create_back_hash_array
-	   back_groups_hash = Hash.new
+	    #create empty array for all back odds groups in market outcome
+	    bet_groups_hash = Hash.new
 	    #loop through in odds group in market outcome
-	    backs.group_by(&:odds).each do |odds, back_group|
+	    bet_groups = backs.group_by(&:odds)
+	    bet_groups_sorted = bet_groups.sort_by{|key, values| key}.reverse
+	    bet_groups_sorted.each do |odds, bet_group|
             sum = 0
             #sum all amounts within odds group
-            back_group.each do |back|
-                sum += back.amount
+            bet_group.each do |bet|
+                sum += bet.amount
             end
-            #create hash for current hash group 
-            back_groups_hash[odds] = sum
+            #add current lay group to hash
+        bet_groups_hash[odds] = sum
 	    end
-	    return back_groups_hash
+	    
+	    return bet_groups_hash
 	end
 	
 	def create_lay_hash_array
 	    #create empty array for all back odds groups in market outcome
-	    lay_groups_hash = Hash.new
-	    #loop through in odds group in market outcome
-	    lays.group_by(&:odds).each do |odds, lay_group|
+	    bet_groups_hash = Hash.new
+	    #groups bets by odds
+	    bet_groups = lays.group_by(&:odds)
+	    #sort bet groups by odds
+	    bet_groups_sorted = bet_groups.sort_by{|key, values| key}
+	    #loop through each odds grouping
+	    bet_groups_sorted.each do |odds, bet_group|
             sum = 0
             #sum all amounts within odds group
-            lay_group.each do |lay|
-                sum += lay.amount
+            bet_group.each do |bet|
+                sum += bet.amount
             end
             #add current lay group to hash
-            lay_groups_hash[odds] = sum
+        bet_groups_hash[odds] = sum
 	    end
 	    
-	    return lay_groups_hash
+	    return bet_groups_hash
 	end
-	
     
 end

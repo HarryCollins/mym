@@ -10,6 +10,7 @@ class MarketsController < ApplicationController
 
 	def show
 		@market = Market.find(params[:id])
+		@open_bets = Lays.by_market_and_user(@market, current_user)
 	end
 
 	def new

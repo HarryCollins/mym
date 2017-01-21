@@ -77,9 +77,9 @@ ActiveRecord::Schema.define(version: 20170118215146) do
   create_table "user_markets", force: :cascade do |t|
     t.integer  "user_id"
     t.integer  "market_id"
+    t.boolean  "is_founder"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.boolean  "is_founder"
   end
 
   create_table "users", force: :cascade do |t|
