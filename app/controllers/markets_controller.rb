@@ -9,8 +9,8 @@ class MarketsController < ApplicationController
 	end
 
 	def show
-		@market = Market.find(params[:id])
-		@open_bets = Lays.by_market_and_user(@market, current_user)
+		market = Market.find(params[:id])
+		@market = MarketPresenter.new(market, view_context)
 	end
 
 	def new

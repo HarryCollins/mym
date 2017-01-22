@@ -1,11 +1,13 @@
 <%= render 'shared/errors', obj: @market %>
 
+
+
 <div class= "container">
     <div class="row">
         <div class= "well col-md-8">
-
             <h1><%= @market.name %> </br>
             <small><%= @market.description %></h1></small>
+            <%= @market.test %>
             <h5>Market Type: <%= @market.market_type.mechanism %></h5>
             <h5>Founder: <%= "#{@market.mkfounder.firstname} #{@market.mkfounder.secondname}" %></h5>
 
@@ -38,10 +40,22 @@
         </div>
 
         <div class= "col-md-4 standard_box">
-            <h2 class="text-center">Open Bets</h2>
-            <% @open_bets.each do |mo, lays_hash| %>
-                <% lays_hash.each do |odds, amount| %>
-                    <%= "#{mo.outcome} #{odds} £#{amount}" %></span>
+            <h2 class="text-center">Your Bets</h2>
+            <% @market.market_outcomes.each do |mo| %>
+                <% if mo.lays.by_user(current_user) %>
+                    <h4 class="text-center"><%= mo.outcome %></h4>
+                    <div class= col-md-6>
+                        <p>Open backs</p>
+                            <% mo.backs.by_user(current_user).group_by(&:odds).each do |odds, odds_bet_group| %>
+                                <span class="btn btn-xs btn-primary"><%= odds_bet_group.inject(0) {|sum, bet| sum + bet.amount } %></span>
+                            <% end %>
+                    </div>
+                    <div class= col-md-6>
+                        <p>Open lays</p>              
+                            <% mo.lays.by_user(current_user).group_by(&:odds).each do |odds, odds_bet_group| %>
+                                <span class="btn btn-xs btn-danger"><%= odds_bet_group.inject(0) {|sum, bet| sum + bet.amount } %></span>
+                            <% end %>
+                    </div>
                 <% end %>
             <% end %>
         </div>

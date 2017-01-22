@@ -3,6 +3,8 @@ class MarketOutcome < ApplicationRecord
     has_many :backs, dependent: :destroy
     has_many :lays, dependent: :destroy
 
+
+
     #instance variables
  
 	def outcome_back_groups

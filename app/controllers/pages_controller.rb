@@ -5,7 +5,7 @@ class PagesController < ApplicationController
 	end
 
 	def test
-		@market = Market.last
+		@market = Market.first
 	end
 
 end
