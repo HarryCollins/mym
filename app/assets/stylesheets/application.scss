@@ -14,10 +14,12 @@
  *= require_self
  */
 
- @import "bootstrap-sprockets";
- @import "bootstrap";
-
-input, textarea, select, .uneditable-input{
+@import "bootstrap-sprockets";
+@import "bootstrap";
+input,
+textarea,
+select,
+.uneditable-input {
   border: 1px solid #D2D2D2;
   border-radius: 3px;
   width: 100%;
@@ -32,20 +34,20 @@ input {
   height: auto !important;
 }
 
-.no-indent{
-	padding: 0;
+.no-indent {
+  padding: 0;
 }
 
 .no-bullets {
-	list-style-type: none;	
+  list-style-type: none;
 }
 
 .no-return {
-    display:inline;
+  display: inline;
 }
 
 .get-over {
-	float: left;
+  float: left;
 }
 
 .lb-sm {
@@ -64,8 +66,9 @@ input {
   margin: 1px;
 }
 
-.standard_box{
+.standard_box {
   border-top: 1px solid #abb9d1;
   padding: 0.5em;
   height: 20em;
+  overflow-y: scroll;
 }

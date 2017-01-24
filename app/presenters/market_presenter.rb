@@ -1,7 +1,7 @@
 class MarketPresenter < BasePresenter
-
-	def test
-		@model.description
-	end
+	
+    def give_me_name
+        self.name 
+    end
 
 end

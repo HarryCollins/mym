@@ -9,8 +9,7 @@ class MarketsController < ApplicationController
 	end
 
 	def show
-		market = Market.find(params[:id])
-		@market = MarketPresenter.new(market, view_context)
+		@market = Market.find(params[:id])
 	end
 
 	def new
