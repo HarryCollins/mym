@@ -1,84 +1,81 @@
 <%= render 'shared/errors', obj: @market %>
 
-<% present(@market) do |market| %>
-    <div class= "container">
-        <div class="row">
-            <div class= "well col-md-8">
-                <h1><%= market.give_me_name %> </br>
-                <h1><%= market.name %> </br>
-                <small><%= market.description %></h1></small>
-                <h5>Market Type: <%= market.market_type.mechanism %></h5>
-                <h5>Founder: <%= "#{market.mkfounder.firstname} #{market.mkfounder.secondname}" %></h5>
-    
-                <h2>Outcomes</h2>
-                <% market.market_outcomes.each do |mo| %>
-                    <span class="h3 col-md-3 col-md-offset-5"><%= mo.outcome %></span><br>
-                    <div class= "col-md-6">     
-                        <p class="text-center">Backs</p>
-                        <button type="button" class="btn btn-default pull-right">
-                          <span class="glyphicon glyphicon glyphicon-plus" aria-hidden="true"></br>New</span>
-                        </button>
-                        <% mo.outcome_back_groups.each do |key, value| %>
-                            <span class="btn btn-sm btn-primary pull-right margin_1px"><%= "#{key}" %></br>
-                                <%= "(£#{value})" %></span>
-                        <% end %>
-                    </div>
-    
-                    <div class= "col-md-6">
-                        <p class="text-center">Lays</p>
-                        <button type="button" class="btn btn-default pull-left">
-                            <span class="glyphicon glyphicon glyphicon-plus" aria-hidden="true"></br>New</span>
-                        </button>                    
-                        <% mo.outcome_lay_groups.each do |key, value| %>
-                            <span class="btn btn-sm btn-danger pull-left margin_1px"><%= "#{key}" %></br>
-                                <%= "(£#{value})" %></span>
-                        <% end %>
-                    </div>
-                                </br></br></br>
-                <% end %>
-            </div>
-    
-            <div class= "col-md-4 standard_box">
-                <h2 class="text-center">Your Bets</h2>
-                <% market.market_outcomes.each do |mo| %>
-                    <% if mo.lays.by_user(current_user) %>
-                        <h4 class="text-center"><%= mo.outcome %></h4>
-                        <div class= col-md-6>
-                            <p>Open backs</p>
-                                <% mo.backs.by_user(current_user).group_by(&:odds).each do |odds, odds_bet_group| %>
-                                    <span class="btn btn-xs btn-primary"><%= odds_bet_group.inject(0) {|sum, bet| sum + bet.amount } %></span>
-                                <% end %>
-                        </div>
-                        <div class= col-md-6>
-                            <p>Open lays</p>              
-                                <% mo.lays.by_user(current_user).group_by(&:odds).each do |odds, odds_bet_group| %>
-                                    <span class="btn btn-xs btn-danger"><%= odds_bet_group.inject(0) {|sum, bet| sum + bet.amount } %></span>
-                                <% end %>
-                        </div>
+
+<div class= "container">
+    <div class="row">
+        <div class= "well col-md-8">
+            <h1><%= @market.name %> </br>
+            <small><%= @market.description %></h1></small>
+            <h5>Market Type: <%= @market.market_type.mechanism %></h5>
+            <h5>Founder: <%= @market.founder_name %></h5>
+            <%= UserMarket.last.check_for_bets_and_lays %>
+
+            <h2>Outcomes</h2>
+            <% @market.market_outcomes.each do |mo| %>
+                <% mo_presenter = MarketOutcomePresenter.new(mo, self) %>
+                <span class="h3 col-md-3 col-md-offset-5"><%= mo_presenter.outcome %></span><br>
+                <div class= "col-md-6">
+                    <p class="text-center">Backs</p>
+                    <%= mo_presenter.new_bet_button(:newback, current_user) %>
+                    <% mo_presenter.create_bet_hash(mo_presenter.backs).each do |odds, amount| %>
+                        <%= mo_presenter.bet_button(odds, amount, :back)%>    
                     <% end %>
-                <% end %>
-            </div>
-    
-            <div class= "col-md-4 standard_box box_height_medium">
-    
-                <h2 class="text-center">Users</h2>
-                <% market.users.each do |user| %>
-                    <h4 class="text-center">
-                        <%= user.firstname %>
-                    </h3>
-                <% end %>
-            </div>
-    
+                </div>
+
+                <div class= "col-md-6">
+                    <p class="text-center">Lays</p>
+                    <%= mo_presenter.new_bet_button(:newlay, current_user) %>                              
+                    <% mo_presenter.create_bet_hash(mo_presenter.lays).each do |odds, amount| %>
+                        <%= mo_presenter.bet_button(odds, amount, :lay)%>
+                    <% end %>
+                </div>
+                            </br></br></br>
+            <% end %>
         </div>
-    
-        <div class="row">
-            <div class= "col-md-8">
-                <% if current_user && current_user == market.mkfounder %>
-                    <p class="text-center"><%= link_to "Edit Market", edit_market_path, class: "btn btn-warning" %></p>
+
+        <div class= "col-md-4 standard_box">
+            <h3 class="text-center">Your Bets</h3>
+                <% if @market.user_lays(current_user) %>
+                    <div class= col-md-6>
+                        <h4>Open Backs</h4>              
+                        <% @market.user_backs(current_user).each do |back| %>
+                            <%= @market.bet_details(back) %>
+                            </br>
+                        <% end %>                 
+                    </div>
+                    <div class= "col-md-6 ajax">
+                        <h4>Open lays</h4>              
+                        <% @market.user_lays(current_user).each do |lay| %>
+                            <%= @market.bet_details(lay) %>
+                            </br>
+                        <% end %>                 
+                    </div>
                 <% end %>
-                <p class="text-center inline"><%= link_to "Join Market", join_market_path, class: "btn btn-primary" %></p>
-            </div>
         </div>
+
+        <div class= "col-md-4 standard_box box_height_medium">
+
+            <h3 class="text-center">Users</h3>
+            <% @market.users.each do |user| %>
+                <h4 class="text-center">
+                    <%= user.firstname %>
+                </h3>
+            <% end %>
+        </div>
+
     </div>
 
-<% end %>
+    <div class="row">
+        <div class= "col-md-8">
+            <% if current_user && current_user == @market.mkfounder %>
+                <p class="text-center"><%= link_to "Edit Market", edit_market_path, class: "btn btn-warning" %></p>
+            <% end %>
+            <% if @market.user_markets.where(user: current_user).exists? %>
+                <p class="text-center inline"><%= link_to "Leave Market", leave_market_path, class: "btn btn-warning" %></p>
+            <% else %>
+                <p class="text-center inline"><%= link_to "Join Market", join_market_path, remote: true, class: "btn btn-primary" %></p>
+            <% end %>
+        </div>
+    </div>
+</div>
+

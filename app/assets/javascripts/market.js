@@ -27,8 +27,11 @@ $(".markets.edit, .markets.new").ready(function(){
         $("#new_outcomes_input_group").append('<li><input type="text" placeholder="New Outcome" name=' + nameAttributOutcome + ' id=' + idAttributOutcome + '></li>');
         
 	});
+
+
 });
 
+$("<%= escape_javascript(render @market) %>").appendTo("#ajax");
 
 //the below only fires on markets#index
 

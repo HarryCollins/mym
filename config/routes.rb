@@ -17,8 +17,12 @@ Rails.application.routes.draw do
 
 	resources :markets do
 		member do
-		  resources :market_outcomes
-		  get '/join' => 'markets#join'
+			get '/join' => 'markets#join'
+			get '/leave' => 'markets#leave'
+			resources :market_outcomes do
+				resources :lays
+				resources :hits
+			end
 		end
 	end
 

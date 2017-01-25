@@ -9,7 +9,8 @@ class MarketsController < ApplicationController
 	end
 
 	def show
-		@market = Market.find(params[:id])
+		market = Market.find(params[:id])
+		@market = MarketPresenter.new(market, view_context)
 	end
 
 	def new
@@ -61,13 +62,29 @@ class MarketsController < ApplicationController
 		@market = Market.find(params[:id])
 		user_market = @market.user_markets.build(user: current_user)
 		
-		if user_market.save
-			flash[:success] = "Your have successfully joined this market!"
-			redirect_to market_path(@market)
-		else	
-			redirect_to market_path(@market)			
+		respond_to do |format|
+			if user_market.save
+				format.html { flash[:success] = "Your have successfully joined this market!"
+				redirect_to market_path(@market) }
+				format.js {}
+				format.json { render json: @market, status: :created, location: @market }
+			else	
+				format.html { redirect_to market_path(@market) }	
+				format.json { render json: @user_market.errors, status: :unprocessable_entity }	
+			end
 		end
 		
+	end
+
+	def leave
+		@market = Market.find(params[:id])
+		if @market.user_markets.where(user: current_user).destroy_all
+			flash[:success] = "You are no longer part of this market" 
+			redirect_to market_path(@market)
+		else
+			flash[:danger] = "Could not remove you from market" 
+			render :show
+		end
 	end
 
 	private
