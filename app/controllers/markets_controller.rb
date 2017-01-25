@@ -78,12 +78,16 @@ class MarketsController < ApplicationController
 
 	def leave
 		@market = Market.find(params[:id])
-		if @market.user_markets.where(user: current_user).destroy_all
-			flash[:success] = "You are no longer part of this market" 
+		@user_market = @market.user_markets.where(user: current_user).first
+		@user_market = @user_market.add_error_for_bets_and_lays
+		@market = MarketPresenter.new(@market, view_context)
+		if  !@user_market.errors
+			user_market.destroy_all
+			flash[:success] = "You are no longer part of this market"
 			redirect_to market_path(@market)
 		else
-			flash[:danger] = "Could not remove you from market" 
-			render :show
+			#flash[:danger] = "Could not remove you from market" 
+			redirect_to market_path(@market)
 		end
 	end
 

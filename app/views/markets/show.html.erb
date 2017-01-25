@@ -8,7 +8,6 @@
             <small><%= @market.description %></h1></small>
             <h5>Market Type: <%= @market.market_type.mechanism %></h5>
             <h5>Founder: <%= @market.founder_name %></h5>
-            <%= UserMarket.last.check_for_bets_and_lays %>
 
             <h2>Outcomes</h2>
             <% @market.market_outcomes.each do |mo| %>
