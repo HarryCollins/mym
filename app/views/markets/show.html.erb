@@ -37,17 +37,11 @@
                 <% if @market.user_lays(current_user) %>
                     <div class= col-md-6>
                         <h4>Open Backs</h4>              
-                        <% @market.user_backs(current_user).each do |back| %>
-                            <%= @market.bet_details(back) %>
-                            </br>
-                        <% end %>                 
+                        <%= render partial: "user_bets", locals: { direction: :back } %>                
                     </div>
-                    <div class= "col-md-6 ajax">
-                        <h4>Open lays</h4>              
-                        <% @market.user_lays(current_user).each do |lay| %>
-                            <%= @market.bet_details(lay) %>
-                            </br>
-                        <% end %>                 
+                    <div class= "col-md-6">
+                        <h4>Open lays</h4>
+                        <%= render partial: "user_bets", locals: { direction: :lay } %>
                     </div>
                 <% end %>
         </div>
@@ -55,11 +49,11 @@
         <div class= "col-md-4 standard_box box_height_medium">
 
             <h3 class="text-center">Users</h3>
-            <% @market.users.each do |user| %>
-                <h4 class="text-center">
-                    <%= user.firstname %>
-                </h3>
-            <% end %>
+                <ul id="market-users-list" class="no-bullets">
+                    <div id="user_partial">
+                        <%= render partial: "user", collection: @market.users %>
+                    </div>
+                </ul>
         </div>
 
     </div>
@@ -70,11 +64,10 @@
                 <p class="text-center"><%= link_to "Edit Market", edit_market_path, class: "btn btn-warning" %></p>
             <% end %>
             <% if @market.user_markets.where(user: current_user).exists? %>
-                <p class="text-center inline"><%= link_to "Leave Market", leave_market_path, class: "btn btn-warning" %></p>
+                <p class="text-center inline"><%= link_to "Leave Market", leave_market_path, remote: true, id: "joinleave-market", class: "btn btn-warning" %></p>
             <% else %>
-                <p class="text-center inline"><%= link_to "Join Market", join_market_path, remote: true, class: "btn btn-primary" %></p>
-            <% end %>
+                <p class="text-center inline"><%= link_to "Join Market", join_market_path, remote: true, id: "joinleave-market", class: "btn btn-primary" %></p>
+            <% end %> 
         </div>
     </div>
 </div>
-

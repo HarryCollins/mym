@@ -59,35 +59,32 @@ class MarketsController < ApplicationController
 	end
 
 	def join
-		@market = Market.find(params[:id])
-		user_market = @market.user_markets.build(user: current_user)
-		
+		market = Market.find(params[:id])
+		@user_market = market.user_markets.build(user: current_user)
+		@market = MarketPresenter.new(market, view_context)
 		respond_to do |format|
-			if user_market.save
-				format.html { flash[:success] = "Your have successfully joined this market!"
-				redirect_to market_path(@market) }
-				format.js {}
-				format.json { render json: @market, status: :created, location: @market }
+			if @user_market.save
+				format.html { redirect_to market_path(@market) }
+				format.js { }
 			else	
 				format.html { redirect_to market_path(@market) }	
-				format.json { render json: @user_market.errors, status: :unprocessable_entity }	
 			end
 		end
 		
 	end
 
 	def leave
-		@market = Market.find(params[:id])
-		@user_market = @market.user_markets.where(user: current_user).first
-		@user_market = @user_market.add_error_for_bets_and_lays
-		@market = MarketPresenter.new(@market, view_context)
-		if  !@user_market.errors
-			user_market.destroy_all
-			flash[:success] = "You are no longer part of this market"
-			redirect_to market_path(@market)
-		else
-			#flash[:danger] = "Could not remove you from market" 
-			redirect_to market_path(@market)
+		#TODO: fix validation on leave
+		market = Market.find(params[:id])
+		@user_market = market.user_markets.where(user: current_user).first
+		@market = MarketPresenter.new(market, view_context)
+		respond_to do |format|
+			if @user_market.destroy
+				format.html { redirect_to market_path(@market) }
+				format.js { }
+			else	
+				format.html { redirect_to market_path(@market) }	
+			end
 		end
 	end
 

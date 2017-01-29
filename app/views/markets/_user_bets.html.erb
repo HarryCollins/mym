@@ -1,0 +1,9 @@
+<% if direction == :back %>
+	<% @market.user_backs(current_user).each do |back| %>
+	    <%= @market.bet_details(back) %>
+	<% end %>
+<% else %>
+	<% @market.user_lays(current_user).each do |lay| %>
+	    <%= @market.bet_details(lay) %>
+	<% end %>
+<% end %>  
