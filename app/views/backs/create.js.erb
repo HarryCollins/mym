@@ -1,0 +1,5 @@
+var modal_id = '<%= @mo.id %>';
+$('#back_modal_' + modal_id).modal('hide');
+$('body').removeClass('modal-open');
+$('.modal-backdrop').remove();
+$('#outcome_partial').html("<%= escape_javascript(render partial: 'markets/outcome', collection: @market.market_outcomes) %>");

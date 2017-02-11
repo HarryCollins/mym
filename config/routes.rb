@@ -20,6 +20,8 @@ Rails.application.routes.draw do
 			get '/join' => 'markets#join'
 			get '/leave' => 'markets#leave'
 			resources :market_outcomes do
+				get '/new_back' => 'backs#create'
+				get '/new_lay' => 'lays#create'
 				resources :lays
 				resources :hits
 			end

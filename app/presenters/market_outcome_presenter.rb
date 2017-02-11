@@ -36,9 +36,9 @@ class MarketOutcomePresenter < BasePresenter
 				when :lay
 					"btn btn-sm btn-danger pull-left margin_1px"
 				when :newback
-					"btn btn-default pull-right glyphicon glyphicon glyphicon-plus"
+					"btn btn-info pull-right glyphicon glyphicon glyphicon-plus"
 				when :newlay
-					"btn btn-default pull-left glyphicon glyphicon glyphicon-plus"
+					"btn btn-info pull-left glyphicon glyphicon glyphicon-plus"
 			end
 		end
 

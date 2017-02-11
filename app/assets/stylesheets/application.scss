@@ -72,3 +72,7 @@ input {
   height: 20em;
   overflow-y: scroll;
 }
+
+.short-width-input {
+  width: auto !important;
+}
