@@ -23,7 +23,7 @@
                 <p>Set your odds: <%= select_tag "sizes", options_for_select((4..15).step(0.1)), class: "short-width-input"%></p>
               </div>
               <div class="modal-footer">
-                <%= link_to "Back", market_outcome_new_back_path(market_outcome_id: outcome),remote: true, class: "btn btn-default" %>
+                <%= link_to "Back", market_outcome_new_back_path(market_outcome_id: outcome, odds: 2, amount:2),remote: true, class: "btn btn-default" %>
                 <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
               </div>
             </div>
@@ -56,7 +56,7 @@
                 <p>Set your odds: <%= select_tag "sizes", options_for_select((4..15).step(0.1)), class: "short-width-input"%></p>
               </div>
               <div class="modal-footer">
-                <%= link_to "Lay", market_outcome_new_lay_path(market_outcome_id: outcome),remote: true, class: "btn btn-default" %>
+                <%= link_to "Lay", market_outcome_new_lay_path(market_outcome_id: outcome, odds: 2, amount:2),remote: true, class: "btn btn-default" %>
                 <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
               </div>
             </div>

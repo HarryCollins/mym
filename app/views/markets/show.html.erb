@@ -19,13 +19,17 @@
             <div class= "col-md-4 standard_box">
                 <h3 class="text-center">Your Bets</h3>
                 <% if @market.user_lays(current_user) %>
-                    <div class= col-md-6>
-                        <h4>Open Backs</h4>              
-                        <%= render partial: "user_bets", locals: { direction: :back } %>                
+                    <div class= "col-md-6" >
+                        <h4>Open Backs</h4>
+                        <div id="userbacks_partial">              
+                            <%= render partial: "user_bet", collection: @market.user_backs(current_user) %>
+                        </div>                
                     </div>
                     <div class= "col-md-6">
                         <h4>Open lays</h4>
-                        <%= render partial: "user_bets", locals: { direction: :lay } %>
+                        <div id="userlays_partial"> 
+                            <%= render partial: "user_bet", collection: @market.user_lays(current_user) %>
+                        </div>
                     </div>
                 <% end %>
             </div>
