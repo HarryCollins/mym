@@ -27,6 +27,22 @@ class MarketOutcomePresenter < BasePresenter
 		end
 	end
 
+	def set_minimum_back_odds
+		if self.lays.any?
+			self.lays.order('odds desc').first.odds + 0.1
+		else
+			0
+		end
+	end
+
+	def set_maximum_lay_odds
+		if self.backs.any?
+			self.backs.order('odds asc').first.odds - 0.1
+		else
+			10
+		end
+	end
+
 	private
 
 		def bet_button_class(direction)
