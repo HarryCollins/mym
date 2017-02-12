@@ -52,6 +52,11 @@ $(".markets.index").ready(function(){
 });
 
 
+//the below only fires on markets#show
+$(".markets.show").ready(function(){
+
+});
+
 //functions
 function getParameterByName(name, url) {
     if (!url) {

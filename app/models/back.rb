@@ -4,7 +4,7 @@ class Back < ApplicationRecord
     has_many :lays,  through: :hits
     scope :by_user, -> (current_user) { where(user: current_user)}
 
-    validates :amount, presence: true
+    validates :original_amount, presence: true
     validates :odds, presence: true
     
 end

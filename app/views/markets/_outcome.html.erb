@@ -4,10 +4,10 @@
 
 <% if current_user %>
     <div class= "col-md-6">
-        <p class="text-center">Backs</p>
+        <p class="text-center">Back</p>
 
         <!-- Trigger the new back modal with a button -->
-        <button type="button" class="btn btn-sm btn-info btn-lg pull-right" data-toggle="modal" data-target=<%= "#back_modal_#{outcome.id}" %>>New Back</button>
+        <button type="button" class="btn btn-sm btn-info btn-lg pull-right" data-toggle="modal" data-target=<%= "#back_modal_#{outcome.id}" %>>Create<br>Back Odds</button>
 
         <!-- Modal -->
         <div id=<%= "back_modal_#{outcome.id}"%> class="modal fade" role="dialog">
@@ -19,28 +19,31 @@
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                 <h4 class="modal-title">New Back</h4>
               </div>
-              <div class="modal-body">
-                <p>Set your odds: <%= select_tag "sizes", options_for_select((4..15).step(0.1)), class: "short-width-input"%></p>
-              </div>
-              <div class="modal-footer">
-                <%= link_to "Back", market_outcome_new_back_path(market_outcome_id: outcome, odds: 2, amount:2),remote: true, class: "btn btn-default" %>
-                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-              </div>
+              <%= form_tag(market_outcome_new_back_path(market_outcome_id: outcome)) do %>
+                <div class="modal-body">
+                  <p>Set your odds: <%= number_field_tag :odds, 5, min: 0, max: 10, step: 0.1, class: "short-width-input"%></p>
+                  <p>How much?: <%= number_field_tag :original_amount, 5, min: 0, max: 10, step: 0.1, class: "short-width-input"%></p>
+                </div>
+                <div class="modal-footer">
+                  <%= submit_tag "Submit", class: "btn btn-default" %>
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                </div>
+              <% end %>
             </div>
 
           </div>
         </div>
 
-        <% mo_presenter.create_bet_hash(mo_presenter.backs).each do |odds, amount| %>
-            <%= mo_presenter.bet_button(odds, amount, :back)%>    
+        <% mo_presenter.create_bet_hash(mo_presenter.lays).each do |odds, amount| %>
+            <%= mo_presenter.bet_button(odds, amount, :lay)%>    
         <% end %>
     </div>
 
     <div class= "col-md-6">
-        <p class="text-center">Lays</p>
+        <p class="text-center">Lay</p>
 
         <!-- Trigger the new lay modal with a button -->
-        <button type="button" class="btn btn-sm btn-info btn-lg pull-left" data-toggle="modal" data-target=<%= "#lay_modal_#{outcome.id}" %>>New Lay</button>
+        <button type="button" class="btn btn-sm btn-info btn-lg pull-left" data-toggle="modal" data-target=<%= "#lay_modal_#{outcome.id}" %>>Create<br>Lay Odds</button>
 
         <!-- Modal -->
         <div id=<%= "lay_modal_#{outcome.id}"%> class="modal fade" role="dialog">
@@ -52,20 +55,23 @@
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                 <h4 class="modal-title">New Lay</h4>
               </div>
-              <div class="modal-body">
-                <p>Set your odds: <%= select_tag "sizes", options_for_select((4..15).step(0.1)), class: "short-width-input"%></p>
-              </div>
-              <div class="modal-footer">
-                <%= link_to "Lay", market_outcome_new_lay_path(market_outcome_id: outcome, odds: 2, amount:2),remote: true, class: "btn btn-default" %>
-                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-              </div>
+              <%= form_tag(market_outcome_new_lay_path(market_outcome_id: outcome)) do %>
+                <div class="modal-body">
+                  <p>Set your odds: <%= number_field_tag :odds, 5, min: 0, max: 10, step: 0.1, class: "short-width-input"%></p>
+                  <p>How much?: <%= number_field_tag :original_amount, 5, min: 0, max: 10, step: 0.1, class: "short-width-input"%></p>
+                </div>
+                <div class="modal-footer">
+                  <%= submit_tag "Submit", class: "btn btn-default" %>
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                </div>
+              <% end %>
             </div>
 
           </div>
         </div>
     
-        <% mo_presenter.create_bet_hash(mo_presenter.lays).each do |odds, amount| %>
-            <%= mo_presenter.bet_button(odds, amount, :lay)%>
+        <% mo_presenter.create_bet_hash(mo_presenter.backs).each do |odds, amount| %>
+            <%= mo_presenter.bet_button(odds, amount, :back)%>
         <% end %>
     </div>
 <% end %>

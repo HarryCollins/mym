@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170129220413) do
+ActiveRecord::Schema.define(version: 20170212162154) do
 
   create_table "accounts", force: :cascade do |t|
     t.integer  "user_id"
@@ -20,14 +20,14 @@ ActiveRecord::Schema.define(version: 20170129220413) do
   end
 
   create_table "backs", force: :cascade do |t|
-    t.decimal  "amount"
-    t.datetime "time_bet_made"
+    t.decimal  "original_amount"
     t.decimal  "odds"
-    t.boolean  "is_full"
+    t.boolean  "is_full",           default: false
     t.integer  "user_id"
-    t.datetime "created_at",        null: false
-    t.datetime "updated_at",        null: false
+    t.datetime "created_at",                        null: false
+    t.datetime "updated_at",                        null: false
     t.integer  "market_outcome_id"
+    t.decimal  "current_amount"
     t.index ["market_outcome_id"], name: "index_backs_on_market_outcome_id"
     t.index ["user_id"], name: "index_backs_on_user_id"
   end
@@ -40,14 +40,14 @@ ActiveRecord::Schema.define(version: 20170129220413) do
   end
 
   create_table "lays", force: :cascade do |t|
-    t.decimal  "amount"
-    t.datetime "time_bet_made"
+    t.decimal  "original_amount"
     t.decimal  "odds"
-    t.boolean  "is_full"
+    t.boolean  "is_full",           default: false
     t.integer  "user_id"
-    t.datetime "created_at",        null: false
-    t.datetime "updated_at",        null: false
+    t.datetime "created_at",                        null: false
+    t.datetime "updated_at",                        null: false
     t.integer  "market_outcome_id"
+    t.decimal  "current_amount"
     t.index ["market_outcome_id"], name: "index_lays_on_market_outcome_id"
     t.index ["user_id"], name: "index_lays_on_user_id"
   end
@@ -77,9 +77,9 @@ ActiveRecord::Schema.define(version: 20170129220413) do
   create_table "user_markets", force: :cascade do |t|
     t.integer  "user_id"
     t.integer  "market_id"
+    t.boolean  "is_founder", default: false
     t.datetime "created_at",                 null: false
     t.datetime "updated_at",                 null: false
-    t.boolean  "is_founder", default: false
   end
 
   create_table "users", force: :cascade do |t|
