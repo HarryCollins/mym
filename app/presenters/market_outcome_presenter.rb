@@ -13,19 +13,19 @@ class MarketOutcomePresenter < BasePresenter
 	    return bet_groups_hash
 	end
 
-	def bet_button(odds, amount, direction)
-		h.content_tag :span, class: bet_button_class(direction) do
-			h.content_tag(:span, "#{odds}") +
-			h.tag(:br) +
-			h.content_tag(:span, "(£#{amount})")
-		end
-	end
+	# def bet_button(odds, amount, direction)
+	# 	h.content_tag :span, class: bet_button_class(direction) do
+	# 		h.content_tag(:span, "#{odds}") +
+	# 		h.tag(:br) +
+	# 		h.content_tag(:span, "(£#{amount})")
+	# 	end
+	# end
 
-	def new_bet_button(direction, user)
-		h.content_tag :span, class: bet_button_class(direction) do
-			h.link_to "New", new_market_outcome_lay_path(self, user)
-		end
-	end
+	# def new_bet_button(direction, user)
+	# 	h.content_tag :span, class: bet_button_class(direction) do
+	# 		h.link_to "New", new_market_outcome_lay_path(self, user)
+	# 	end
+	# end
 
 	def set_minimum_back_odds
 		if self.lays.any?
@@ -45,18 +45,18 @@ class MarketOutcomePresenter < BasePresenter
 
 	private
 
-		def bet_button_class(direction)
-			case direction
-				when :back
-					"btn btn-sm btn-primary pull-left margin_1px"
-				when :lay
-					"btn btn-sm btn-danger pull-right margin_1px"
-				when :newback
-					"btn btn-info pull-right glyphicon glyphicon glyphicon-plus"
-				when :newlay
-					"btn btn-info pull-left glyphicon glyphicon glyphicon-plus"
-			end
-		end
+		# def bet_button_class(direction)
+		# 	case direction
+		# 		when :back
+		# 			"btn btn-sm btn-primary pull-left margin_1px"
+		# 		when :lay
+		# 			"btn btn-sm btn-danger pull-right margin_1px"
+		# 		when :newback
+		# 			"btn btn-info pull-right glyphicon glyphicon glyphicon-plus"
+		# 		when :newlay
+		# 			"btn btn-info pull-left glyphicon glyphicon glyphicon-plus"
+		# 	end
+		# end
 
 
 end
