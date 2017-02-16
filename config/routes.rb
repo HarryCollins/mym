@@ -22,8 +22,7 @@ Rails.application.routes.draw do
 			resources :market_outcomes do
 				post '/new_back' => 'backs#create'
 				post '/new_lay' => 'lays#create'
-				resources :lays
-				resources :hits
+				post '/new_hit' => 'hits#create'
 			end
 		end
 	end

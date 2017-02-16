@@ -21,7 +21,7 @@
               </div>
               <%= form_tag(market_outcome_new_back_path(market_outcome_id: outcome)) do %>
                 <div class="modal-body">
-                  <p>Set your odds: <%= number_field_tag :odds, mo_presenter.set_minimum_back_odds, min: mo_presenter.set_minimum_back_odds, max: 10, step: 0.1, class: "short-width-input"%></p>
+                  <p>Set your odds: <%= number_field_tag :odds, mo_presenter.set_minimum_back_odds, min: mo_presenter.set_minimum_back_odds, max: 100, step: 0.1, class: "short-width-input"%></p>
                   <p>How much?: £<%= number_field_tag :original_amount, 5, min: 0, max: 100, step: 0.1, class: "short-width-input"%></p>
                 </div>
                 <div class="modal-footer">
@@ -50,13 +50,18 @@
                   <button type="button" class="close" data-dismiss="modal">&times;</button>
                   <h4 class="modal-title">Hit?</h4>
                 </div>
-                <div class="modal-body">
-                  <p><%= "Back #{outcome.outcome} @ #{odds}?" %></p>
-                  <p>Amount: £<%= number_field_tag :back_hit_amount, 5, min: 0, max: 100, step: 0.1, class: "short-width-input"%></p>
-                </div>
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                </div>
+                <%= form_tag(market_outcome_new_hit_path(market_outcome_id: outcome)) do %>
+                  <div class="modal-body">
+                    <p><%= "Back #{outcome.outcome} @ #{odds}?" %></p>
+                    <p>Amount: £<%= number_field_tag :back_hit_amount, 5, min: 0, max: 100, step: 0.1, class: "short-width-input"%></p>
+                  </div>
+                  <div class="modal-footer">
+                    <%= hidden_field_tag :back_hit_odds, odds %>
+                    <%= hidden_field_tag :bet_direction, :back %>
+                    <%= submit_tag "Submit", class: "btn btn-default" %>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                  </div>
+                <% end %>
               </div>
   
             </div>
@@ -118,6 +123,7 @@
                   <p>Amount: £<%= number_field_tag :lay_hit_amount, 5, min: 0, max: 100, step: 0.1, class: "short-width-input"%></p>
                 </div>
                 <div class="modal-footer">
+                  <%= submit_tag "Submit", class: "btn btn-default" %>
                   <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
                 </div>
               </div>

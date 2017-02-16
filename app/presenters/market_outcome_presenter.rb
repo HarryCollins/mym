@@ -39,7 +39,7 @@ class MarketOutcomePresenter < BasePresenter
 		if self.backs.any?
 			self.backs.order('odds asc').first.odds - 0.1
 		else
-			10
+			100
 		end
 	end
 
