@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170212162154) do
+ActiveRecord::Schema.define(version: 20170217174808) do
 
   create_table "accounts", force: :cascade do |t|
     t.integer  "user_id"
@@ -35,6 +35,7 @@ ActiveRecord::Schema.define(version: 20170212162154) do
   create_table "hits", force: :cascade do |t|
     t.integer "back_id"
     t.integer "lay_id"
+    t.decimal "amount"
     t.index ["back_id"], name: "index_hits_on_back_id"
     t.index ["lay_id"], name: "index_hits_on_lay_id"
   end
