@@ -7,7 +7,7 @@ class MarketOutcomePresenter < BasePresenter
 		bet_groups = bet_collection.by_user(user).group_by(&:odds)
 		bet_groups = bet_groups.sort_by{|key, values| key}.reverse
 		bet_groups.each do |odds, bet_group|
-        	bet_groups_hash[odds] = bet_group.inject(0) {|sum, bet| sum + bet.original_amount }
+        	bet_groups_hash[odds] = bet_group.inject(0) {|sum, bet| sum + bet.current_amount }
 	    end
 	    
 	    return bet_groups_hash

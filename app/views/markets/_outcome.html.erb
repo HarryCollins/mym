@@ -34,7 +34,8 @@
           </div>
         </div>
 
-        <% mo_presenter.create_bet_hash(mo_presenter.lays).each do |odds, amount| %>
+        <% bet_collection = mo_presenter.lays.non_zero_current_amount %>
+        <% mo_presenter.create_bet_hash(bet_collection).each do |odds, amount| %>
         
           <% str_odds = odds.to_s.tr('.','_') %>
             
@@ -101,8 +102,8 @@
           </div>
         </div>
     
-    
-        <% mo_presenter.create_bet_hash(mo_presenter.backs).each do |odds, amount| %>  
+        <% bet_collection = mo_presenter.backs.non_zero_current_amount %>
+        <% mo_presenter.create_bet_hash(bet_collection).each do |odds, amount| %> 
     
           <% str_odds = odds.to_s.tr('.','_') %>
             <!-- Trigger the new lay modal with a button -->
@@ -118,14 +119,18 @@
                   <button type="button" class="close" data-dismiss="modal">&times;</button>
                   <h4 class="modal-title">Hit?</h4>
                 </div>
-                <div class="modal-body">
-                  <p><%= "Back #{outcome.outcome} @ #{odds}?" %></p>
-                  <p>Amount: £<%= number_field_tag :lay_hit_amount, amount, min: 0, max: amount, step: 0.1, class: "short-width-input"%></p>
-                </div>
-                <div class="modal-footer">
-                  <%= submit_tag "Submit", class: "btn btn-default" %>
-                  <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                </div>
+                <%= form_tag(market_outcome_new_hit_path(market_outcome_id: outcome)) do %>
+                  <div class="modal-body">
+                    <p><%= "Lay #{outcome.outcome} @ #{odds}?" %></p>
+                    <p>Amount: £<%= number_field_tag :original_amount, amount, min: 0, max: amount, step: 0.1, class: "short-width-input"%></p>
+                  </div>
+                  <div class="modal-footer">
+                    <%= hidden_field_tag :odds, odds %>
+                    <%= hidden_field_tag :bet_direction, :lay %>
+                    <%= submit_tag "Submit", class: "btn btn-default" %>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                  </div>
+                <% end %>
               </div>
   
             </div>

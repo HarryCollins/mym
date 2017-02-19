@@ -14,7 +14,7 @@ class HitsController < ApplicationController
 		    lays.each do |lay|
 				if lay.current_amount >= amount_of_hit_left
 					lay.update(current_amount: lay.current_amount - amount_of_hit_left)
-					hit = bet.hits.build(lay_id: lay.id, amount: params[:original_amount])
+					hit = bet.hits.build(lay_id: lay.id, amount: amount_of_hit_left)
 					hit.save
 					total_amount_reached = true
 				elsif lay.current_amount < amount_of_hit_left && lay.current_amount != 0
@@ -26,12 +26,29 @@ class HitsController < ApplicationController
 				break if total_amount_reached == true
 			end		    
 
-
 		else
+			#byebug
 			bet = @mo.lays.build(lay_params)
+		    backs = Back.by_odds(params[:odds])
+		    amount_of_hit_left = params[:original_amount].to_d
+		    
+		    total_amount_reached = false
+		    
+		    backs.each do |back|
+				if back.current_amount >= amount_of_hit_left
+					back.update(current_amount: back.current_amount - amount_of_hit_left)
+					hit = bet.hits.build(back_id: back.id, amount: amount_of_hit_left)
+					hit.save
+					total_amount_reached = true
+				elsif back.current_amount < amount_of_hit_left && back.current_amount != 0
+					amount_of_hit_left -= back.current_amount
+					hit = bet.hits.build(back_id: back.id, amount: back.current_amount)
+					hit.save
+					back.update(current_amount: 0)
+				end
+				break if total_amount_reached == true
+			end	
 		end
-		
-		
 		
 		respond_to do |format|
 			if bet.save
@@ -46,10 +63,10 @@ class HitsController < ApplicationController
     private
     
 	def back_params
-		  params.permit(:odds, :original_amount).merge(user_id: current_user.id, current_amount: params[:back_hit_amount])
+		  params.permit(:odds, :original_amount).merge(user_id: current_user.id, current_amount: 0)
 	end
 	def lay_params
-		  params.permit(:odds, :original_amount).merge(user_id: current_user.id, current_amount: params[:lay_hit_amount])
+		  params.permit(:odds, :original_amount).merge(user_id: current_user.id, current_amount: 0)
 	end
 	# def hit_params
 	# 	  params.permit(:odds, :amount).merge(user_id: current_user.id, amount: params[:lay_hit_amount])

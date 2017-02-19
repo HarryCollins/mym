@@ -6,9 +6,9 @@ class Lay < ApplicationRecord
     default_scope { order(created_at: :asc) }
     scope :by_user, -> (current_user) { where(user: current_user)}
     scope :by_odds, -> (odds) { where(odds: odds)}
+    scope :non_zero_current_amount, -> { where('current_amount != 0') }
 
     validates :original_amount, presence: true
     validates :odds, presence: true
-
 
 end
