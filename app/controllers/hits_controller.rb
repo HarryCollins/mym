@@ -53,7 +53,7 @@ class HitsController < ApplicationController
 		respond_to do |format|
 			if bet.save
 				format.html { redirect_to market_path(@market) }
-				#format.js { }
+				format.js { }
 			else
 				format.html { redirect_to market_path(@market) }	
 			end

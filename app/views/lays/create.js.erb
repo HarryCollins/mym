@@ -3,4 +3,4 @@ $('#lay_modal_' + modal_id).modal('hide');
 $('body').removeClass('modal-open');
 $('.modal-backdrop').remove();
 $('#outcome_partial').html("<%= escape_javascript(render partial: 'markets/outcome', collection: @market.market_outcomes) %>");
-$('#userlays_partial').html("<%= escape_javascript(render partial: 'markets/user_bet', collection: @market.user_lays(current_user)) %>"); 
+$('#userlays_partial').html("<%= escape_javascript(render partial: 'markets/user_bet', collection: @market.user_lays(current_user, true)) %>"); 

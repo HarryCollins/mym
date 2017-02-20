@@ -36,7 +36,7 @@
                 <% if @market.user_lays(current_user) %>
                     <div class= "col-md-6" >
                         <h4>Backs</h4>
-                        <div id="userbacks_partial">
+                        <div id="userback_hits_partial">
                             <% @market.user_backs(current_user).each do |back| %>
                                 <%= render partial: "user_hit", collection: back.hits %>
                             <% end %>
@@ -44,7 +44,7 @@
                     </div>
                     <div class= "col-md-6">
                         <h4>Lays</h4>
-                        <div id="userlays_partial"> 
+                        <div id="userlay_hits_partial"> 
                             <% @market.user_lays(current_user).each do |lay| %>
                                 <%= render partial: "user_hit", collection: lay.hits %>
                             <% end %>

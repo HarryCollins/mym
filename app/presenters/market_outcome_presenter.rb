@@ -28,16 +28,16 @@ class MarketOutcomePresenter < BasePresenter
 	# end
 
 	def set_minimum_back_odds
-		if self.lays.any?
-			self.lays.order('odds desc').first.odds + 0.1
+		if self.lays.non_zero_current_amount.any?
+			self.lays.non_zero_current_amount.order('odds desc').first.odds + 0.1
 		else
 			0
 		end
 	end
 
 	def set_maximum_lay_odds
-		if self.backs.any?
-			self.backs.order('odds asc').first.odds - 0.1
+		if self.backs.non_zero_current_amount.any?
+			self.backs.non_zero_current_amount.order('odds asc').first.odds - 0.1
 		else
 			100
 		end
