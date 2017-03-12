@@ -63,6 +63,15 @@
                 </ul>
         </div>
 
+        <div class= "col-md-4 standard_box box_height_medium">
+
+            <h3 class="text-center">Chat</h3>
+            <% @market.messages.each do |message| %>
+                <h4><small><%= message.user.firstname %></small><%= message.message_text %></h4>
+            <% end %>
+
+        </div>
+
     </div>
 
     <div class="row">

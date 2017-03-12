@@ -3,6 +3,9 @@ Rails.application.routes.draw do
 	
 	root 'pages#home'
 
+	# Serve websocket cable requests in-process
+	mount ActionCable.server => '/cable'
+	
 	get '/test' => 'pages#test'
 
 	resources :users, except: [:new] do

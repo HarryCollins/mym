@@ -74,7 +74,6 @@ class MarketsController < ApplicationController
 	end
 
 	def leave
-		#TODO: fix validation on leave
 
 		market = Market.find(params[:id])
 		@user_market = market.user_markets.where(user: current_user).first

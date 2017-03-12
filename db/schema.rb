@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170217174808) do
+ActiveRecord::Schema.define(version: 20170312212743) do
 
   create_table "accounts", force: :cascade do |t|
     t.integer  "user_id"
@@ -73,6 +73,16 @@ ActiveRecord::Schema.define(version: 20170217174808) do
     t.datetime "created_at",     null: false
     t.datetime "updated_at",     null: false
     t.integer  "market_type_id"
+  end
+
+  create_table "messages", force: :cascade do |t|
+    t.integer  "market_id"
+    t.integer  "user_id"
+    t.text     "message_text"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+    t.index ["market_id"], name: "index_messages_on_market_id"
+    t.index ["user_id"], name: "index_messages_on_user_id"
   end
 
   create_table "user_markets", force: :cascade do |t|

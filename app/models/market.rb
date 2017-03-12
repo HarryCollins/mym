@@ -1,6 +1,7 @@
  class Market < ApplicationRecord
 	has_many :user_markets, dependent: :destroy
 	has_many :users,  through: :user_markets
+	has_many :messages
 	belongs_to :market_type
 	has_many :market_outcomes, dependent: :destroy, inverse_of: :market
 	

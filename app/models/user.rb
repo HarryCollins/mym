@@ -2,6 +2,7 @@ class User < ApplicationRecord
 	has_one :account
 	has_many :user_markets, dependent: :destroy
 	has_many :markets, through: :user_markets
+	has_many :messages
 	has_many :backs
 	has_many :lays
 
