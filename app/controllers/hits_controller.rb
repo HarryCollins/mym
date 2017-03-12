@@ -27,7 +27,6 @@ class HitsController < ApplicationController
 			end		    
 
 		else
-			#byebug
 			bet = @mo.lays.build(lay_params)
 		    backs = Back.by_odds(params[:odds])
 		    amount_of_hit_left = params[:original_amount].to_d

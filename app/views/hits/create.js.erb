@@ -1,8 +1,15 @@
 var modal_id = '<%= @mo.id %>';
-byebug
 $('#back_modal_' + modal_id).modal('hide');
 $('body').removeClass('modal-open');
 $('.modal-backdrop').remove();
 $('#outcome_partial').html("<%= escape_javascript(render partial: 'markets/outcome', collection: @market.market_outcomes) %>");
 $('#userbacks_partial').html("<%= escape_javascript(render partial: 'markets/user_bet', collection: @market.user_backs(current_user, true)) %>");
-$('#userback_hits_partial').html("<%= escape_javascript(@market.user_backs(current_user).each { |back| render partial: 'markets/user_hit', collection: back.hits } ) %>");
+$('#userlays_partial').html("<%= escape_javascript(render partial: 'markets/user_bet', collection: @market.user_lays(current_user, true)) %>");
+$('#userback_hits_partial').html("");
+<% @market.user_backs(current_user).each do |back| %>
+    $('#userback_hits_partial').append("<%= escape_javascript(render partial: 'markets/user_hit', collection: back.hits ) %>");
+<% end %>
+$('#userlay_hits_partial').html("");
+<% @market.user_lays(current_user).each do |lay| %>
+    $('#userlay_hits_partial').append("<%= escape_javascript(render partial: 'markets/user_hit', collection: lay.hits ) %>");
+<% end %>

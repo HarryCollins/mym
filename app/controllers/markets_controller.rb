@@ -75,17 +75,31 @@ class MarketsController < ApplicationController
 
 	def leave
 		#TODO: fix validation on leave
+
 		market = Market.find(params[:id])
 		@user_market = market.user_markets.where(user: current_user).first
 		@market = MarketPresenter.new(market, view_context)
-		respond_to do |format|
-			if @user_market.destroy
-				format.html { redirect_to market_path(@market) }
-				format.js { }
-			else	
-				format.html { redirect_to market_path(@market) }	
+
+		leave_market_validation = LeaveMarketValidation.new(@market, current_user)
+
+		if leave_market_validation.can_leave?
+
+			@user_market = market.user_markets.where(user: current_user).first
+			@market = MarketPresenter.new(market, view_context)
+			respond_to do |format|
+				if @user_market.destroy
+					format.html { redirect_to market_path(@market) }
+					format.js { }
+				else	
+					format.html { redirect_to market_path(@market) }	
+				end
 			end
+
+		else
+			leave_market_validation.add_errors
+			render :show
 		end
+
 	end
 
 	private
