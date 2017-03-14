@@ -74,7 +74,6 @@ class MarketsController < ApplicationController
 	end
 
 	def leave
-
 		market = Market.find(params[:id])
 		@user_market = market.user_markets.where(user: current_user).first
 		@market = MarketPresenter.new(market, view_context)

@@ -5,7 +5,7 @@ class MarketsController::LeaveMarketValidation
 		@market = market
 		@user = user
 		@lays = @user.lays.joins(:market_outcome).where('market_outcomes.market_id = ?', @market)
-		@backs = @user.lays.joins(:market_outcome).where('market_outcomes.market_id = ?', @market)
+		@backs = @user.backs.joins(:market_outcome).where('market_outcomes.market_id = ?', @market)
 	end
 
 	def can_leave?
