@@ -1,4 +1,4 @@
-class HitsController::BetValidation
+class BetValidations::BetValidation
 
 	def initialize(market,  user)
 		@market = market
@@ -15,7 +15,7 @@ class HitsController::BetValidation
 	end
 
 	def add_errors
-		if @user_market.any?
+		if !@user_market.any?
 			@market.errors.add(:base, "You are not a member of this market")
 		end
 	end

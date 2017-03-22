@@ -1,0 +1,7 @@
+<%= form_for message do |f| %>
+  <%= f.label :chat %>:
+  <%= f.text_area :message_text %>
+
+  <%= f.hidden_field :market_id, value: market.id %>
+  <%= f.submit "Send", class: "btn btn-primary" %>
+<% end %>

@@ -4,7 +4,8 @@ class HitsController < ApplicationController
 		market = Market.find(params[:id])
 		@market = MarketPresenter.new(market, view_context)
 		@mo = MarketOutcome.find(params[:market_outcome_id])
-		can_bet_validation = BetValidation.new(@market, current_user)
+
+		can_bet_validation = BetValidations::BetValidation.new(@market, current_user)
 		
 		if can_bet_validation.is_member?
 		
@@ -65,8 +66,8 @@ class HitsController < ApplicationController
 		else
 			
 			can_bet_validation.add_errors
-			redirect_to markets_path
-			#render 'markets/show'
+			flash[:danger] = @market.errors.full_messages.join("<br>").html_safe
+			render js: %(window.location.pathname='#{market_path(@market)}')
 			
 		end
 		

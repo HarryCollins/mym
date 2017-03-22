@@ -11,6 +11,7 @@ class MarketsController < ApplicationController
 	def show
 		market = Market.find(params[:id])
 		@market = MarketPresenter.new(market, view_context)
+		@message = Message.new
 	end
 
 	def new
@@ -95,7 +96,8 @@ class MarketsController < ApplicationController
 
 		else
 			leave_market_validation.add_errors
-			render :show
+			flash[:danger] = @market.errors.full_messages.join("<br>").html_safe
+			redirect_to market_path(@market)
 		end
 
 	end

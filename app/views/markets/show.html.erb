@@ -66,10 +66,14 @@
         <div class= "col-md-4 standard_box box_height_medium">
 
             <h3 class="text-center">Chat</h3>
-            <% @market.messages.each do |message| %>
-                <h4><small><%= message.user.firstname %></small><%= message.message_text %></h4>
-            <% end %>
 
+            <% if @market.messages.any? %>
+                <div class="panel-body" id="messages">
+                  <%= render partial: 'messages/message', collection: @market.messages%>
+                </div>  
+            <%end%>
+
+            <%= render partial: 'messages/message_form', locals: {message: @message, market: @market}%>
         </div>
 
     </div>

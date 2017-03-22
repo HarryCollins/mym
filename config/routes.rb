@@ -22,6 +22,7 @@ Rails.application.routes.draw do
 		member do
 			get '/join' => 'markets#join'
 			get '/leave' => 'markets#leave'
+			resources :messages
 			resources :market_outcomes do
 				post '/new_back' => 'backs#create'
 				post '/new_lay' => 'lays#create'
