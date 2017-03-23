@@ -68,8 +68,8 @@
             <h3 class="text-center">Chat</h3>
 
             <% if @market.messages.any? %>
-                <div class="panel-body" id="messages">
-                  <%= render partial: 'messages/message', collection: @market.messages%>
+                <div id="messages_partial">
+                  <%= render partial: 'messages/message', collection: @market.messages %>
                 </div>  
             <%end%>
 

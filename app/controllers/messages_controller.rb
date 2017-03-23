@@ -2,12 +2,22 @@ class MessagesController < ApplicationController
 
 	def create
 		message = Message.new(message_params)
-		market = Market.find(params[:id])
 		message.user = current_user
-		if message.save
-			redirect_to market_path(market)
-		else 
-			redirect_to market_path(market)
+		market = Market.find(params[:id])
+		@market = MarketPresenter.new(market, view_context)
+		can_chat_validation = BetValidations::BetValidation.new(@market, current_user)
+		
+		if can_chat_validation.is_member?
+			if message.save
+				format.html { redirect_to market_path(@market) }
+				format.js { }
+			else 
+				redirect_to market_path(@market)
+			end
+		else
+			can_chat_validation.add_errors
+			flash[:danger] = @market.errors.full_messages.join("<br>").html_safe
+			render js: %(window.location.pathname='#{market_path(@market)}')
 		end
 	end
 
