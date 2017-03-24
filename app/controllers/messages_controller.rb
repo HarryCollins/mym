@@ -9,10 +9,14 @@ class MessagesController < ApplicationController
 		
 		if can_chat_validation.is_member?
 			if message.save
-				respond_to do |format|
-					format.html { redirect_to market_path(@market) }
-					format.js { }
-				end
+				# respond_to do |format|
+				# 	format.html { redirect_to market_path(@market) }
+				# 	format.js { }
+				# end
+				ActionCable.server.broadcast 'messages',
+					message: message.message_text,
+					user: message.user.firstname
+				head :ok
 			else 
 				redirect_to market_path(@market)
 			end
