@@ -15,6 +15,7 @@
 //= require bootstrap-sprockets
 //= require jquery-readyselector
 //= require_tree .
+//= require_tree ./channels
 
 
 $( document ).ready(function() {
