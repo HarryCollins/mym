@@ -1,6 +1,5 @@
 <%= form_for message, remote: true do |f| %>
-  <%= f.label :chat %>:
-  <%= f.text_area :message_text, id: "chat_text_area" %>
+  <%= f.text_field :message_text, id: "chat_text_area" %>
 
   <%= f.hidden_field :market_id, value: market.id %>
   <%= f.submit "Send", class: "btn btn-primary", id: "submit_chat" %>

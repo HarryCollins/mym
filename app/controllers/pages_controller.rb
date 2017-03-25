@@ -5,7 +5,8 @@ class PagesController < ApplicationController
 	end
 
 	def test
-		@market = Market.first
+      ziz = cookies.encrypted[Rails.application.config.session_options[:key]]
+      @user = User.find_by(id: ziz["user_id"])
 	end
 
 end

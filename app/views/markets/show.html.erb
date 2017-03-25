@@ -67,11 +67,13 @@
 
             <h3 class="text-center">Chat</h3>
 
-            <% if @market.messages.any? %>
-                <div id="messages_partial">
-                  <%= render partial: 'messages/message', collection: @market.messages %>
-                </div>  
-            <%end%>
+            <div id="messages_partial">
+
+                <% if @market.messages.any? %>
+                      <%= render partial: 'messages/message', collection: @market.messages %>
+                <%end%>
+            
+            </div> 
 
             <%= render partial: 'messages/message_form', locals: {message: @message, market: @market}%>
         </div>

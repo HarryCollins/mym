@@ -54,7 +54,6 @@ $(".markets.index").ready(function(){
 
 //the below only fires on markets#show
 $(".markets.show").ready(function(){
-
 });
 
 //functions

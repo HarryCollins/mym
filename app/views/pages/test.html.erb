@@ -1,16 +1,4 @@
-<%= render 'shared/errors', obj: @market %>
 
 
-<%= @market.name %>
-</br>
-<%= current_user.firstname %>
-</br>
-<% @market.market_outcomes.each do |mo| %>
-  </br>
-  <%= mo.outcome %>
-
-  <% mo.lays.by_user(current_user).group_by(&:odds).each do |odds, odds_bet_group| %>
-  	<%= odds_bet_group.inject(0) {|sum, bet| sum + bet.amount } %>
-  <% end %>
-
-<% end %>
+<%= @user.firstname %>
+<%= cookies.encrypted[Rails.application.config.session_options[:key]] %>
