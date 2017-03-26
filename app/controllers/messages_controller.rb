@@ -9,14 +9,16 @@ class MessagesController < ApplicationController
 		
 		if can_chat_validation.is_member?
 			if message.save
-				# respond_to do |format|
-				# 	format.html { redirect_to market_path(@market) }
-				# 	format.js { }
-				# end
+				#broadcast message
 				ActionCable.server.broadcast 'messages',
-					message: message.message_text,
-					user: message.user.firstname
-				head :ok
+									message: render_message(message)
+
+				#broadcast all @ mentions
+				message.mentions.each do |mention|
+					logger.debug "mention.id --> #{mention.id}"
+					ActionCable.server.broadcast "messages_user_#{mention.id}",
+													mention: true
+				end
 			else 
 				redirect_to market_path(@market)
 			end
@@ -30,7 +32,11 @@ class MessagesController < ApplicationController
 	private
 
 	def message_params
-	  params.require(:message).permit(:message_text, :market_id)
+		params.require(:message).permit(:message_text, :market_id)
+	end
+
+	def render_message(message)
+		render(partial: 'message', locals: { message: message })
 	end
 
 end
