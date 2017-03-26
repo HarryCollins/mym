@@ -2,3 +2,5 @@
 
 <%= @user.firstname %>
 <%= cookies.encrypted[Rails.application.config.session_options[:key]] %>
+<br>
+<%= ActionCable.server.connections.length %>
