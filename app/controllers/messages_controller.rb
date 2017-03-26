@@ -13,7 +13,7 @@ class MessagesController < ApplicationController
 				ActionCable.server.broadcast 'messages',
 									message: render_message(message)
 
-				#broadcast all @ mentions
+				#broadcast all '@' mentions
 				message.mentions.each do |mention|
 					logger.debug "mention.id --> #{mention.id}"
 					ActionCable.server.broadcast "messages_user_#{mention.id}",
