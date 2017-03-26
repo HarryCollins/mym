@@ -54,6 +54,9 @@ $(".markets.index").ready(function(){
 
 //the below only fires on markets#show
 $(".markets.show").ready(function(){
+
+    cableSubscribe(getMarketID())
+
 });
 
 //functions
@@ -67,4 +70,23 @@ function getParameterByName(name, url) {
     if (!results) return null;
     if (!results[2]) return '';
     return decodeURIComponent(results[2].replace(/\+/g, " "));
+}
+
+function getMarketID() {
+    return $("#market_show_id").attr('data-category');
+}
+
+function cableSubscribe(marketID) {
+    App.messages = App.cable.subscriptions.create({ channel: 'MessagesChannel', market: marketID }, {  
+      received: function(data) {
+        
+        if (data.mention) {
+            alert('You have a new mention');
+        }
+
+        $('#messages_partial').append(data.message);
+        $("#chat_text_area").val("");
+      }
+
+    });
 }

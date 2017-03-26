@@ -20,7 +20,10 @@
 
 $( document ).ready(function() {
 
-    console.log('Application.js Loaded')
+    console.log('Application.js Loaded');
+
+    console.log($("#market_show_id").attr('data-category'));
+
     
 });
 
