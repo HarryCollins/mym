@@ -85,14 +85,13 @@ class MarketsController < ApplicationController
 
 			@user_market = market.user_markets.where(user: current_user).first
 			@market = MarketPresenter.new(market, view_context)
-			respond_to do |format|
-				if @user_market.destroy
-					format.html { redirect_to market_path(@market) }
-					format.js { }
-				else	
-					format.html { redirect_to market_path(@market) }	
-				end
+			if @user_market.destroy
+				ActionCable.server.broadcast "market_users_#{market.id}", user_email: @user_market.user.email,
+								user_left: true
+			else	
+				redirect_to market_path(@market)
 			end
+
 
 		else
 			leave_market_validation.add_errors

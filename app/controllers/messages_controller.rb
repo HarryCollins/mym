@@ -10,13 +10,12 @@ class MessagesController < ApplicationController
 		if can_chat_validation.is_member?
 			if message.save
 				#broadcast message
-				ActionCable.server.broadcast "messages_#{market.id}",
-									message: render_message(message)
+				ActionCable.server.broadcast "market_messages_#{market.id}",
+									message: render_message(message), new_message: true
 
 				#broadcast all '@' mentions
 				message.mentions.each do |mention|
-					logger.debug "mention.id --> #{mention.id}"
-					ActionCable.server.broadcast "messages_user_#{mention.id}",
+					ActionCable.server.broadcast "market_messages_user_#{mention.id}",
 													mention: true
 				end
 			else 
