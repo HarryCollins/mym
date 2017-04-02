@@ -63,15 +63,12 @@ class MarketsController < ApplicationController
 		market = Market.find(params[:id])
 		@user_market = market.user_markets.build(user: current_user)
 		@market = MarketPresenter.new(market, view_context)
-		respond_to do |format|
 			if @user_market.save
-				format.html { redirect_to market_path(@market) }
-				format.js { }
+				ActionCable.server.broadcast "all_users_in_market_#{market.id}", user: render_user(current_user),
+								user_id: @user_market.user.id, user_joined: true
 			else	
-				format.html { redirect_to market_path(@market) }	
-			end
-		end
-		
+				redirect_to market_path(@market)
+			end		
 	end
 
 	def leave
@@ -86,12 +83,11 @@ class MarketsController < ApplicationController
 			@user_market = market.user_markets.where(user: current_user).first
 			@market = MarketPresenter.new(market, view_context)
 			if @user_market.destroy
-				ActionCable.server.broadcast "market_users_#{market.id}", user_email: @user_market.user.email,
-								user_left: true
+				ActionCable.server.broadcast "all_users_in_market_#{market.id}", user_email: @user_market.user.email,
+								user_id: @user_market.user.id, user_left: true
 			else	
 				redirect_to market_path(@market)
 			end
-
 
 		else
 			leave_market_validation.add_errors
@@ -105,6 +101,10 @@ class MarketsController < ApplicationController
 	
 	def market_params
 		  params.require(:market).permit(:name, :description, :market_type_id, market_outcomes_attributes: [:id, :outcome, :_destroy])	
+	end
+
+	def render_user(user)
+		render(partial: 'user', locals: { user: user })
 	end
 
 end

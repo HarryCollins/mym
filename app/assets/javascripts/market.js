@@ -57,7 +57,7 @@ $(".markets.index").ready(function() {
 //the below only fires on markets#show
 $(".markets.show").ready(function() {
 
-    cableSubscribe(getMarketID())
+    cableSubscribe(getMarketID(), getUserID())
 
 });
 
@@ -78,13 +78,16 @@ function getMarketID() {
     return $("#market_show_id").attr('data-category');
 }
 
-
+function getUserID() {
+    return $("#user_show_id").attr('data-category');
+}
 
 //Action Cable functions
-function cableSubscribe(marketID) {
+function cableSubscribe(marketID, userID) {
     App.messages = App.cable.subscriptions.create({
         channel: 'MarketsChannel',
-        market: marketID
+        market: marketID,
+        user: userID
     }, {
         received: function(data) {
 
@@ -93,14 +96,34 @@ function cableSubscribe(marketID) {
             }
 
             if (data.user_left) {
-                var user_to_delete = data.user_email.replace('@', '_');
-                alert(data.user_email);
+                var user_to_delete = data.user_email.replace('@', '_').replace('.', '_');
                 $('#' + user_to_delete).remove();
+
+                if (data.user_id == userID) {
+                    $('#joinleave-market').text('Join Market');
+                    $('#joinleave-market').attr('class', 'btn btn-primary');
+                    $('#joinleave-market').attr('href', marketID + '/join');
+                }
+
+            }
+
+            if (data.user_joined) {
+                $('#user_partial').append(data.user);
+                $('#joinleave-market').text('Leave Market');
+                $('#joinleave-market').attr('class', 'btn btn-warning');
+                $('#joinleave-market').attr('href', marketID + '/leave');
+                
+                if (data.user_id == userID) {
+                    $('#joinleave-market').text('Leave Market');
+                    $('#joinleave-market').attr('class', 'btn btn-warning');
+                    $('#joinleave-market').attr('href', marketID + '/leave');
+                }
+
             }
 
             if (data.new_message) {
                 $('#messages_partial').append(data.message);
-                $("#chat_text_area").val("");
+                $('#chat_text_area').val('');
             }
         }
 

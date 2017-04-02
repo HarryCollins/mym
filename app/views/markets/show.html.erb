@@ -2,6 +2,10 @@
 
 <div id="market_show_id" data-category="<%= @market.id  %>" style="display: none;"></div>
 
+<% if current_user %>
+<div id="user_show_id" data-category="<%= current_user.id  %>" style="display: none;"></div>
+<% end %>
+
 <div class= "container">
     <div class="row">
         <div class= "well col-md-8">
@@ -88,7 +92,7 @@
                 <p class="text-center"><%= link_to "Edit Market", edit_market_path, class: "btn btn-warning" %></p>
             <% end %>
             <% if @market.user_markets.where(user: current_user).exists? %>
-                <p class="text-center inline"><%= link_to "Leave Market", leave_market_path, id: "joinleave-market", class: "btn btn-warning" %></p>
+                <p class="text-center inline"><%= link_to "Leave Market", leave_market_path, remote: true, id: "joinleave-market", class: "btn btn-warning" %></p>
             <% else %>
                 <p class="text-center inline"><%= link_to "Join Market", join_market_path, remote: true, id: "joinleave-market", class: "btn btn-primary" %></p>
             <% end %> 

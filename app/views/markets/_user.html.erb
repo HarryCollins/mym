@@ -1,1 +1,1 @@
-<h4><li id="<%=user.email.gsub! '@', '_'%>"><%= user.firstname %></li></h4>
+<li id="<%=user.email.gsub!('@', '_').gsub!('.', '_')%>"><h4><%= user.firstname %></h4></li>
