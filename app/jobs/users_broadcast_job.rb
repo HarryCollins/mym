@@ -1,4 +1,4 @@
-class BroadcastJob < ApplicationJob
+class UsersBroadcastJob < ApplicationJob
 	queue_as :default
 
 	def perform(market_id, stream, identifier_for_js)

@@ -8,8 +8,6 @@ class HitsController < ApplicationController
 		can_bet_validation = BetValidations::BetValidation.new(@market, current_user)
 		
 		if can_bet_validation.is_member?
-
-			hit_bets_arr = Array.new
 		
 			if params[:bet_direction] == "back"
 			    bet = @mo.backs.build(back_params)
@@ -23,14 +21,12 @@ class HitsController < ApplicationController
 						lay.update(current_amount: lay.current_amount - amount_of_hit_left)
 						hit = bet.hits.build(lay_id: lay.id, amount: amount_of_hit_left)
 						hit.save
-						hit_bets_arr << lay
 						total_amount_reached = true
 					elsif lay.current_amount < amount_of_hit_left && lay.current_amount != 0
 						amount_of_hit_left -= lay.current_amount
 						hit = bet.hits.build(lay_id: lay.id, amount: lay.current_amount)
-						hit.save
 						lay.update(current_amount: 0)
-						hit_bets_arr << lay
+						hit.save
 					end
 					break if total_amount_reached == true
 				end		    
@@ -47,14 +43,12 @@ class HitsController < ApplicationController
 						back.update(current_amount: back.current_amount - amount_of_hit_left)
 						hit = bet.hits.build(back_id: back.id, amount: amount_of_hit_left)
 						hit.save
-						hit_bets_arr << back
 						total_amount_reached = true
 					elsif back.current_amount < amount_of_hit_left && back.current_amount != 0
 						amount_of_hit_left -= back.current_amount
 						hit = bet.hits.build(back_id: back.id, amount: back.current_amount)
-						hit.save
 						back.update(current_amount: 0)
-						hit_bets_arr << back
+						hit.save
 					end
 					break if total_amount_reached == true
 				end	
@@ -62,15 +56,6 @@ class HitsController < ApplicationController
 			
 			respond_to do |format|
 				if bet.save
-
-					hit_bets_arr.each do |bet|
-						ActionCable.server.broadcast "specific_user_#{bet.user.id}_in_market_#{market.id}",
-									open_lays: render_open_lays(bet.user), open_lays_update: true
-						# ActionCable.server.broadcast "specific_user_#{bet.user.id}_in_market_#{market.id}",
-						# 			open_backs: render_open_backs(bet.user), open_backs_update: true
-					end
-
-
 					format.html { redirect_to market_path(@market) }
 					format.js { }
 				else
@@ -98,8 +83,5 @@ class HitsController < ApplicationController
 		  params.permit(:odds, :original_amount).merge(user_id: current_user.id, current_amount: 0)
 	end
 
-	def render_open_lays(user)
-		render(partial: 'markets/user_bet', collection: @market.user_lays(user, true))
-	end
 
 end

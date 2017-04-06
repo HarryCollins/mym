@@ -104,8 +104,14 @@ function cableSubscribe(marketID, userID) {
                 $('#chat_text_area').val('');
             }
 
-            if (data.bet_been_hit) {
-                alert(data.note);
+            if (data.back_partial) {
+                $("#userbacks_partial").html(data.open_bets);
+                $("#userback_hits_partial").append(data.new_hit);
+            }
+
+            if (data.lay_partial) {
+                $("#userlays_partial").html(data.open_bets);
+                $("#userlay_hits_partial").append(data.new_hit);
             }
 
         }

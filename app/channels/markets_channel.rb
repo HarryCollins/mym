@@ -1,7 +1,7 @@
 class MarketsChannel < ApplicationCable::Channel 
 
   def subscribed
-  	stop_all_streams
+  	#stop_all_streams
 
     #all users in specific market
     stream_from "all_users_in_market_#{params[:market]}"
