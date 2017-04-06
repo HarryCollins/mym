@@ -13,4 +13,5 @@ class Message < ApplicationRecord
 			User.find_by(firstname: firstname)
 		end.compact
 	end
+	
 end

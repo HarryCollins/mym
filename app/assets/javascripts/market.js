@@ -95,36 +95,19 @@ function cableSubscribe(marketID, userID) {
                 alert('You have a new mention');
             }
 
-            if (data.user_left) {
-                var user_to_delete = data.user_email.replace('@', '_').replace('.', '_');
-                $('#' + user_to_delete).remove();
-
-                if (data.user_id == userID) {
-                    $('#joinleave-market').text('Join Market');
-                    $('#joinleave-market').attr('class', 'btn btn-primary');
-                    $('#joinleave-market').attr('href', marketID + '/join');
-                }
-
-            }
-
-            if (data.user_joined) {
-                $('#user_partial').append(data.user);
-                $('#joinleave-market').text('Leave Market');
-                $('#joinleave-market').attr('class', 'btn btn-warning');
-                $('#joinleave-market').attr('href', marketID + '/leave');
-                
-                if (data.user_id == userID) {
-                    $('#joinleave-market').text('Leave Market');
-                    $('#joinleave-market').attr('class', 'btn btn-warning');
-                    $('#joinleave-market').attr('href', marketID + '/leave');
-                }
-
+            if (data.user_partial) {
+                $("#user_partial").html(data.user);
             }
 
             if (data.new_message) {
                 $('#messages_partial').append(data.message);
                 $('#chat_text_area').val('');
             }
+
+            if (data.bet_been_hit) {
+                alert(data.note);
+            }
+
         }
 
     });

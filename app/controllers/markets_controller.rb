@@ -63,12 +63,15 @@ class MarketsController < ApplicationController
 		market = Market.find(params[:id])
 		@user_market = market.user_markets.build(user: current_user)
 		@market = MarketPresenter.new(market, view_context)
+
+		respond_to do |format|
 			if @user_market.save
-				ActionCable.server.broadcast "all_users_in_market_#{market.id}", user: render_user(current_user),
-								user_id: @user_market.user.id, user_joined: true
+				format.html { redirect_to market_path(@market) }
+				format.js { }
 			else	
-				redirect_to market_path(@market)
-			end		
+				format.html { redirect_to market_path(@market) }	
+			end
+		end	
 	end
 
 	def leave
@@ -82,14 +85,18 @@ class MarketsController < ApplicationController
 
 			@user_market = market.user_markets.where(user: current_user).first
 			@market = MarketPresenter.new(market, view_context)
-			if @user_market.destroy
-				ActionCable.server.broadcast "all_users_in_market_#{market.id}", user_email: @user_market.user.email,
-								user_id: @user_market.user.id, user_left: true
-			else	
-				redirect_to market_path(@market)
+
+			respond_to do |format|
+				if @user_market.destroy
+					format.html { redirect_to market_path(@market) }
+					format.js { }
+				else	
+					format.html { redirect_to market_path(@market) }	
+				end
 			end
 
 		else
+
 			leave_market_validation.add_errors
 			flash[:danger] = @market.errors.full_messages.join("<br>").html_safe
 			redirect_to market_path(@market)
@@ -100,7 +107,7 @@ class MarketsController < ApplicationController
 	private
 	
 	def market_params
-		  params.require(:market).permit(:name, :description, :market_type_id, market_outcomes_attributes: [:id, :outcome, :_destroy])	
+		params.require(:market).permit(:name, :description, :market_type_id, market_outcomes_attributes: [:id, :outcome, :_destroy])	
 	end
 
 	def render_user(user)
