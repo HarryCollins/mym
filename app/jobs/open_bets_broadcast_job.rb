@@ -9,14 +9,14 @@ class OpenBetsBroadcastJob < ApplicationJob
 	private
 
 	def render_open_bets(market_id, user_id, identifier_for_js)
-		ApplicationController.renderer.render(partial: 'markets/user_bet', collection: user_bets(user_id, market_id, identifier_for_js) )
+		ApplicationController.renderer.render(partial: 'markets/user_bet', collection: user_open_bets(user_id, market_id, identifier_for_js) )
 	end
 
 	def render_new_hit(hit)
 		ApplicationController.renderer.render(partial: 'markets/user_hit', locals: { user_hit: hit } )
 	end
 
-	def user_bets(user_id, market_id, identifier_for_js)
+	def user_open_bets(user_id, market_id, identifier_for_js)
 		if identifier_for_js == "back_partial"
 			User.find(user_id).backs.joins(:market_outcome).where('market_outcomes.market_id = ?', market_id).where('backs.current_amount != ?', 0)
 		elsif identifier_for_js == "lay_partial"
