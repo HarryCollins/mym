@@ -5,17 +5,6 @@ class Hit < ApplicationRecord
 
 	after_create_commit { broadcast_to_hit_back_and_lay_users }
 
-	def self.hit_lays_by_user_and_market_outcome(user, market_outcome)
-		Hits.all
-	end
-
-	def self.test(odds, mo)
-		joins(lay: :market_outcome).where('lays.odds = ?', odds).where('market_outcomes.id = ?', mo)
-	end
-
-	def self.test2
-		joins(lay: :market_outcome).group('lays.odds')
-	end
 
 	private
 

@@ -11,4 +11,12 @@ class Lay < ApplicationRecord
     validates :original_amount, presence: true
     validates :odds, presence: true
 
+    after_create_commit { broadcast_mo_change_to_market_users }
+
+    private
+
+    def broadcast_mo_change_to_market_users
+        MarketOutcomeBroadcastJob.perform_now(market_outcome.market.id, market_outcome.id, "all_users_in_market_#{market_outcome.id}", "mo_partial")
+    end
+
 end
