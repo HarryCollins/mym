@@ -114,6 +114,12 @@ function cableSubscribe(marketID, userID) {
                 $("#userlay_hits_partial").append(data.new_hit);
             }
 
+            if (data.mo_partial) {
+                // alert("hello");
+                // alert(data.mo);
+                $("#mo_" + data.mo_id).html(data.mo);
+            }
+
         }
 
     });

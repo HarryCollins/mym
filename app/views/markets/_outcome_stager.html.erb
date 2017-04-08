@@ -1,0 +1,4 @@
+<!-- This staging partial is included to allow a unique ID div on each market outcome - this allows individual market outcome partials to be refreshed/replaced by ActionCable Broadcasts -->
+<div id="mo_<%= outcome_stager.id %>">
+	<%= render partial: 'outcome', locals: {outcome: outcome_stager} %>
+</div>
