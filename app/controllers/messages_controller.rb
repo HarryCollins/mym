@@ -11,7 +11,7 @@ class MessagesController < ApplicationController
 			if message.save
 				#broadcast message
 				ActionCable.server.broadcast "all_users_in_market_#{market.id}",
-									message: render_message(message), new_message: true
+									message: render_message(message), new_message: true, user_id: current_user.id
 
 				#broadcast all '@' mentions
 				message.mentions.each do |mention|

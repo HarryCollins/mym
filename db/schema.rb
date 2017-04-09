@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170312212743) do
+ActiveRecord::Schema.define(version: 20170409100534) do
 
   create_table "accounts", force: :cascade do |t|
     t.integer  "user_id"
@@ -88,9 +88,9 @@ ActiveRecord::Schema.define(version: 20170312212743) do
   create_table "user_markets", force: :cascade do |t|
     t.integer  "user_id"
     t.integer  "market_id"
+    t.boolean  "is_founder", default: false
     t.datetime "created_at",                 null: false
     t.datetime "updated_at",                 null: false
-    t.boolean  "is_founder", default: false
   end
 
   create_table "users", force: :cascade do |t|

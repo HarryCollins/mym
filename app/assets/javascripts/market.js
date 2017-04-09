@@ -91,32 +91,38 @@ function cableSubscribe(marketID, userID) {
     }, {
         received: function(data) {
 
+            // mention in message (any market)
             if (data.mention) {
                 alert('You have a new mention');
             }
 
+            // new message in market
+            if (data.new_message) {
+                $('#messages_partial').append(data.message);
+                if (data.user_id == getUserID()){
+                    $('#chat_text_area').val('');
+                }
+            }
+
+            // user joined or left market
             if (data.user_partial) {
                 $("#user_partial").html(data.user);
             }
 
-            if (data.new_message) {
-                $('#messages_partial').append(data.message);
-                $('#chat_text_area').val('');
-            }
-
+            // when a hit occurs in market
             if (data.back_partial) {
                 $("#userbacks_partial").html(data.open_bets);
                 $("#userback_hits_partial").append(data.new_hit);
             }
 
+            // when a hit is created in market
             if (data.lay_partial) {
                 $("#userlays_partial").html(data.open_bets);
                 $("#userlay_hits_partial").append(data.new_hit);
             }
 
+            // when a lay or back is created in market
             if (data.mo_partial) {
-                // alert("hello");
-                // alert(data.mo);
                 $("#mo_" + data.mo_id).html(data.mo);
             }
 
