@@ -59,6 +59,14 @@ class MarketsController < ApplicationController
 	    end
 	end
 
+	def complete
+		market = Market.find(params[:id])
+		market.status.update()
+		# @market = MarketPresenter.new(market, view_context)
+
+		redirect_to market_path(market)
+	end
+
 	def join
 		market = Market.find(params[:id])
 		@user_market = market.user_markets.build(user: current_user)
