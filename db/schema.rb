@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170411211853) do
+ActiveRecord::Schema.define(version: 20170412115907) do
 
   create_table "accounts", force: :cascade do |t|
     t.integer  "user_id"
@@ -61,6 +61,12 @@ ActiveRecord::Schema.define(version: 20170411211853) do
     t.index ["market_id"], name: "index_market_outcomes_on_market_id"
   end
 
+  create_table "market_statuses", force: :cascade do |t|
+    t.string   "market_status"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+  end
+
   create_table "market_types", force: :cascade do |t|
     t.string   "mechanism"
     t.datetime "created_at", null: false
@@ -70,11 +76,11 @@ ActiveRecord::Schema.define(version: 20170411211853) do
   create_table "markets", force: :cascade do |t|
     t.string   "name"
     t.text     "description"
-    t.datetime "created_at",     null: false
-    t.datetime "updated_at",     null: false
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
     t.integer  "market_type_id"
-    t.integer  "status_id"
-    t.index ["status_id"], name: "index_markets_on_status_id"
+    t.integer  "market_status_id"
+    t.index ["market_status_id"], name: "index_markets_on_market_status_id"
   end
 
   create_table "messages", force: :cascade do |t|
@@ -87,18 +93,12 @@ ActiveRecord::Schema.define(version: 20170411211853) do
     t.index ["user_id"], name: "index_messages_on_user_id"
   end
 
-  create_table "statuses", force: :cascade do |t|
-    t.string   "market_status"
-    t.datetime "created_at",    null: false
-    t.datetime "updated_at",    null: false
-  end
-
   create_table "user_markets", force: :cascade do |t|
     t.integer  "user_id"
     t.integer  "market_id"
-    t.boolean  "is_founder", default: false
     t.datetime "created_at",                 null: false
     t.datetime "updated_at",                 null: false
+    t.boolean  "is_founder", default: false
   end
 
   create_table "users", force: :cascade do |t|

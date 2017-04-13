@@ -3,7 +3,7 @@
 	has_many :users,  through: :user_markets
 	has_many :messages
 	belongs_to :market_type
-	belongs_to :status
+	belongs_to :market_status
 	has_many :market_outcomes, dependent: :destroy, inverse_of: :market
 	
 	accepts_nested_attributes_for :market_outcomes, allow_destroy: true

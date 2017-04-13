@@ -61,10 +61,10 @@ class MarketsController < ApplicationController
 
 	def complete
 		market = Market.find(params[:id])
-		market.status.update()
-		# @market = MarketPresenter.new(market, view_context)
+		market.update(market_status_id: 3)
+		@market = MarketPresenter.new(market, view_context)
 
-		redirect_to market_path(market)
+		redirect_to market_path(@market)
 	end
 
 	def join
