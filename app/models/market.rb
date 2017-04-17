@@ -5,6 +5,12 @@
 	belongs_to :market_type
 	belongs_to :market_status
 	has_many :market_outcomes, dependent: :destroy, inverse_of: :market
+	has_many :backs, through: :market_outcomes
+	has_many :lays, through: :market_outcomes
+
+	validates :market_status_id, presence: true
+	validates :name, presence: true
+	validates :description, presence: true
 	
 	accepts_nested_attributes_for :market_outcomes, allow_destroy: true
 

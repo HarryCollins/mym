@@ -5,7 +5,7 @@ class MessagesController < ApplicationController
 		message.user = current_user
 		market = Market.find(params[:id])
 		@market = MarketPresenter.new(market, view_context)
-		can_chat_validation = BetValidations::BetValidation.new(@market, current_user)
+		can_chat_validation = Validations::BetValidation.new(@market, current_user)
 		
 		if can_chat_validation.is_member?
 			if message.save
@@ -16,7 +16,7 @@ class MessagesController < ApplicationController
 				#broadcast all '@' mentions
 				message.mentions.each do |mention|
 					ActionCable.server.broadcast "mentioned_user_#{mention.id}",
-													mention: true
+													mention: true, market: market.name, from_user:current_user.firstname
 				end
 			else 
 				redirect_to market_path(@market)

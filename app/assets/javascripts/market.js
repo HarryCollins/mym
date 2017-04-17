@@ -25,13 +25,28 @@ $(".markets.edit, .markets.new").ready(function() {
         nameAttributOutcome = "market[market_outcomes_attributes][0][outcome]".replace("0", mSec);
 
         $("#new_outcomes_input_group").append('<li><input type="text" placeholder="New Outcome" name=' + nameAttributOutcome + ' id=' + idAttributOutcome + '></li>');
-
     });
 
+    //grab status of 'publish' checkbox, for testing on submit
+    var pub_checkbox = 0;
+    if ($("#publish_checkbox").prop("checked")) {
+        pub_checkbox = 1;
+    } else {
+        pub_checkbox = 0;
+    }
+
+    //test if market status has gone from not published to published - give warning if so
+    $('#market_form').submit(function(e){
+        if (pub_checkbox == 0 && $("#publish_checkbox").prop("checked") ) {
+            if (!confirm('Are you sure that you want to publish this market? Once published, bets can be made and any once a bet is made, the market cannot be edited (with this exception of creating additional outcomes).')) {
+                return false;
+            }
+        }
+    });
 
 });
 
-$("<%= escape_javascript(render @market) %>").appendTo("#ajax");
+//$("<%= escape_javascript(render @market) %>").appendTo("#ajax");
 
 //the below only fires on markets#index
 
@@ -57,7 +72,7 @@ $(".markets.index").ready(function() {
 //the below only fires on markets#show
 $(".markets.show").ready(function() {
 
-    cableSubscribe(getMarketID(), getUserID())
+    cableSubscribe(getMarketID(), getUserID());
 
 });
 
@@ -93,7 +108,7 @@ function cableSubscribe(marketID, userID) {
 
             // mention in message (any market)
             if (data.mention) {
-                alert('You have a new mention');
+                alert('You have a new mention from ' + data.from_user + ' in the market "' + data.market + '"');
             }
 
             // new message in market

@@ -13,5 +13,9 @@
   </div>
 </div>
 
-<%= render 'form' %>
+<% if @market.market_status_id == 1 %>
+    <%= render 'form' %>
+<% else %>
+    <%= render 'form_once_published' %>
+<% end %>
 

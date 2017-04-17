@@ -1,4 +1,4 @@
-class MarketsController::LeaveMarketValidation
+class Validations::LeaveMarketValidation
 
 
 	def initialize(market,  user)

@@ -1,6 +1,7 @@
 class MarketsController < ApplicationController
 
 	before_action :require_user, except: [:show, :index]
+	before_action :require_founder, only: [:edit, :update, :destroy, :complete]
 
 	def index
 		@markets = Market.all
@@ -16,20 +17,18 @@ class MarketsController < ApplicationController
 
 	def new
 		@market = Market.new
-		#create blank outcomes
+		#create blank outcome
 		1.times { @market.market_outcomes.build }
 	end
 
 	def create
-		market = Market.new(market_params)
-		#current_user.markets << market
-		market.user_markets << UserMarket.new(user: current_user, is_founder: true)
-
-	    if market.save(market_params)
+		@market = Market.new(market_params)
+		@market.user_markets << UserMarket.new(user: current_user, is_founder: true)
+	    if @market.save(market_params)
 			flash[:success] = "You have sucessfully created this market"
-			redirect_to market_path(market)
+			redirect_to market_path(@market)
 	    else
-	      render :edit
+	      render :new
 	    end
 	end
 
@@ -51,12 +50,19 @@ class MarketsController < ApplicationController
 	end
 	
 	def destroy
-	    if Market.find(params[:id]).destroy
-		    flash[:success] = "Market Deleted"
-		    redirect_to markets_path	    	
-	    else
-	      render :edit	    	
-	    end
+		@market = Market.find(params[:id])
+		destroy_market_validation = Validations::DestroyMarketValidation.new(@market)
+		if destroy_market_validation.can_destroy?
+		    if @market.destroy
+			    flash[:success] = "Market Deleted"
+			    redirect_to markets_path	    	
+		    else
+		    	render :edit	    	
+		    end
+		else
+			destroy_market_validation.add_errors
+			render :edit	
+		end
 	end
 
 	def complete
@@ -87,7 +93,7 @@ class MarketsController < ApplicationController
 		@user_market = market.user_markets.where(user: current_user).first
 		@market = MarketPresenter.new(market, view_context)
 
-		leave_market_validation = LeaveMarketValidation.new(@market, current_user)
+		leave_market_validation = Validations::LeaveMarketValidation.new(@market, current_user)
 
 		if leave_market_validation.can_leave?
 
@@ -106,8 +112,8 @@ class MarketsController < ApplicationController
 		else
 
 			leave_market_validation.add_errors
-			flash[:danger] = @market.errors.full_messages.join("<br>").html_safe
-			redirect_to market_path(@market)
+			flash[:danger] = @market.errors.full_messages.to_sentence
+			render js: "window.location = '#{market_path(@market)}'"
 		end
 
 	end
@@ -115,11 +121,23 @@ class MarketsController < ApplicationController
 	private
 	
 	def market_params
-		params.require(:market).permit(:name, :description, :market_type_id, market_outcomes_attributes: [:id, :outcome, :_destroy])	
+		params.require(:market).permit(:name, :description, :market_type_id, :market_status_id, market_outcomes_attributes: [:id, :outcome, :_destroy])	
 	end
 
 	def render_user(user)
 		render(partial: 'user', locals: { user: user })
 	end
 
+	def market_founder?(market)
+		!!(market.mkfounder == current_user)
+	end
+
+	def require_founder
+		if not market_founder?(Market.find(params[:id]))
+		  flash[:danger] = "You need to be the market founder see this page"
+		  redirect_to root_path
+		end
+	end
+
 end
+

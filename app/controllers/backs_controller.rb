@@ -5,7 +5,7 @@ class BacksController < ApplicationController
 		@market = MarketPresenter.new(market, view_context)
 		@mo = MarketOutcome.find(params[:market_outcome_id])
 		
-		can_bet_validation = BetValidations::BetValidation.new(@market, current_user)
+		can_bet_validation = Validations::BetValidation.new(@market, current_user)
 		
 		if can_bet_validation.is_member?
 

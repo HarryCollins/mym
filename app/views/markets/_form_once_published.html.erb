@@ -1,17 +1,10 @@
 <%= render 'shared/errors', obj: @market %>
 
 <div class= "container">
+<h4 class= "col-md-8 col-md-offset-2">There are bets made against this market - the only change allowed is the creation of additional outcomes</h2>
   <div class="row">
     <div id= "new_market_form" class= "well col-md-8 col-md-offset-2">
       <%= form_for @market, html: { id: "market_form" } do |f| %>
-        <%= f.label :name %>
-        <%= f.text_field :name %>
-
-        <%= f.label :description %>
-        <%= f.text_field :description %>
-        
-        <%= f.label 'Market Type' %>
-        <%= f.collection_select(:market_type_id, MarketType.all, :id, :mechanism) %> </br></br>
 
         <%= f.label 'Outcomes' %> <i class="glyphicon glyphicon-plus" id="add_outcome"></i>
 
@@ -25,11 +18,8 @@
     			  
         	<% end %>
         </ul>
-        <%= f.label 'Publish market?' %>
-        <%= f.check_box :market_status_id, {id: "publish_checkbox"}, "2", "1" %>
         <%= f.submit(@market.new_record? ? 'New Market' : 'Edit Market', class: "btn btn-success") %>
       <% end %>
     </div>
   </div>
 </div>
-

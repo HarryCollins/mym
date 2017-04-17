@@ -1,4 +1,4 @@
-class BetValidations::BetValidation
+class Validations::BetValidation
 
 	def initialize(market,  user)
 		@market = market
@@ -7,11 +7,7 @@ class BetValidations::BetValidation
 	end
 
 	def is_member?
-		if @user_market.any?
-			true
-		else
-			false
-		end
+		!!@user_market.any?
 	end
 
 	def add_errors
