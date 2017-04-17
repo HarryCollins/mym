@@ -78,3 +78,8 @@ input {
 .short-width-input {
   width: auto !important;
 }
+
+
+input[readonly] {
+    background-color: #DCDAD1;
+}

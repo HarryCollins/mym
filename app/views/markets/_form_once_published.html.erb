@@ -12,8 +12,7 @@
         	<%= f.fields_for :market_outcomes do |mo_form| %>
 
           		<li>
-          		    <%= mo_form.check_box '_destroy', class:"delete_checkbox" %>
-          			  <%= mo_form.text_field :outcome, html_options={ placeholder:'New Outcome' } %>
+          			<%= mo_form.text_field :outcome, html_options={ placeholder:'New Outcome', readonly: true } %>
           		</li>        			  
     			  
         	<% end %>
