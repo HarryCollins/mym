@@ -5,15 +5,15 @@
 		<div class= "col-md-10 col-md-offset-1">
 			<ul class="nav nav-tabs">
 				<li class="active", id="all_markets">
-				<%= link_to "All Markets", markets_path %>
+				<%= link_to "All Live Markets", markets_path %>
 				</li>
 				<% if logged_in? %>
 					<li id="joined_markets">
-					<%= link_to "Your Markets", markets_path(joined: true) %>
+					<%= link_to "Your Live Markets", markets_path(joined: true) %>
 					</li>
-					<li id="founder_markets">
-					<%= link_to "Markets you Founded", markets_path(founder: true) %>
-					</li>
+					<li id="joined_and_complete_markets">
+					<%= link_to "Your Completed Markets", markets_path(joinedandcomplete: true) %>
+					</li>					
 				<% end %>
 			</ul></br>
 		</div>

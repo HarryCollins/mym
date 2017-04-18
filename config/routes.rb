@@ -23,6 +23,7 @@ Rails.application.routes.draw do
 			get '/join' => 'markets#join'
 			get '/leave' => 'markets#leave'
 			get '/complete' => 'markets#complete'
+			get '/results' => 'markets#results'
 			resources :messages
 			resources :market_outcomes do
 				post '/new_back' => 'backs#create'

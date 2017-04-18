@@ -31,13 +31,14 @@ $(".markets.edit, .markets.new").ready(function() {
     var pub_checkbox = 0;
     if ($("#publish_checkbox").prop("checked")) {
         pub_checkbox = 1;
-    } else {
+    }
+    else {
         pub_checkbox = 0;
     }
 
     //test if market status has gone from not published to published - give warning if so
-    $('#market_form').submit(function(e){
-        if (pub_checkbox == 0 && $("#publish_checkbox").prop("checked") ) {
+    $('#market_form').submit(function(e) {
+        if (pub_checkbox == 0 && $("#publish_checkbox").prop("checked")) {
             if (!confirm('Are you sure that you want to publish this market? Once published, bets can be made and any once a bet is made, the market cannot be edited (with this exception of creating additional outcomes).')) {
                 return false;
             }
@@ -53,15 +54,15 @@ $(".markets.edit, .markets.new").ready(function() {
 //remove active class from all_markets tab and add to selected tab
 $(".markets.index").ready(function() {
     var joined_query_string = getParameterByName('joined');
-    var founder_query_string = getParameterByName('founder');
+    var joined_and_complete_query_string = getParameterByName('joinedandcomplete');
 
     if (!!joined_query_string) {
         $("li.active").removeClass("active");
         $('#joined_markets').addClass('active');
     }
-    else if (!!founder_query_string) {
+    else if (!!joined_and_complete_query_string) {
         $("li.active").removeClass("active");
-        $('#founder_markets').addClass('active');
+        $('#joined_and_complete_markets').addClass('active');
     }
     else {
         $('#all_markets').addClass('active');
@@ -114,7 +115,7 @@ function cableSubscribe(marketID, userID) {
             // new message in market
             if (data.new_message) {
                 $('#messages_partial').append(data.message);
-                if (data.user_id == getUserID()){
+                if (data.user_id == getUserID()) {
                     $('#chat_text_area').val('');
                 }
             }

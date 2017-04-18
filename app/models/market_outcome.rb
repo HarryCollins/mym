@@ -4,6 +4,10 @@ class MarketOutcome < ApplicationRecord
     has_many :lays, dependent: :destroy
 
     #validate that an outcome has not changed, once the market is published
-    validates :outcome, on: :published
+    validate :forbid_changing_outcome_if_market_published, on: :update
+    
+    def forbid_changing_outcome_if_market_published
+        errors[:outcome] = "can not be changed once market is published" if self.outcome_changed? if self.market.market_status_id != 1
+    end
 
 end

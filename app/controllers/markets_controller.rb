@@ -2,11 +2,13 @@ class MarketsController < ApplicationController
 
 	before_action :require_user, except: [:show, :index]
 	before_action :require_founder, only: [:edit, :update, :destroy, :complete]
-
+	before_action :redirect_if_completed_market, only: [:show, :edit, :update, :join, :leave]
+	before_action :redirect_if_not_completed_market, only: [:results]
+	
 	def index
-		@markets = Market.all
-		@markets = Market.founded_by_user(current_user) if params[:founder].present?
-		@markets = Market.joined_by_user(current_user) if params[:joined].present?
+		@markets = Market.all.not_marked_as_complete
+		@markets = Market.joined_by_user(current_user).not_marked_as_complete if params[:joined].present?
+		@markets = Market.joined_by_user(current_user).marked_as_complete if params[:joinedandcomplete].present?
 	end
 
 	def show
@@ -71,6 +73,13 @@ class MarketsController < ApplicationController
 		@market = MarketPresenter.new(market, view_context)
 
 		redirect_to market_path(@market)
+	end
+	
+	def results
+		#redirect here if (and only if) market is completed
+		market = Market.find(params[:id])
+		@market = MarketPresenter.new(market, view_context)
+
 	end
 
 	def join
@@ -138,6 +147,15 @@ class MarketsController < ApplicationController
 		  redirect_to root_path
 		end
 	end
+	
+	def redirect_if_completed_market
+		redirect_to results_market_path(Market.find(params[:id])) if Market.find(params[:id]).market_status_id == 3
+	end
 
+	def redirect_if_not_completed_market
+		#can only see results of a completed market
+		redirect_to market_path(Market.find(params[:id])) if Market.find(params[:id]).market_status_id != 3
+	end
+	
 end
 
