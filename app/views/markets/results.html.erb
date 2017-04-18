@@ -5,11 +5,11 @@
         <hr>
         
         <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
-            <% @market.market_outcomes.each do |mo| %>
+            <% @market.market_outcomes.each_with_index do |mo, index| %>
                 <div class="panel panel-default">
                     <div class="panel-heading" role="tab" id="headingOne">
                         <h4 class="panel-title">
-                        <a data-toggle="collapse" data-parent="#accordion" href="#mo_<%= mo.id %>_collapsable">
+                        <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#mo_<%= mo.id %>_collapsable" panel_num="<%= index %>">
                             <%= mo.outcome %>
                         </a>
                         </h4>
