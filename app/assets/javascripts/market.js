@@ -80,7 +80,6 @@ $(".markets.show").ready(function() {
 //the below only fires on markets#results
 $(".markets.results").ready(function() {
 
-    alert('ok');
 
 });
 

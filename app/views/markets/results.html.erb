@@ -3,18 +3,19 @@
         <h3>Results!</h3>
         <h3><small><%= @market.name %></small></h3>
         <hr>
+        <h4>Outcomes <small>Select desired outcome to see results</small></h4>
         
         <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
             <% @market.market_outcomes.each_with_index do |mo, index| %>
                 <div class="panel panel-default">
-                    <div class="panel-heading" role="tab" id="headingOne">
+                    <div class="panel-heading" role="tab" id="heading_<%= index %>">
                         <h4 class="panel-title">
                         <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#mo_<%= mo.id %>_collapsable" panel_num="<%= index %>">
                             <%= mo.outcome %>
                         </a>
                         </h4>
                     </div>
-                    <div id="mo_<%= mo.id %>_collapsable" class="panel-collapse collapse in">
+                    <div id="mo_<%= mo.id %>_collapsable" class="panel-collapse collapse <%= 'in' if index == 0 %>">
                         <div class="panel-body">
                             <div class= "col-md-4 well">
                                 <h4 class="text-center">Result</h4>
@@ -36,5 +37,4 @@
         
     </div>
 </div>
-
 
