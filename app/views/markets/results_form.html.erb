@@ -1,0 +1,26 @@
+
+<%= render 'shared/errors', obj: @market %>
+
+<div class= "container">
+  <div class="row">
+
+  <h3 class = "col-md-8 col-md-offset-2"><%= 'Outcomes' %></h3>
+
+    <div id= "new_market_form" class= "well col-md-8 col-md-offset-2">
+      <%= form_for @market, url: complete_market_path, method: :post do |f| %>
+      	<h4>Tick the checkbox of all outcomes where the backers won</h4>
+        <ul class="no-indent no-bullets" id='new_outcomes_input_group'>
+        	<%= f.fields_for :market_outcomes do |mo_form| %>
+
+          		<li>
+          			<%= mo_form.label :outcome, mo_form.object.outcome %>
+          			<%= mo_form.check_box :result %>
+          		</li>        			  
+    			  
+        	<% end %>
+        </ul>
+        <%= f.submit "Save results and mark as complete", class: "btn btn-success" %>
+      <% end %>
+    </div>
+  </div>
+</div>

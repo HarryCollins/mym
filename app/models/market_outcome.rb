@@ -2,6 +2,8 @@ class MarketOutcome < ApplicationRecord
 	belongs_to :market, inverse_of: :market_outcomes
     has_many :backs, dependent: :destroy
     has_many :lays, dependent: :destroy
+    has_many :hits, through: :backs
+    has_many :hits, through: :lays
 
     #validate that an outcome has not changed, once the market is published
     validate :forbid_changing_outcome_if_market_published, on: :update

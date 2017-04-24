@@ -67,9 +67,16 @@ class MarketsController < ApplicationController
 		end
 	end
 
+	def results_form
+		market = Market.find(params[:id])
+		@market = MarketPresenter.new(market, view_context)
+	end
+
 	def complete
 		market = Market.find(params[:id])
-		market.update(market_status_id: 3)
+		market.assign_attributes(market_params)
+		market.assign_attributes(market_status_id: 3)
+		market.save
 		@market = MarketPresenter.new(market, view_context)
 
 		redirect_to market_path(@market)
@@ -130,7 +137,7 @@ class MarketsController < ApplicationController
 	private
 	
 	def market_params
-		params.require(:market).permit(:name, :description, :market_type_id, :market_status_id, market_outcomes_attributes: [:id, :outcome, :_destroy])	
+		params.require(:market).permit(:name, :description, :market_type_id, :market_status_id, market_outcomes_attributes: [:id, :outcome, :_destroy, :result])	
 	end
 
 	def render_user(user)

@@ -1,7 +1,8 @@
 class Hit < ApplicationRecord
     belongs_to :back
     belongs_to :lay
-    
+
+	scope :by_user, -> (current_user) { joins(:back).where('backs.user_id = ?', current_user)}
 
 	after_create_commit { broadcast_to_hit_back_and_lay_users }
 

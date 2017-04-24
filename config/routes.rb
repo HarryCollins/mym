@@ -22,7 +22,8 @@ Rails.application.routes.draw do
 		member do
 			get '/join' => 'markets#join'
 			get '/leave' => 'markets#leave'
-			get '/complete' => 'markets#complete'
+			get '/results_form' => 'markets#results_form'
+			post '/complete' => 'markets#complete'
 			get '/results' => 'markets#results'
 			resources :messages
 			resources :market_outcomes do
