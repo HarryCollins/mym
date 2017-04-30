@@ -13,42 +13,92 @@
                     <div class="panel-heading" role="tab" id="heading_<%= index %>">
                         <h4 class="panel-title">
                         <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#mo_<%= mo.id %>_collapsable" panel_num="<%= index %>">
-                            <%= mo.outcome %>
+                            <strong><%= mo.outcome %></strong> - <%= winner_loser.winner %> win and <%= winner_loser.loser %> lose
                         </a>
                         </h4>
                     </div>
                     <div id="mo_<%= mo.id %>_collapsable" class="panel-collapse collapse <%= 'in' if index == 0 %>">
                         <div class="panel-body">
-                            <div class= "col-md-4 well">
-                                <h4 class="text-center">Result</h4>
-                                <hr>
-                                <p class="text-center"><%= winner_loser.winner %> win and <%= winner_loser.loser %> lose</p>
-                            </div>
-                            <div class= "col-md-4 well">
+                            <div class= "col-md-8 well">
                                 <h4 class="text-center">Your matched bets</h4>
                                 <div class= "col-md-6 text-center">
                                     <h5>Backs</h5>
                                     <hr>
-                                    <% mo.backs.by_user(current_user).each do |back| %>
-                                        <% back.hits.each do |hit| %>
-                                            <%= hit.amount %> @ <%= hit.back.odds %><br>
-                                            <%= hit.back.user.firstname %>
-                                        <% end %>
-                                    <% end %>
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th>Odds</th>
+                                                <th>Amount</th>
+                                                <th>Layer</th>
+                                                <th>PnL</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <% if mo.all_hits_on_market_outcome_by_user(current_user) %>
+                                                <% mo.all_hits_on_market_outcome_by_user(current_user).each do |hit| %>
+                                                    <% if hit.back.user == current_user %>
+                                                        <tr>
+                                                            <th><%= hit.back.odds %></th>
+                                                            <th><%= hit.amount %></th>
+                                                            <th><%= hit.lay.user.firstname %></th>
+                                                        </tr>
+                                                    <% end %>
+                                                <% end %>
+                                            <% end %>                               
+                                        </tbody>
+                                    </table>
                                 </div>
                                 <div class= "col-md-6 text-center">
                                     <h5>Lays</h5>
                                     <hr>                                    
-                                    <% mo.lays.by_user(current_user).each do |lay| %>
-                                        <% lay.hits.each do |hit| %>
-                                            <%= hit.amount %> @ <%= hit.lay.odds %><br>
-                                            <%= hit.lay.user.firstname %>
-                                        <% end %>
-                                    <% end %>
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th>Odds</th>
+                                                <th>Amount</th>
+                                                <th>Backer</th>
+                                                <th>PnL</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <% if mo.all_hits_on_market_outcome_by_user(current_user) %>
+                                                <% mo.all_hits_on_market_outcome_by_user(current_user).each do |hit| %>
+                                                    <% if hit.lay.user == current_user %>
+                                                        <tr>
+                                                            <th><%= hit.lay.odds %></th>
+                                                            <th><%= hit.amount %></th>
+                                                            <th><%= hit.back.user.firstname %></th>
+                                                        </tr>
+                                                    <% end %>
+                                                <% end %>
+                                            <% end %>                               
+                                        </tbody>
+                                    </table>
                                 </div>
                             </div>
                             <div class= "col-md-4 well">
                                 <h4 class="text-center">All matched bets</h4>
+                                <hr>
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>Odds</th>
+                                            <th>Amount</th>
+                                            <th>Backer</th>
+                                            <th>Layer</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <% mo.hits.each do |hit| %>
+                                            <tr>
+                                                <th><%= hit.back.odds %></th>
+                                                <th><%= hit.amount %></th>
+                                                <th><%= hit.back.user.firstname %></th>
+                                                <th><%= hit.lay.user.firstname %></th>
+                                            </tr>
+                                        <% end %>                                   
+                                    </tbody>
+                                </table>
                             </div>                        
                         </div>
                     </div>

@@ -5,8 +5,11 @@ class PagesController < ApplicationController
 	end
 
 	def test
-      ziz = cookies.encrypted[Rails.application.config.session_options[:key]]
-      @user = User.find_by(id: ziz["user_id"])
+
+		mo = MarketOutcome.find(127)
+
+		@test = mo.all_hits_on_market_outcome_by_user(current_user)
+
 	end
 
 end

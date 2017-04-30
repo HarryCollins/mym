@@ -1,32 +1,4 @@
 
-
-<%= @user.firstname %>
-<%= cookies.encrypted[Rails.application.config.session_options[:key]] %>
+<%= @test.count %>
 <br>
-<%= ActionCable.server.connections.length %>
-<br><br>
 
-
-<%= market = Market.find(19) %>
-<br>
-<%= user = User.find(11) %>
-<%= user.firstname %>
-<br>
-<%= backs = user.backs.joins(:market_outcome).where('market_outcomes.market_id = ?', market.id) %>
-<br>
-<%= back = user.backs.joins(:market_outcome).where('market_outcomes.market_id = ?', market.id).group(:market_outcome) %>
-<br><br>
-
-<% backs.each do |back| %>
-	<%= back.current_amount %>
-<% end %>
-
-<br><br><br>
-<% backs.each do |back| %>
-	<% back.hits.each do |hit| %>
-		<%= hit.amount %>
-	<% end %>
-<% end %>
-
-<hr>
-<br><br><br>

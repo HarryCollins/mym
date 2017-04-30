@@ -13,6 +13,7 @@ class Lay < ApplicationRecord
 
     after_create_commit { broadcast_mo_change_to_market_users }
 
+
     private
 
     def broadcast_mo_change_to_market_users

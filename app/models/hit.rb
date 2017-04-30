@@ -22,4 +22,5 @@ class Hit < ApplicationRecord
 		OpenBetsBroadcastJob.perform_later(self, lay.market_outcome.market.id, "specific_user_#{lay.user.id}_in_market_#{lay.market_outcome.market.id}", "lay_partial", lay.user.id)
 	end
 
+
 end
