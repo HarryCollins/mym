@@ -16,6 +16,7 @@
                             <strong><%= mo.outcome %></strong> - <%= winner_loser.winner %> win and <%= winner_loser.loser %> lose
                         </a>
                         </h4>
+                        <% total_mo_pnl = 0 %>
                     </div>
                     <div id="mo_<%= mo.id %>_collapsable" class="panel-collapse collapse <%= 'in' if index == 0 %>">
                         <div class="panel-body">
@@ -37,10 +38,13 @@
                                             <% if mo.all_hits_on_market_outcome_by_user(current_user) %>
                                                 <% mo.all_hits_on_market_outcome_by_user(current_user).each do |hit| %>
                                                     <% if hit.back.user == current_user %>
+                                                        <% winner_loser.winner == "Backs" ? pnl = (hit.back.odds * hit.amount) - hit.amount : pnl = -hit.amount %>
+                                                        <% total_mo_pnl += pnl %>
                                                         <tr>
                                                             <th><%= hit.back.odds %></th>
                                                             <th><%= hit.amount %></th>
                                                             <th><%= hit.lay.user.firstname %></th>
+                                                            <th><%= pnl %></th>
                                                         </tr>
                                                     <% end %>
                                                 <% end %>
@@ -64,10 +68,14 @@
                                             <% if mo.all_hits_on_market_outcome_by_user(current_user) %>
                                                 <% mo.all_hits_on_market_outcome_by_user(current_user).each do |hit| %>
                                                     <% if hit.lay.user == current_user %>
+                                                        <% winner_loser.winner == "Backs" ? pnl = -((hit.back.odds * hit.amount)) + hit.amount : pnl = hit.amount %>
+                                                        <% total_mo_pnl += pnl %>
                                                         <tr>
                                                             <th><%= hit.lay.odds %></th>
                                                             <th><%= hit.amount %></th>
-                                                            <th><%= hit.back.user.firstname %></th>
+                                                            <th><%= hit.back.user.firstname %>
+                                                            <th><%= pnl %></th>
+                                                            </th>
                                                         </tr>
                                                     <% end %>
                                                 <% end %>
@@ -75,6 +83,7 @@
                                         </tbody>
                                     </table>
                                 </div>
+                                <h4 class="text-center"><%= total_mo_pnl %></h4>
                             </div>
                             <div class= "col-md-4 well">
                                 <h4 class="text-center">All matched bets</h4>
@@ -105,8 +114,7 @@
                 </div>
             <% end %>
         </div>
-        
-        
+
     </div>
 </div>
 
