@@ -77,6 +77,9 @@ class MarketsController < ApplicationController
 		market.assign_attributes(market_params)
 		market.assign_attributes(market_status_id: 3)
 		market.save
+		market_result_processor = ProcessMarketResults.new(market)
+		market_result_processor.process
+
 		@market = MarketPresenter.new(market, view_context)
 
 		redirect_to market_path(@market)

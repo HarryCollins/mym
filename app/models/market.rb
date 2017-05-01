@@ -7,6 +7,7 @@
 	has_many :market_outcomes, dependent: :destroy, inverse_of: :market
 	has_many :backs, through: :market_outcomes
 	has_many :lays, through: :market_outcomes
+	has_many :results, through: :market_outcomes
 
 	scope :not_marked_as_complete, -> { where('market_status_id != 3') }
 	scope :marked_as_complete, -> { where('market_status_id == 3') }

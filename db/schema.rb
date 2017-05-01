@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170418123953) do
+ActiveRecord::Schema.define(version: 20170501181622) do
 
   create_table "accounts", force: :cascade do |t|
     t.integer  "user_id"
@@ -92,6 +92,19 @@ ActiveRecord::Schema.define(version: 20170418123953) do
     t.datetime "updated_at",   null: false
     t.index ["market_id"], name: "index_messages_on_market_id"
     t.index ["user_id"], name: "index_messages_on_user_id"
+  end
+
+  create_table "results", force: :cascade do |t|
+    t.boolean  "result"
+    t.integer  "winner_id"
+    t.integer  "loser_id"
+    t.integer  "market_outcome_id"
+    t.decimal  "pnl"
+    t.datetime "created_at",        null: false
+    t.datetime "updated_at",        null: false
+    t.index ["loser_id"], name: "index_results_on_loser_id"
+    t.index ["market_outcome_id"], name: "index_results_on_market_outcome_id"
+    t.index ["winner_id"], name: "index_results_on_winner_id"
   end
 
   create_table "user_markets", force: :cascade do |t|

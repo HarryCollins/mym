@@ -5,6 +5,8 @@ class User < ApplicationRecord
 	has_many :messages
 	has_many :backs
 	has_many :lays
+	has_many :wins, class_name: 'Result', foreign_key: 'winner_id'
+	has_many :loses, class_name: 'Result', foreign_key: 'loser_id'
 
  	before_save { self.email = email.downcase }
 
