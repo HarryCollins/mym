@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170501181622) do
+ActiveRecord::Schema.define(version: 20170507140236) do
 
   create_table "accounts", force: :cascade do |t|
     t.integer  "user_id"
@@ -99,9 +99,12 @@ ActiveRecord::Schema.define(version: 20170501181622) do
     t.integer  "winner_id"
     t.integer  "loser_id"
     t.integer  "market_outcome_id"
-    t.decimal  "pnl"
+    t.decimal  "winner_returns"
     t.datetime "created_at",        null: false
     t.datetime "updated_at",        null: false
+    t.integer  "hit_id"
+    t.decimal  "winner_pnl"
+    t.index ["hit_id"], name: "index_results_on_hit_id"
     t.index ["loser_id"], name: "index_results_on_loser_id"
     t.index ["market_outcome_id"], name: "index_results_on_market_outcome_id"
     t.index ["winner_id"], name: "index_results_on_winner_id"

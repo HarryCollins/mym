@@ -1,6 +1,7 @@
 class Hit < ApplicationRecord
     belongs_to :back
     belongs_to :lay
+    has_one :result
 
 	scope :by_user, -> (current_user) { joins(:back).where('backs.user_id = ?', current_user)}
 

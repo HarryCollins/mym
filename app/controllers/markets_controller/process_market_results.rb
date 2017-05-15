@@ -12,10 +12,21 @@ class MarketsController::ProcessMarketResults
 
 	def save_market_outcome_results(mo)
 		mo.hits.each do |hit|
-			mo.result ? pnl = (hit.back.odds * hit.amount) - hit.amount : pnl = -(hit.back.odds * hit.amount) - hit.amount
-			mo.result ? winner = hit.back.user : winner = hit.lay.user
-			mo.result ? loser = hit.lay.user : loser = hit.back.user
-			result = Result.new(result: mo.result, winner_id: winner.id, loser_id: loser.id, market_outcome_id: mo.id, pnl: pnl)
+			if mo.result
+				winner = hit.back.user
+				loser = hit.lay.user
+				winner_returns = hit.back.odds * hit.amount
+				winner_pnl = (hit.back.odds * hit.amount) - hit.amount
+			else
+				winner = hit.lay.user
+				loser = hit.back.user
+				winner_returns = (hit.back.odds * hit.amount) - hit.amount
+				winner_pnl = hit.amount
+			end
+
+			result = Result.new(result: mo.result, winner_id: winner.id, loser_id: loser.id, 
+				market_outcome_id: mo.id, hit_id: hit.id, 
+				winner_returns: winner_returns, winner_pnl: winner_pnl)
 			result.save
 		end
 	end
