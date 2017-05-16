@@ -10,11 +10,13 @@
         <%= f.label :secondname %>
         <%= f.text_field :secondname %>
 
-        <%= f.label :email %>
-        <%= f.email_field :email %>
+        <% if @user.new_record? %>
+          <%= f.label :email %>
+          <%= f.email_field :email %>
 
-        <%= f.label :password %>
-        <%= f.password_field :password %>
+          <%= f.label :password %>
+          <%= f.password_field :password %>
+        <% end %>
 
         <%= f.submit(@user.new_record? ? 'New User' : 'Edit User', class: "btn btn-success") %>
       <% end %>

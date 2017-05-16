@@ -6,7 +6,11 @@ class BacksController < ApplicationController
 		@mo = MarketOutcome.find(params[:market_outcome_id])
 		
 		can_bet_validation = Validations::BetValidation.new(@market, current_user)
-		
+
+		if can_bet_validation.enough_account_balance?(params[:amount])
+
+		end
+
 		if can_bet_validation.is_member?
 
 			back = @mo.backs.build(back_params)
