@@ -5,9 +5,9 @@ class LaysController < ApplicationController
 		@market = MarketPresenter.new(market, view_context)
 		@mo = MarketOutcome.find(params[:market_outcome_id])
 
-		can_bet_validation = Validations::BetValidation.new(@market, current_user)
+		can_bet_validation = Validations::BetValidation.new(@market, current_user, params[:original_amount], params[:odds], :lay)
 		
-		if can_bet_validation.is_member?
+		if can_bet_validation.can_bet?
 
 			lay = @mo.lays.build(lay_params)
 			respond_to do |format|

@@ -5,13 +5,9 @@ class BacksController < ApplicationController
 		@market = MarketPresenter.new(market, view_context)
 		@mo = MarketOutcome.find(params[:market_outcome_id])
 		
-		can_bet_validation = Validations::BetValidation.new(@market, current_user)
-
-		if can_bet_validation.enough_account_balance?(params[:amount])
-
-		end
-
-		if can_bet_validation.is_member?
+		can_bet_validation = Validations::BetValidation.new(@market, current_user, params[:original_amount], params[:odds], :back)
+		
+		if can_bet_validation.can_bet?
 
 			back = @mo.backs.build(back_params)
 			respond_to do |format|

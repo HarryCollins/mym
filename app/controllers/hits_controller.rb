@@ -5,9 +5,9 @@ class HitsController < ApplicationController
 		@market = MarketPresenter.new(market, view_context)
 		@mo = MarketOutcome.find(params[:market_outcome_id])
 
-		can_bet_validation = Validations::BetValidation.new(@market, current_user)
+		can_bet_validation = Validations::BetValidation.new(@market, current_user, params[:original_amount], params[:odds], params[:bet_direction].to_sym)
 		
-		if can_bet_validation.is_member?
+		if can_bet_validation.can_bet?
 		
 			if params[:bet_direction] == "back"
 			    bet = @mo.backs.build(back_params)
