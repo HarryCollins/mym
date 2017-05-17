@@ -1,24 +1,12 @@
-# README
+# MakeYourMarket
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Social betting platform - allowing users to create their own betting markets/exchanges with friends.
+  - User creates market along with market outcomes
+  - Market can be either fixed odds or spread odds
+  - Other users join the market
+  - Users of the market can both back and lay the market outcomes at any odds, thereby creating a transparent market where odds are set by those active in the market
+  - Founder of the market can complete that market, at which time the results are entered and the PnL is calculated, with the most efficient settling method being given to the users
 
-Things you may want to cover:
+Written in Rails 5 and realying heavily on Action Cable for real time odds and bet updates as well as user chat.
 
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+NOTE: this is currently under production
