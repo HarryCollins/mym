@@ -1,17 +1,17 @@
 class Validations::BetValidation
 
-	def initialize(market, user, amount, odds, lay_or_back)
+	def initialize(market, user, amount = nil, odds = nil, lay_or_back = nil)
 		@market = market
 		@user = user
 		@user_market = @market.user_markets.where(user: @user)
 		@lay_or_back = lay_or_back
-		@amount = amount.to_i
-		@odds = odds.to_i
+		@amount = amount.to_f
+		@odds = odds.to_f
 
 		if lay_or_back == :back
 			@liability = @amount
 		else
-			@liability = (@amount * @odds) - @amount
+			@liability = ((@amount * @odds) - @amount).round(2)
 		end
 	end
 
@@ -29,11 +29,11 @@ class Validations::BetValidation
 		end
 	end
 
+	def is_member?
+		!!@user_market.any?
+	end
+
 	private
-		def is_member?
-			!!@user_market.any?
-		end
-	
 		def enough_account_balance?
 			@user.account.balance >= @liability
 		end

@@ -12,6 +12,9 @@ class LaysController < ApplicationController
 			lay = @mo.lays.build(lay_params)
 			respond_to do |format|
 				if lay.save
+					new_balance = (current_user.account.balance -= (params[:original_amount].to_f * params[:odds].to_f) - params[:original_amount].to_i).round(2)
+					current_user.account.update(balance: new_balance)
+
 					format.html { redirect_to market_path(@market) }
 					format.js { }
 				else

@@ -12,6 +12,9 @@ class BacksController < ApplicationController
 			back = @mo.backs.build(back_params)
 			respond_to do |format|
 				if back.save
+					new_balance = (current_user.account.balance -= params[:original_amount].to_f).round(2)
+					current_user.account.update(balance: new_balance)
+
 					format.html { redirect_to market_path(@market) }
 					format.js { }
 				else
