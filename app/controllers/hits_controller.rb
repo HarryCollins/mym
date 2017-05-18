@@ -7,6 +7,8 @@ class HitsController < ApplicationController
 
 		can_bet_validation = Validations::BetValidation.new(@market, current_user, params[:original_amount], params[:odds], params[:bet_direction].to_sym)
 		
+		#NEED TO REFACTOR!
+		
 		if can_bet_validation.can_bet?
 		
 			if params[:bet_direction] == "back"
@@ -21,12 +23,16 @@ class HitsController < ApplicationController
 						lay.update(current_amount: lay.current_amount - amount_of_hit_left)
 						hit = bet.hits.build(lay_id: lay.id, amount: amount_of_hit_left)
 						hit.save
+						new_balance = (current_user.account.balance -= amount_of_hit_left.to_f.round(2))
+						current_user.account.update(balance: new_balance)
 						total_amount_reached = true
 					elsif lay.current_amount < amount_of_hit_left && lay.current_amount != 0
 						amount_of_hit_left -= lay.current_amount
 						hit = bet.hits.build(lay_id: lay.id, amount: lay.current_amount)
 						lay.update(current_amount: 0)
 						hit.save
+						new_balance = (current_user.account.balance -= lay.current_amount.to_f.round(2))
+						current_user.account.update(balance: new_balance)
 					end
 					break if total_amount_reached == true
 				end		    
@@ -43,12 +49,16 @@ class HitsController < ApplicationController
 						back.update(current_amount: back.current_amount - amount_of_hit_left)
 						hit = bet.hits.build(back_id: back.id, amount: amount_of_hit_left)
 						hit.save
+						new_balance = (current_user.account.balance -= (amount_of_hit_left.to_f.round(2) * params[:odds].to_f) - amount_of_hit_left.to_f.round(2))
+						current_user.account.update(balance: new_balance)
 						total_amount_reached = true
 					elsif back.current_amount < amount_of_hit_left && back.current_amount != 0
 						amount_of_hit_left -= back.current_amount
 						hit = bet.hits.build(back_id: back.id, amount: back.current_amount)
 						back.update(current_amount: 0)
 						hit.save
+						new_balance = (current_user.account.balance -= (back.current_amount.to_f.round(2) * params[:odds].to_f) - back.current_amount.to_f.round(2))
+						current_user.account.update(balance: new_balance)
 					end
 					break if total_amount_reached == true
 				end	
