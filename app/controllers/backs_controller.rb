@@ -22,11 +22,10 @@ class BacksController < ApplicationController
 
 	end
 
-
 	private
 	
-	def back_params
-		  params.permit(:odds, :original_amount).merge(user_id: current_user.id, current_amount: params[:original_amount])
-	end
+		def back_params
+			  params.permit(:odds, :original_amount).merge(user_id: current_user.id, current_amount: params[:original_amount])
+		end
 
 end

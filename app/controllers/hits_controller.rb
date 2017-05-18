@@ -5,11 +5,15 @@ class HitsController < ApplicationController
 		@market = MarketPresenter.new(market, view_context)
 		@mo = MarketOutcome.find(params[:market_outcome_id])
 
-		can_bet_validation = Validations::BetValidation.new(@market, current_user, params[:original_amount], params[:odds], params[:bet_direction].to_sym)
-		
 		#NEED TO REFACTOR!
-		
-		if can_bet_validation.can_bet?
+		puts "test"
+		pl_direction = params[:bet_direction] + "s"
+
+		bet = @mo.send(pl_direction.to_sym).build(back_params)
+		hit_bet_hash = CreateHitsHash.new(bet).return_bet_array
+
+		debugger
+
 		
 			if params[:bet_direction] == "back"
 			    bet = @mo.backs.build(back_params)
@@ -73,13 +77,13 @@ class HitsController < ApplicationController
 				end
 			end
 		
-		else
+		# else
 			
-			can_bet_validation.add_errors
-			flash[:danger] = @market.errors.full_messages.join("<br>").html_safe
-			render js: %(window.location.pathname='#{market_path(@market)}')
+		# 	can_bet_validation.add_errors
+		# 	flash[:danger] = @market.errors.full_messages.join("<br>").html_safe
+		# 	render js: %(window.location.pathname='#{market_path(@market)}')
 			
-		end
+		# end
 		
     end
     
