@@ -16,7 +16,7 @@ class Validations::BetValidation
 	end
 
 	def can_bet?
-		!!(enough_account_balance? && is_member?)
+		!!(enough_account_balance?)
 	end
 
 	def add_errors
