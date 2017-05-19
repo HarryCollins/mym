@@ -53,18 +53,18 @@ class MarketsController < ApplicationController
 	
 	def destroy
 		@market = Market.find(params[:id])
-		destroy_market_validation = Validations::DestroyMarketValidation.new(@market)
-		if destroy_market_validation.can_destroy?
+		#destroy_market_validation = Validations::DestroyMarketValidation.new(@market)
+		#if destroy_market_validation.can_destroy?
 		    if @market.destroy
 			    flash[:success] = "Market Deleted"
 			    redirect_to markets_path	    	
 		    else
 		    	render :edit	    	
 		    end
-		else
-			destroy_market_validation.add_errors
-			render :edit	
-		end
+		# else
+		# 	destroy_market_validation.add_errors
+		# 	render :edit	
+		# end
 	end
 
 	def results_form

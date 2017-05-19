@@ -10,6 +10,7 @@ class Lay < ApplicationRecord
     scope :non_zero_current_amount, -> { where('current_amount != 0') }
 
     validates :original_amount, presence: true
+    validates :current_amount, numericality: { greater_than_or_equal_to: 0 }
     validates :odds, presence: true
     validate :user_is_member_of_market, on: :create
 
@@ -25,6 +26,7 @@ class Lay < ApplicationRecord
         def user_is_member_of_market
             if !user.user_markets.where(market: market_outcome.market).any?
                 errors.add(:base, "You must be a member of the market")
+                return false
             end
         end
         

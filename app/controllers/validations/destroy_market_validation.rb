@@ -1,6 +1,5 @@
 class Validations::DestroyMarketValidation
 
-
 	def initialize(market)
 		@market = market
 		@lays = @market.lays

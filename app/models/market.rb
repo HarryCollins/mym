@@ -16,6 +16,8 @@
 	validates :name, presence: true
 	validates :description, presence: true
 	
+	before_destroy :has_backs_or_lays
+	
 	accepts_nested_attributes_for :market_outcomes, allow_destroy: true
 
 	def self.founded_by_user(current_user)
@@ -30,5 +32,15 @@
 	def mkfounder
 		users.includes(:user_markets).where('user_markets.is_founder = ?', true).first
 	end
+
+	private
+		#needs to be fixed
+		def has_backs_or_lays
+			
+			if self.lays.any? || self.backs.any?
+				@market.errors.add(:base, "Bets have been made against this market - it can not be deleted")
+				return false
+			end
+		end
 
 end
