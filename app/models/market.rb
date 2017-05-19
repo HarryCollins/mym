@@ -16,7 +16,7 @@
 	validates :name, presence: true
 	validates :description, presence: true
 	
-	before_destroy :has_backs_or_lays
+	before_destroy :has_backs_or_lays, prepend: true
 	
 	accepts_nested_attributes_for :market_outcomes, allow_destroy: true
 
@@ -34,12 +34,12 @@
 	end
 
 	private
-		#needs to be fixed
+
 		def has_backs_or_lays
-			
+			debugger
 			if self.lays.any? || self.backs.any?
-				@market.errors.add(:base, "Bets have been made against this market - it can not be deleted")
-				return false
+				errors.add(:base, "Bets have been made against this market - it can not be deleted")
+				throw :abort
 			end
 		end
 

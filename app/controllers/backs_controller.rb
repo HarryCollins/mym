@@ -14,7 +14,7 @@ class BacksController < ApplicationController
 			else
 				format.html { redirect_to market_path(@market) }
 				format.js do
-					flash[:danger] = back.user.account.errors.full_messages.join("<br>").html_safe
+					flash[:danger] = back.errors.full_messages.join("<br>").html_safe
 					render js: %(window.location.pathname='#{market_path(@market)}')
 				end
 			end
