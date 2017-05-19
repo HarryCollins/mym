@@ -13,8 +13,11 @@ class Back < ApplicationRecord
     validates :odds, presence: true
     validate :user_is_member_of_market, on: :create
     
-    after_create :update_user_account
+    after_create :create_hits, :update_user_account
     after_create_commit { broadcast_mo_change_to_market_users }
+    
+    attr_accessor :hitter
+    alias_method :hitter?, :hitter
 
 
     private
@@ -27,6 +30,29 @@ class Back < ApplicationRecord
     
         def broadcast_mo_change_to_market_users
             MarketOutcomeBroadcastJob.perform_later(market_outcome.id, "all_users_in_market_#{market_outcome.market.id}", "mo_partial")
+        end
+        
+        def create_hits
+            if hitter?
+                lays = Lay.by_odds(self.odds)
+                amount_of_hit_left = self.original_amount
+                total_amount_reached = false
+
+			    lays.each do |lay|
+					if lay.current_amount >= amount_of_hit_left
+						lay.update(current_amount: lay.current_amount - amount_of_hit_left)
+						hit = self.hits.build(lay_id: lay.id, amount: amount_of_hit_left)
+						hit.save!
+						total_amount_reached = true
+					elsif lay.current_amount < amount_of_hit_left && lay.current_amount != 0
+						amount_of_hit_left -= lay.current_amount
+						hit = self.hits.build(lay_id: lay.id, amount: lay.current_amount)
+						lay.update(current_amount: 0)
+						hit.save!
+					end
+					break if total_amount_reached == true
+				end		    
+            end
         end
         
         def update_user_account

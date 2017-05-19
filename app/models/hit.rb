@@ -7,7 +7,6 @@ class Hit < ApplicationRecord
 
 	after_create_commit { broadcast_to_hit_back_and_lay_users }
 
-
 	private
 
 	def broadcast_to_hit_back_and_lay_users

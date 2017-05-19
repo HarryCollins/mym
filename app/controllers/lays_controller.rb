@@ -25,7 +25,7 @@ class LaysController < ApplicationController
 	private
 	
 		def lay_params
-			  params.permit(:odds, :original_amount).merge(user_id: current_user.id, current_amount: params[:original_amount])
+			  params.permit(:odds, :original_amount).merge(user_id: current_user.id, current_amount: params[:original_amount], hitter: false)
 		end
 
 end
