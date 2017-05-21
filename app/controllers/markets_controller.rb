@@ -53,18 +53,12 @@ class MarketsController < ApplicationController
 	
 	def destroy
 		@market = Market.find(params[:id])
-		#destroy_market_validation = Validations::DestroyMarketValidation.new(@market)
-		#if destroy_market_validation.can_destroy?
-		    if @market.destroy
-			    flash[:success] = "Market Deleted"
-			    redirect_to markets_path	    	
-		    else
-		    	render :edit	    	
-		    end
-		# else
-		# 	destroy_market_validation.add_errors
-		# 	render :edit	
-		# end
+	    if @market.destroy
+		    flash[:success] = "Market Deleted"
+		    redirect_to markets_path	    	
+	    else
+	    	render :edit	    	
+	    end
 	end
 
 	def results_form
@@ -112,30 +106,20 @@ class MarketsController < ApplicationController
 		@user_market = market.user_markets.where(user: current_user).first
 		@market = MarketPresenter.new(market, view_context)
 
-		leave_market_validation = Validations::LeaveMarketValidation.new(@market, current_user)
-
-		if leave_market_validation.can_leave?
-
-			@user_market = market.user_markets.where(user: current_user).first
-			@market = MarketPresenter.new(market, view_context)
-
-			respond_to do |format|
-				if @user_market.destroy
-					format.html { redirect_to market_path(@market) }
-					format.js { }
-				else	
-					format.html { redirect_to market_path(@market) }	
-				end
+		respond_to do |format|
+			if @user_market.destroy
+				format.html { redirect_to market_path(@market) }
+				format.js { }
+			else	
+				format.html { redirect_to market_path(@market) }
+				format.js do
+					flash[:danger] = @user_market.errors.full_messages.join("<br>").html_safe
+					render js: "window.location = '#{market_path(@market)}'"					
+				end	
 			end
-
-		else
-
-			leave_market_validation.add_errors
-			flash[:danger] = @market.errors.full_messages.to_sentence
-			render js: "window.location = '#{market_path(@market)}'"
 		end
-
 	end
+
 
 	private
 	

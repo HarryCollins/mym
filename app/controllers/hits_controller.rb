@@ -20,8 +20,7 @@ class HitsController < ApplicationController
 					render js: %(window.location.pathname='#{market_path(@market)}')					
 				end
 			end
-		end
-		
+		end		
     end
     
     private

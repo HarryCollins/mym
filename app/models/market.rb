@@ -36,7 +36,6 @@
 	private
 
 		def has_backs_or_lays
-			debugger
 			if self.lays.any? || self.backs.any?
 				errors.add(:base, "Bets have been made against this market - it can not be deleted")
 				throw :abort
