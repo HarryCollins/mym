@@ -7,6 +7,7 @@ class Lay < ApplicationRecord
     default_scope { order(created_at: :asc) }
     scope :by_user, -> (current_user) { where(user: current_user)}
     scope :by_odds, -> (odds) { where(odds: odds)}
+    scope :by_market_outcome, -> (market_outcome) { where(market_outcome: market_outcome) }
     scope :non_zero_current_amount, -> { where('current_amount != 0') }
 
     validates :original_amount, presence: true
@@ -14,12 +15,13 @@ class Lay < ApplicationRecord
     validates :odds, presence: true
     validate :user_is_member_of_market, on: :create
 
-    after_create :create_hits, :update_user_account
+    before_save :offsetting_exposure_calc
+
+    after_create :process_hits, :update_user_account
     after_create_commit { broadcast_mo_change_to_market_users }
 
     attr_accessor :hitter
     alias_method :hitter?, :hitter
-    
     
     private
 
@@ -33,33 +35,56 @@ class Lay < ApplicationRecord
         def broadcast_mo_change_to_market_users
             MarketOutcomeBroadcastJob.perform_later(market_outcome.id, "all_users_in_market_#{market_outcome.market.id}", "mo_partial")
         end
-        
-        def create_hits
-            if hitter?
-                backs = Back.by_odds(self.odds)
-                amount_of_hit_left = self.original_amount
-                total_amount_reached = false
 
-			    backs.each do |back|
-					if back.current_amount >= amount_of_hit_left
-						back.update(current_amount: back.current_amount - amount_of_hit_left)
-						hit = self.hits.build(back_id: back.id, amount: amount_of_hit_left)
-						hit.save!
-						total_amount_reached = true
-					elsif back.current_amount < amount_of_hit_left && back.current_amount != 0
-						amount_of_hit_left -= back.current_amount
-						hit = self.hits.build(back_id: back.id, amount: back.current_amount)
-						back.update(current_amount: 0)
-						hit.save!
-					end
-					break if total_amount_reached == true
-				end		    
+        def offsetting_exposure_calc
+            if hitter?
+                amount_of_opposing_exposure(array_of_user_opposite_exposure)
             end
         end
-        
+
+        def amount_of_opposing_exposure(array_of_backs_or_lays)
+            @offsetting_exposure = (array_of_backs_or_lays.sum(:current_amount) * self.odds) || 0
+        end
+
+        def array_of_user_opposite_exposure
+            @offseting_backs = Back.by_market_outcome(self.market_outcome).by_odds(self.odds).by_user(self.user)
+        end
+
         def update_user_account
             new_balance = (user.account.balance -= (self.original_amount * self.odds) - self.original_amount)
+            new_balance = new_balance += @offsetting_exposure || 0
             user.account.update!(balance: new_balance) 
+        end
+    
+        def process_hits
+            if hitter?
+                @amount_of_hit_left = self.original_amount
+                @total_amount_reached = false
+
+                user_offsetting_backs = array_of_user_opposite_exposure
+                create_hits(user_offsetting_backs)
+
+                backs = Back.by_market_outcome(self.market_outcome).by_odds(self.odds)
+                create_hits(backs)      
+            end
+        end
+
+        def create_hits(bets)
+            bets.each do |bet|
+                if bet.current_amount >= @amount_of_hit_left && bet.current_amount != 0
+                    bet.update(current_amount: bet.current_amount - @amount_of_hit_left)
+                    hit = self.hits.build(back_id: bet.id, amount: @amount_of_hit_left)
+                    hit.save!
+                    @amount_of_hit_left = 0
+                    @total_amount_reached = true
+                elsif bet.current_amount < @amount_of_hit_left && bet.current_amount != 0
+                    @amount_of_hit_left -= bet.current_amount
+                    hit = self.hits.build(back_id: bet.id, amount: bet.current_amount)
+                    bet.update(current_amount: 0)
+                    hit.save!
+                end
+                break if @total_amount_reached == true
+            end 
         end
 
 end
