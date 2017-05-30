@@ -74,6 +74,8 @@ class MarketsController < ApplicationController
 		market_result_processor = ProcessMarketResults.new(market)
 		market_result_processor.process
 
+		ActionCable.server.broadcast "all_users_in_market_#{params[:id]}", "reload_page": true
+
 		@market = MarketPresenter.new(market, view_context)
 
 		redirect_to market_path(@market)

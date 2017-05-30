@@ -148,6 +148,11 @@ function cableSubscribe(marketID, userID) {
                 $("#mo_" + data.mo_id).html(data.mo);
             }
 
+            // when market is completed or page needs to be reloaded
+            if (data.reload_page) {
+                location.reload();
+            }
+
         }
 
     });

@@ -7,6 +7,7 @@ class MarketsController::ProcessMarketResults
 	def process
 		@market.market_outcomes.each do |mo|
 			save_market_outcome_results(mo)
+			update_user_account_balances
 		end
 	end
 
@@ -20,7 +21,7 @@ class MarketsController::ProcessMarketResults
 			else
 				winner = hit.lay.user
 				loser = hit.back.user
-				winner_returns = (hit.back.odds * hit.amount) - hit.amount
+				winner_returns = hit.back.odds * hit.amount
 				winner_pnl = hit.amount
 			end
 
@@ -28,6 +29,13 @@ class MarketsController::ProcessMarketResults
 				market_outcome_id: mo.id, hit_id: hit.id, 
 				winner_returns: winner_returns, winner_pnl: winner_pnl)
 			result.save
+		end
+	end
+
+	def update_user_account_balances
+		@market.results.each do |result|
+			result.winner.account.balance += result.winner_returns
+			result.winner.account.save
 		end
 	end
 end
