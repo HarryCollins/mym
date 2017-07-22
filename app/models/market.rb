@@ -10,7 +10,7 @@
 	has_many :results, through: :market_outcomes
 
 	scope :not_marked_as_complete, -> { where('market_status_id != 3') }
-	scope :marked_as_complete, -> { where('market_status_id == 3') }
+	scope :marked_as_complete, -> { where('market_status_id = 3') }
 	
 	validates :market_status_id, presence: true
 	validates :name, presence: true
