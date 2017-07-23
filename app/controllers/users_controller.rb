@@ -10,10 +10,8 @@ class UsersController < ApplicationController
 
 	def create
 	    @user = User.new(user_params)
-	    account = Account.new(user: @user, balance: 10)
 
-	    #need to modify to test for possibility of user saving and account not saving
-		if @user.save && account.save 
+		if @user.save
 			flash[:success] = "Your account has been created successfully"
 			session[:user_id] = @user.id
 			redirect_to users_path				
@@ -41,14 +39,6 @@ class UsersController < ApplicationController
 	      render :edit
 	    end
 	end
-
-	def account
-		@user = User.find(params[:id])
-		@account = @user.account
-
-		render :account
-	end
-
 
 	private
 

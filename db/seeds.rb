@@ -22,6 +22,6 @@ market_status_list = [
   [ "Complete", 3 ]
 ]
 
-market_type_list.each do |status, id|
+market_status_list.each do |status, id|
   MarketStatus.create( market_status: status, id: id )
 end

@@ -17,7 +17,7 @@ class Lay < ApplicationRecord
 
     before_save :offsetting_exposure_calc
 
-    after_create :process_hits, :update_user_account
+    after_create :process_hits
     after_create_commit { broadcast_mo_change_to_market_users }
 
     attr_accessor :hitter
@@ -48,12 +48,6 @@ class Lay < ApplicationRecord
 
         def array_of_user_opposite_exposure
             @offseting_backs = Back.by_market_outcome(self.market_outcome).by_odds(self.odds).by_user(self.user)
-        end
-
-        def update_user_account
-            new_balance = (user.account.balance -= (self.original_amount * self.odds) - self.original_amount)
-            new_balance = new_balance += @offsetting_exposure || 0
-            user.account.update!(balance: new_balance) 
         end
     
         def process_hits

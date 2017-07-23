@@ -7,16 +7,10 @@ Rails.application.routes.draw do
 	mount ActionCable.server => '/cable'
 	
 	get '/test' => 'pages#test'
-
-	resources :users, except: [:new] do
-		member do
-			get 'account'
-		end
-	end
-
 	get '/register' => 'users#new'
 	get '/login' => 'logins#new'
 	
+	resources :users, except: [:new]
 
 	resources :markets do
 		member do

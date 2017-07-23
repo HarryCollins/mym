@@ -6,6 +6,8 @@
 
   <h3 class = "col-md-8 col-md-offset-2"><%= 'Outcomes' %></h3>
 
+  <!-- need to add logic for spread markets -->
+
     <div id= "new_market_form" class= "well col-md-8 col-md-offset-2">
       <%= form_for @market, url: complete_market_path, method: :post do |f| %>
       	<h4>Tick the checkbox of all outcomes where the backers won</h4>

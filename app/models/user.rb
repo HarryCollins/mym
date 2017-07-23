@@ -1,12 +1,11 @@
 class User < ApplicationRecord
-	has_one :account
 	has_many :user_markets, dependent: :destroy
 	has_many :markets, through: :user_markets
 	has_many :messages
 	has_many :backs
 	has_many :lays
-	has_many :wins, class_name: 'Result', foreign_key: 'winner_id'
-	has_many :loses, class_name: 'Result', foreign_key: 'loser_id'
+	has_many :wins, class_name: 'Result', foreign_key: 'layer_id'
+	has_many :loses, class_name: 'Result', foreign_key: 'backer_id'
 
  	before_save { self.email = email.downcase }
 

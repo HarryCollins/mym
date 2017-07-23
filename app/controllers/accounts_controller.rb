@@ -1,5 +1,0 @@
-class AccountsController < ApplicationController
-
-
-
-end

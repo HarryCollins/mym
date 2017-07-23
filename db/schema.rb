@@ -10,14 +10,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170507140236) do
+ActiveRecord::Schema.define(version: 20170723202225) do
 
-  create_table "accounts", force: :cascade do |t|
-    t.integer  "user_id"
-    t.integer  "balance"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
 
   create_table "backs", force: :cascade do |t|
     t.decimal  "original_amount"
@@ -28,16 +24,16 @@ ActiveRecord::Schema.define(version: 20170507140236) do
     t.datetime "updated_at",                        null: false
     t.integer  "market_outcome_id"
     t.decimal  "current_amount"
-    t.index ["market_outcome_id"], name: "index_backs_on_market_outcome_id"
-    t.index ["user_id"], name: "index_backs_on_user_id"
+    t.index ["market_outcome_id"], name: "index_backs_on_market_outcome_id", using: :btree
+    t.index ["user_id"], name: "index_backs_on_user_id", using: :btree
   end
 
   create_table "hits", force: :cascade do |t|
     t.integer "back_id"
     t.integer "lay_id"
     t.decimal "amount"
-    t.index ["back_id"], name: "index_hits_on_back_id"
-    t.index ["lay_id"], name: "index_hits_on_lay_id"
+    t.index ["back_id"], name: "index_hits_on_back_id", using: :btree
+    t.index ["lay_id"], name: "index_hits_on_lay_id", using: :btree
   end
 
   create_table "lays", force: :cascade do |t|
@@ -49,8 +45,8 @@ ActiveRecord::Schema.define(version: 20170507140236) do
     t.datetime "updated_at",                        null: false
     t.integer  "market_outcome_id"
     t.decimal  "current_amount"
-    t.index ["market_outcome_id"], name: "index_lays_on_market_outcome_id"
-    t.index ["user_id"], name: "index_lays_on_user_id"
+    t.index ["market_outcome_id"], name: "index_lays_on_market_outcome_id", using: :btree
+    t.index ["user_id"], name: "index_lays_on_user_id", using: :btree
   end
 
   create_table "market_outcomes", force: :cascade do |t|
@@ -58,8 +54,8 @@ ActiveRecord::Schema.define(version: 20170507140236) do
     t.integer  "market_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.boolean  "result"
-    t.index ["market_id"], name: "index_market_outcomes_on_market_id"
+    t.integer  "result"
+    t.index ["market_id"], name: "index_market_outcomes_on_market_id", using: :btree
   end
 
   create_table "market_statuses", force: :cascade do |t|
@@ -81,7 +77,7 @@ ActiveRecord::Schema.define(version: 20170507140236) do
     t.datetime "updated_at",       null: false
     t.integer  "market_type_id"
     t.integer  "market_status_id"
-    t.index ["market_status_id"], name: "index_markets_on_market_status_id"
+    t.index ["market_status_id"], name: "index_markets_on_market_status_id", using: :btree
   end
 
   create_table "messages", force: :cascade do |t|
@@ -90,24 +86,24 @@ ActiveRecord::Schema.define(version: 20170507140236) do
     t.text     "message_text"
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false
-    t.index ["market_id"], name: "index_messages_on_market_id"
-    t.index ["user_id"], name: "index_messages_on_user_id"
+    t.index ["market_id"], name: "index_messages_on_market_id", using: :btree
+    t.index ["user_id"], name: "index_messages_on_user_id", using: :btree
   end
 
   create_table "results", force: :cascade do |t|
-    t.boolean  "result"
-    t.integer  "winner_id"
-    t.integer  "loser_id"
+    t.integer  "result"
+    t.integer  "backer_id"
+    t.integer  "layer_id"
     t.integer  "market_outcome_id"
-    t.decimal  "winner_returns"
+    t.decimal  "backer_pnl"
     t.datetime "created_at",        null: false
     t.datetime "updated_at",        null: false
     t.integer  "hit_id"
-    t.decimal  "winner_pnl"
-    t.index ["hit_id"], name: "index_results_on_hit_id"
-    t.index ["loser_id"], name: "index_results_on_loser_id"
-    t.index ["market_outcome_id"], name: "index_results_on_market_outcome_id"
-    t.index ["winner_id"], name: "index_results_on_winner_id"
+    t.decimal  "layer_pnl"
+    t.index ["backer_id"], name: "index_results_on_backer_id", using: :btree
+    t.index ["hit_id"], name: "index_results_on_hit_id", using: :btree
+    t.index ["layer_id"], name: "index_results_on_layer_id", using: :btree
+    t.index ["market_outcome_id"], name: "index_results_on_market_outcome_id", using: :btree
   end
 
   create_table "user_markets", force: :cascade do |t|
