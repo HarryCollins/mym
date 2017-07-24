@@ -32,15 +32,8 @@ class MarketOutcome < ApplicationRecord
 
 
     def pnl_by_user(user)
-        pnl = 0
-        results.by_user_backer_or_layer(user).each do |result|
-            if result.winner == user && result.loser != user
-                pnl += result.winner_pnl
-            elsif result.loser == user && result.winner != user
-                pnl -= result.winner_pnl
-            end
-        end
-        return pnl
+        pnl = self.results.where(backer_id: user).sum(:backer_pnl)
+        pnl += self.results.where(layer_id: user).sum(:layer_pnl)
     end
 
 end

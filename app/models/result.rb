@@ -4,7 +4,7 @@ class Result < ApplicationRecord
 	belongs_to :layer, class_name: 'User', foreign_key: 'layer_id'
 	belongs_to :hit
 
-	scope :by_user_backer_or_layer, -> (user) { where('winner_id = ? OR loser_id = ?', user.id, user.id) }
+	scope :by_user_backer_or_layer, -> (user) { where('backer_id = ? OR layer_id = ?', user.id, user.id) }
 
 	def pnl(user, result)
 		if winner == user
