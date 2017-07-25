@@ -19,6 +19,17 @@
                     </div>
                     <div id="mo_<%= mo.id %>_collapsable" class="panel-collapse collapse <%= 'in' if index == 0 %>">
                         <div class="panel-body">
+                            
+                            <% if @market.market_type.id == 1 %>
+                                <% if mo.result == 1 %>
+                                    <p>Result: Backs win</p>
+                                <% elsif mo.result == 0 %>
+                                    <p>Result: Lays win</p>
+                                <% end %>
+                            <% else %>
+                                <p>Result: <%= mo.result %></p> 
+                            <% end %>
+                            
                             <div class= "col-md-8 well">
                                 <h4 class="text-center">Your matched bets</h4>
                                 <div class= "col-md-6 text-center">

@@ -12,7 +12,7 @@ default: &default
 development:
   <<: *default
   database: development_db
-  username: harry
+  username: ubuntu
 
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".

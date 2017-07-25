@@ -45,13 +45,13 @@ class MarketsController::ProcessMarketResults
 			backer = hit.back.user
 			layer = hit.lay.user
 
-			if mo.result < hit.odds #layer wins
-				layer_pnl = (hit.odds - mo.result) * hit.amount
+			if mo.result < hit.back.odds #layer wins
+				layer_pnl = (hit.back.odds - mo.result) * hit.amount
 				backer_pnl = layer_pnl * -1
-			elsif mo.result > hit.odds #backer wins
-				backer_pnl = (mo.result - hit.odds) * hit.amount
+			elsif mo.result > hit.back.odds #backer wins
+				backer_pnl = (mo.result - hit.back.odds) * hit.amount
 				layer_pnl = backer_pnl * -1
-			elsif mo.result == hit.odds #draw
+			elsif mo.result == hit.back.odds #draw
 				layer_pnl = 0
 				backer_pnl = 0
 			end
