@@ -10,7 +10,13 @@
 
     <div id= "new_market_form" class= "well col-md-8 col-md-offset-2">
       <%= form_for @market, url: complete_market_path, method: :post do |f| %>
-      	<h4>Tick the checkbox of all outcomes where the backers won</h4>
+
+        <% if @market.market_type.id == 1 %>
+          <h4>Tick the checkbox of all outcomes where the backers won</h4>
+        <% else %>
+          <h4>Enter the result of each outcome</h4>
+        <% end %>
+
         <ul class="no-indent no-bullets" id='new_outcomes_input_group'>
         	<%= f.fields_for :market_outcomes do |mo_form| %>
 
