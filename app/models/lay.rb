@@ -14,6 +14,7 @@ class Lay < ApplicationRecord
     validates :current_amount, numericality: { greater_than_or_equal_to: 0 }
     validates :odds, presence: true
     validate :user_is_member_of_market, on: :create
+    validate :market_is_published, on: :create
 
     before_save :offsetting_exposure_calc
 
@@ -31,7 +32,14 @@ class Lay < ApplicationRecord
                 return false
             end
         end
-        
+
+        def market_is_published
+            if self.market_outcome.market.market_status_id != 2
+                errors.add(:base, "This market is not yet published")
+                return false
+            end            
+        end
+       
         def broadcast_mo_change_to_market_users
             MarketOutcomeBroadcastJob.perform_later(market_outcome.id, "all_users_in_market_#{market_outcome.market.id}", "mo_partial")
         end

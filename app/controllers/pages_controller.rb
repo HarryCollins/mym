@@ -6,7 +6,11 @@ class PagesController < ApplicationController
 
 	def test
 
+	end
+
+	def cover
 
 	end
 
 end
+

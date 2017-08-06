@@ -14,6 +14,7 @@ class Back < ApplicationRecord
     validates :current_amount, numericality: { greater_than_or_equal_to: 0 }
     validates :odds, presence: true
     validate :user_is_member_of_market, on: :create
+    validate :market_is_published, on: :create
 
     before_save :offsetting_exposure_calc
     
@@ -30,6 +31,13 @@ class Back < ApplicationRecord
                 errors.add(:base, "You must be a member of the market")
                 return false
             end
+        end
+
+        def market_is_published
+            if self.market_outcome.market.market_status_id != 2
+                errors.add(:base, "This market is not yet published")
+                return false
+            end            
         end
     
         def broadcast_mo_change_to_market_users

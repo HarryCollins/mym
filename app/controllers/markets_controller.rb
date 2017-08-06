@@ -4,6 +4,7 @@ class MarketsController < ApplicationController
 	before_action :require_founder, only: [:edit, :update, :destroy, :complete]
 	before_action :redirect_if_completed_market, only: [:show, :edit, :update, :join, :leave]
 	before_action :redirect_if_not_completed_market, only: [:results]
+	before_action :redirect_if_results_already_entered, only: [:results_form]
 	
 	def index
 		@markets = Market.all.not_marked_as_complete
@@ -155,6 +156,10 @@ class MarketsController < ApplicationController
 		#can only see results of a completed market
 		redirect_to market_path(Market.find(params[:id])) if Market.find(params[:id]).market_status_id != 3
 	end
-	
+
+	def redirect_if_results_already_entered
+		#can only see results of a completed market
+		redirect_to market_path(Market.find(params[:id])) if Market.find(params[:id]).results.any?
+	end	
 end
 

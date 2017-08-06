@@ -23,7 +23,8 @@ class BacksController < ApplicationController
 	end
 
 	private
-	
+
+		#TODO: add require to user_id - ie user needs to be logged in to try and back/lay	
 		def back_params
 			  params.permit(:odds, :original_amount).merge(user_id: current_user.id, current_amount: params[:original_amount], hitter: false)
 		end
