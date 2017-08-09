@@ -68,7 +68,6 @@ class MarketsController::ProcessMarketPayments
 	end
 
 	def save_payments_to_database(payments_array)
-		byebug
 		payments_array.each do |payment_from_array|
 			payment_for_db = Payment.new(amount: payment_from_array[:amount], payer_id: payment_from_array[:payer], receiver_id: payment_from_array[:receiver], market: @market)
 			payment_for_db.save
