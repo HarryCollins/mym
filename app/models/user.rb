@@ -4,8 +4,12 @@ class User < ApplicationRecord
 	has_many :messages
 	has_many :backs
 	has_many :lays
-	has_many :wins, class_name: 'Result', foreign_key: 'layer_id'
-	has_many :loses, class_name: 'Result', foreign_key: 'backer_id'
+	#TODO Are the below two references doing anything?
+	has_many :lays, class_name: 'Result', foreign_key: 'layer_id'
+	has_many :backs, class_name: 'Result', foreign_key: 'backer_id'
+
+	has_many :payments, class_name: 'Payment', foreign_key: 'payer_id'
+	has_many :receipts, class_name: 'Payment', foreign_key: 'receiver_id'
 
  	before_save { self.email = email.downcase }
 

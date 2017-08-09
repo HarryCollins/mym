@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170723202225) do
+ActiveRecord::Schema.define(version: 20170809075547) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -90,6 +90,20 @@ ActiveRecord::Schema.define(version: 20170723202225) do
     t.index ["user_id"], name: "index_messages_on_user_id", using: :btree
   end
 
+  create_table "payments", force: :cascade do |t|
+    t.integer  "results_id"
+    t.integer  "market_id"
+    t.integer  "payer_id"
+    t.integer  "receiver_id"
+    t.decimal  "amount"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+    t.index ["market_id"], name: "index_payments_on_market_id", using: :btree
+    t.index ["payer_id"], name: "index_payments_on_payer_id", using: :btree
+    t.index ["receiver_id"], name: "index_payments_on_receiver_id", using: :btree
+    t.index ["results_id"], name: "index_payments_on_results_id", using: :btree
+  end
+
   create_table "results", force: :cascade do |t|
     t.integer  "result"
     t.integer  "backer_id"
@@ -123,18 +137,6 @@ ActiveRecord::Schema.define(version: 20170723202225) do
     t.string   "password_digest"
   end
 
-  add_foreign_key "backs", "market_outcomes"
-  add_foreign_key "backs", "users"
-  add_foreign_key "hits", "backs"
-  add_foreign_key "hits", "lays"
-  add_foreign_key "lays", "market_outcomes"
-  add_foreign_key "lays", "users"
-  add_foreign_key "market_outcomes", "markets"
-  add_foreign_key "markets", "market_statuses"
-  add_foreign_key "messages", "markets"
-  add_foreign_key "messages", "users"
-  add_foreign_key "results", "hits"
-  add_foreign_key "results", "market_outcomes"
-  add_foreign_key "results", "users", column: "backer_id"
-  add_foreign_key "results", "users", column: "layer_id"
+  add_foreign_key "payments", "markets"
+  add_foreign_key "payments", "results", column: "results_id"
 end
