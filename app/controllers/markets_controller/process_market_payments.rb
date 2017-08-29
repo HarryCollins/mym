@@ -18,7 +18,8 @@ class MarketsController::ProcessMarketPayments
 			user_pnl = @market.results.where(backer: user).sum(:backer_pnl)
 			user_pnl += @market.results.where(layer: user).sum(:layer_pnl)
 			if user_pnl != 0
-				single_user_pnl_hash[user.id] = user_pnl
+				single_user_pnl_hash[:id] = user.id
+				single_user_pnl_hash[:pnl] = user_pnl
 				pnl_array.push(single_user_pnl_hash)
 			end
 		end
@@ -27,7 +28,8 @@ class MarketsController::ProcessMarketPayments
 	end
 
 	def sort_by_pnl_asc(users_pnl_array)
-		sorted_users_pnl_hash = users_pnl_array.sort_by { |k| k["value"] }.reverse
+		sorted_array = users_pnl_array.sort_by { |v| v[:pnl] }
+		return sorted_array
 	end
 
 	def calculate_easiest_payments(sorted_users_pnl_array, payments_array)
@@ -39,24 +41,24 @@ class MarketsController::ProcessMarketPayments
 
 		payment_hash = Hash.new
 
-		payment_hash[:payer] = sorted_users_pnl_array.first.keys[0]
-		payment_hash[:receiver] = sorted_users_pnl_array.last.keys[0]
+		payment_hash[:payer] = sorted_users_pnl_array.first[:id]
+		payment_hash[:receiver] = sorted_users_pnl_array.last[:id]
 
-		if sorted_users_pnl_array.first.values[0].abs > sorted_users_pnl_array.last.values[0].abs
+		if sorted_users_pnl_array.first[:pnl].abs > sorted_users_pnl_array.last[:pnl].abs
 			#lowest pnl is lower than highest pnl is high
-			payment_hash[:amount] = sorted_users_pnl_array.last.values[0].abs
+			payment_hash[:amount] = sorted_users_pnl_array.last[:pnl].abs
 			sorted_users_pnl_array.pop
-			sorted_users_pnl_array.first[sorted_users_pnl_array.first.keys[0]] = sorted_users_pnl_array.first.values[0] + sorted_users_pnl_array.last.values[0]
+			sorted_users_pnl_array.first[:pnl] = sorted_users_pnl_array.first[:pnl] + sorted_users_pnl_array.last[:pnl]
 
-		elsif sorted_users_pnl_array.first.values[0].abs < sorted_users_pnl_array.last.values[0].abs
+		elsif sorted_users_pnl_array.first[:pnl].abs < sorted_users_pnl_array.last[:pnl].abs
 			#highest pnl is higher than lowest pnl is low
-			payment_hash[:amount] = sorted_users_pnl_array.first.values[0].abs
+			payment_hash[:amount] = sorted_users_pnl_array.first[:pnl].abs
 			sorted_users_pnl_array.shift
-			sorted_users_pnl_array.last[sorted_users_pnl_array.last.keys[0]] = sorted_users_pnl_array.last.values[0] - sorted_users_pnl_array.first.values[0]
+			sorted_users_pnl_array.last[:pnl] = sorted_users_pnl_array.last[:pnl] + sorted_users_pnl_array.first[:pnl]
 
-		elsif sorted_users_pnl_array.first.values[0].abs == sorted_users_pnl_array.last.values[0].abs
+		elsif sorted_users_pnl_array.first[:pnl].abs == sorted_users_pnl_array.last[:pnl].abs
 			#highest pnl and lowest pnl are exactly equal
-			payment_hash[:amount] = sorted_users_pnl_array.first.values[0].abs
+			payment_hash[:amount] = sorted_users_pnl_array.first[:pnl].abs
 			sorted_users_pnl_array.shift
 			sorted_users_pnl_array.pop
 		end
