@@ -1,5 +1,7 @@
 class BacksController < ApplicationController
 
+	before_action :require_user
+
 	def create
 		market = Market.find(params[:id])
 		@market = MarketPresenter.new(market, view_context)

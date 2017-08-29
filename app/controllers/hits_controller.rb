@@ -1,4 +1,6 @@
 class HitsController < ApplicationController
+
+	before_action :require_user
     
     def create
 		market = Market.find(params[:id])

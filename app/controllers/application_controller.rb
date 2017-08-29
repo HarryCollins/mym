@@ -14,8 +14,10 @@ class ApplicationController < ActionController::Base
 
 	def require_user
 		if not logged_in?
-		  flash[:danger] = "You need to be logged in see this page"
-		  redirect_to root_path
+		  flash[:danger] = "You need to be logged in to complete that action"
+		  #changed the below 
+		  render js: "window.location = '#{root_path}'"
+		  # redirect_to root_path
 		end
 	end
 
