@@ -20,7 +20,11 @@
           </div>
           <%= form_tag(market_outcome_new_back_path([mo_presenter.market], [mo_presenter]), remote: true) do %>
             <div class="modal-body">
-              <p>Set your odds: <%= number_field_tag :odds, mo_presenter.set_minimum_back_odds, min: mo_presenter.set_minimum_back_odds, max: 100, step: 0.1, class: "short-width-input"%></p>
+              <% if mo_presenter.market.market_type.id == 1 %>
+                <p>Set your odds: <%= number_field_tag :odds, mo_presenter.set_minimum_back_odds, min: mo_presenter.set_minimum_back_odds, max: 100, step: 0.1, class: "short-width-input"%></p>
+              <% else %>
+                <p>Set your back level: <%= number_field_tag :odds, mo_presenter.set_minimum_back_odds, min: mo_presenter.set_minimum_back_odds, max: 100, step: 0.1, class: "short-width-input"%></p>
+              <%end%>
               <p>How much?: £<%= number_field_tag :original_amount, 5, min: 0, max: 100, step: 0.1, class: "short-width-input"%></p>
             </div>
             <div class="modal-footer">
@@ -89,8 +93,13 @@
           </div>
           <%= form_tag(market_outcome_new_lay_path([mo_presenter.market], [mo_presenter]), remote: true) do %>
             <div class="modal-body">
-              <p>Set your odds: <%= number_field_tag :odds, mo_presenter.set_maximum_lay_odds, min: 0, max: mo_presenter.set_maximum_lay_odds, step: 0.1, class: "short-width-input"%></p>
-              <p>How much?: £<%= number_field_tag :original_amount, 5, min: 0, max: 100, step: 0.1, class: "short-width-input"%></p>
+              <% if mo_presenter.market.market_type.id == 1 %>
+                <p>Set your odds: <%= number_field_tag :odds, mo_presenter.set_maximum_lay_odds, min: 0, max: mo_presenter.set_maximum_lay_odds, step: 0.1, class: "short-width-input"%></p>
+                <p>How much?: £<%= number_field_tag :original_amount, 5, min: 0, max: 100, step: 0.1, class: "short-width-input"%></p>
+              <% else %>
+                <p>Set your lay level: <%= number_field_tag :odds, mo_presenter.set_maximum_lay_odds, min: 0, max: mo_presenter.set_maximum_lay_odds, step: 0.1, class: "short-width-input"%></p>
+                <p>How much?: £<%= number_field_tag :original_amount, 5, min: 0, max: 100, step: 0.1, class: "short-width-input"%></p>              
+              <% end %>
             </div>
             <div class="modal-footer">
               <%= submit_tag "Submit", class: "btn btn-default" %>
