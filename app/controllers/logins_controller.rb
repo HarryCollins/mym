@@ -5,7 +5,8 @@ class LoginsController < ApplicationController
     end
     
     def create
-        user = User.find_by(username: params[:username])
+        user = User.find_by(username: params[:identifier])
+        user ||=  User.find_by(email: params[:identifier])
         if user && user.authenticate(params[:password])
             session[:user_id] = user.id
             flash.now[:success] = "You are logged in"
