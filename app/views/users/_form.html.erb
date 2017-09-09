@@ -10,10 +10,10 @@
         <%= f.label :secondname %>
         <%= f.text_field :secondname %>
 
-        <% if @user.new_record? %>
-          <%= f.label :email %>
-          <%= f.email_field :email %>
+        <%= f.label :email %>
+        <%= f.email_field :email %>
 
+        <% if @user.new_record? %>
           <%= f.label :password %>
           <%= f.password_field :password %>
         <% end %>

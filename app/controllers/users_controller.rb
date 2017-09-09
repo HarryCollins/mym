@@ -1,6 +1,7 @@
 class UsersController < ApplicationController
 
-	before_action :require_user, except: [:index,  :new,  :create]
+	before_action :require_user, except: [:new,  :create]
+	before_action :require_user_is_self, only: [:show, :update]
 
 	def index
 		@users = User.all
@@ -35,8 +36,8 @@ class UsersController < ApplicationController
 	def update
 		@user = User.find(params[:id])
 	    if @user.update(user_params)
-	      flash[:success] = "You have sucessfully updated this user"  
-	      redirect_to users_path
+	      flash[:success] = "You have sucessfully updated your information"  
+	      redirect_to user_path(@user)
 	    else
 	      render :edit
 	    end
@@ -45,7 +46,12 @@ class UsersController < ApplicationController
 	private
 
 	def user_params
-		  params.require(:user).permit(:firstname, :secondname, :email, :password)
+		params.require(:user).permit(:firstname, :secondname, :username, :email, :password)
+	end
+
+	def require_user_is_self
+		#user can only see/update their own details
+		redirect_to root_path if current_user != User.find(params[:id])
 	end
 
 end

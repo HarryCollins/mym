@@ -5,6 +5,7 @@ class MarketsController < ApplicationController
 	before_action :redirect_if_completed_market, only: [:show, :edit, :update, :join, :leave]
 	before_action :redirect_if_not_completed_market, only: [:results]
 	before_action :redirect_if_results_already_entered, only: [:results_form]
+
 	
 	def index
 		@markets = Market.all.not_marked_as_complete
@@ -95,6 +96,7 @@ class MarketsController < ApplicationController
 	end
 
 	def join
+
 		market = Market.find(params[:id])
 		@user_market = market.user_markets.build(user: current_user)
 		@market = MarketPresenter.new(market, view_context)
@@ -162,6 +164,6 @@ class MarketsController < ApplicationController
 	def redirect_if_results_already_entered
 		#can only see results of a completed market
 		redirect_to market_path(Market.find(params[:id])) if Market.find(params[:id]).results.any?
-	end	
+	end
 end
 

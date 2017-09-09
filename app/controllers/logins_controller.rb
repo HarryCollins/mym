@@ -5,13 +5,13 @@ class LoginsController < ApplicationController
     end
     
     def create
-        user = User.find_by(email: params[:email])
+        user = User.find_by(username: params[:username])
         if user && user.authenticate(params[:password])
             session[:user_id] = user.id
             flash.now[:success] = "You are logged in"
             redirect_to root_path
         else
-            flash.now[:danger] = "Your email and password do not match"
+            flash.now[:danger] = "Your username and password do not match"
             render 'new'
         end
     end

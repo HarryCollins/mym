@@ -4,11 +4,7 @@ class PagesController < ApplicationController
 		
 	end
 
-	def test
-
-	end
-
-	def cover
+	def about
 
 	end
 
