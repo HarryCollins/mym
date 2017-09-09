@@ -8,8 +8,8 @@ class MarketsController < ApplicationController
 	
 	def index
 		@markets = Market.all.not_marked_as_complete
-		@markets = Market.joined_by_user(current_user).not_marked_as_complete if params[:joined].present?
-		@markets = Market.joined_by_user(current_user).marked_as_complete if params[:joinedandcomplete].present?
+		@markets = Market.joined_by_user(current_user).not_marked_as_complete if params[:joined].present? && current_user
+		@markets = Market.joined_by_user(current_user).marked_as_complete if params[:joinedandcomplete].present? && current_user
 	end
 
 	def show
