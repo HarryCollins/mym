@@ -48,7 +48,7 @@ class UsersController < ApplicationController
 		user = User.find_by_confirm_token(params[:id])
 		if user
 			user.email_activate
-			flash[:success] = "Welcome to the Sample App! Your email has been confirmed.
+			flash[:success] = "Welcome to Make Your Market! Your email has been confirmed.
 			Please sign in to continue."
 			redirect_to login_path
 		else
