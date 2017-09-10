@@ -57,4 +57,6 @@ Rails.application.configure do
   # Add Cloud9 origin for Action Cable requests.
   config.action_cable.allowed_request_origins = [
     'https://test-harrycollins.c9users.io' ]
+
+  config.action_mailer.default_url_options = { host: "localhost", port: 3000 }
 end

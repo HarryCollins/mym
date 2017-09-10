@@ -85,9 +85,11 @@ Rails.application.configure do
   config.active_record.dump_schema_after_migration = false
 
   #set the ActionCable server's URI for production
-  config.web_socket_server_url = "wss://mysterious-dawn-15214.herokuapp.com/cable"
+  config.web_socket_server_url = "wss://make-your-market.herokuapp.com/cable"
 
   #allow requestion origins for Heroku for ActionCable
-  config.action_cable.allowed_request_origins = ['https://mysterious-dawn-15214.herokuapp.com']
+  config.action_cable.allowed_request_origins = ['https://make-your-market.herokuapp.com/']
 
+
+  config.action_mailer.default_url_options = { host: 'make-your-market.herokuapp.com' }
 end

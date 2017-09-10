@@ -12,7 +12,11 @@ Rails.application.routes.draw do
 	get '/register' => 'users#new'
 	get '/login' => 'logins#new'
 	
-	resources :users, except: [:new]
+	resources :users, except: [:new] do
+		member do
+			get :confirm_email
+		end
+	end
 
 	resources :markets do
 		member do

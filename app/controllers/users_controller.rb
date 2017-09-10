@@ -15,9 +15,11 @@ class UsersController < ApplicationController
 	    @user = User.new(user_params)
 
 		if @user.save
-			flash[:success] = "Your account has been created successfully"
-			session[:user_id] = @user.id
-			redirect_to users_path				
+			UserMailer.registration_confirmation(@user).deliver_now
+			flash[:success] = "Please confirm your email address"
+			#session[:user_id] = @user.id
+			#redirect_to users_path
+			redirect_to root_path	
 		else
       		render :new
     	end
@@ -41,6 +43,19 @@ class UsersController < ApplicationController
 	    else
 	      render :edit
 	    end
+	end
+
+	def confirm_email
+		user = User.find_by_confirm_token(params[:id])
+		if user
+			user.email_activate
+			flash[:success] = "Welcome to the Sample App! Your email has been confirmed.
+			Please sign in to continue."
+			redirect_to login_path
+		else
+			flash[:error] = "Sorry. User does not exist"
+			redirect_to root_path
+		end
 	end
 
 	private

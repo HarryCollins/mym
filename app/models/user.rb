@@ -11,6 +11,7 @@ class User < ApplicationRecord
 	has_many :payments, class_name: 'Payment', foreign_key: 'payer_id'
 	has_many :receipts, class_name: 'Payment', foreign_key: 'receiver_id'
 
+	before_create :confirmation_token
  	before_save { self.email = email.downcase }
 
 	validates :firstname, presence: true
@@ -24,5 +25,18 @@ class User < ApplicationRecord
 
 	has_secure_password
 
+private
+
+	def confirmation_token
+		if self.confirm_token.blank?
+		  self.confirm_token = SecureRandom.urlsafe_base64.to_s
+		end
+	end
+
+	def email_activate
+		self.email_confirmed = true
+		self.confirm_token = nil
+		save!
+	end
 
 end
