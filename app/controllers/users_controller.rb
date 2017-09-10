@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
 
-	before_action :require_user, except: [:new,  :create]
+	before_action :require_user, except: [:new,  :create, :confirm_email]
 	before_action :require_user_is_self, only: [:show, :update]
 
 	def index

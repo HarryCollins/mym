@@ -13,8 +13,8 @@ class LoginsController < ApplicationController
                 flash.now[:success] = "You are logged in"
                 redirect_to root_path
             else
-                flash.now[:error] = 'Please activate your account by following the 
-                instructions in the account confirmation email you received to proceed'
+                flash.now[:error] = "Please activate your account by following the 
+                instructions in the account confirmation email you received to proceed"
                 render 'new'                
             end
         else
