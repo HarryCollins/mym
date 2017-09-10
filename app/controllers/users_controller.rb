@@ -2,6 +2,7 @@ class UsersController < ApplicationController
 
 	before_action :require_user, except: [:new,  :create, :confirm_email]
 	before_action :require_user_is_self, only: [:show, :update]
+	before_action :require_admin_user, except: [:new,  :create, :show, :confirm_email, :update]
 
 	def index
 		@users = User.all
@@ -16,9 +17,7 @@ class UsersController < ApplicationController
 
 		if @user.save
 			UserMailer.registration_confirmation(@user).deliver_now
-			flash[:success] = "Please confirm your email address"
-			#session[:user_id] = @user.id
-			#redirect_to users_path
+			flash[:success] = "Please confirm your email address before continuing"
 			redirect_to root_path	
 		else
       		render :new
@@ -66,7 +65,11 @@ class UsersController < ApplicationController
 
 	def require_user_is_self
 		#user can only see/update their own details
-		redirect_to root_path if current_user != User.find(params[:id])
+		redirect_to root_path if current_user != User.find(params[:id]) && !admin_user?
+	end
+
+	def require_admin_user
+		redirect_to root_path if !admin_user?
 	end
 
 end

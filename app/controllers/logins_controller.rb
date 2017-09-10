@@ -15,6 +15,7 @@ class LoginsController < ApplicationController
             else
                 flash.now[:error] = "Please activate your account by following the 
                 instructions in the account confirmation email you received to proceed"
+                UserMailer.registration_confirmation(user).deliver_now
                 render 'new'                
             end
         else
