@@ -21,7 +21,7 @@ class UserMarket < ApplicationRecord
 		end
 
 		def has_bets?
-			if self.market.lays.any? || self.market.backs.any?
+			if self.market.lays.where("user_id = ?", self.user).any? || self.market.backs.where("user_id = ?", self.user).any?
 				errors.add(:base, "You have open bets against the market")
 				throw :abort
 			end

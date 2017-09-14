@@ -9,10 +9,19 @@ default: &default
   pool: 5
   timeout: 5000
 
+#local development
+# development:
+#   <<: *default
+#   database: development_db
+#   username: harry
+
+
+#cloud9 development
 development:
   <<: *default
   database: development_db
-  username: harry
+  username: ubuntu
+
 
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".

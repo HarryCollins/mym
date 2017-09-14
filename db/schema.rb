@@ -141,6 +141,20 @@ ActiveRecord::Schema.define(version: 20170910175334) do
     t.boolean  "admin",           default: false
   end
 
+  add_foreign_key "backs", "market_outcomes"
+  add_foreign_key "backs", "users"
+  add_foreign_key "hits", "backs"
+  add_foreign_key "hits", "lays"
+  add_foreign_key "lays", "market_outcomes"
+  add_foreign_key "lays", "users"
+  add_foreign_key "market_outcomes", "markets"
+  add_foreign_key "markets", "market_statuses"
+  add_foreign_key "messages", "markets"
+  add_foreign_key "messages", "users"
   add_foreign_key "payments", "markets"
   add_foreign_key "payments", "results", column: "results_id"
+  add_foreign_key "results", "hits"
+  add_foreign_key "results", "market_outcomes"
+  add_foreign_key "results", "users", column: "backer_id"
+  add_foreign_key "results", "users", column: "layer_id"
 end
