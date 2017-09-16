@@ -45,9 +45,9 @@ $(".markets.edit, .markets.new").ready(function() {
         }
     });
 
-});
 
-//$("<%= escape_javascript(render @market) %>").appendTo("#ajax");
+
+});
 
 //the below only fires on markets#index
 
@@ -74,6 +74,11 @@ $(".markets.index").ready(function() {
 $(".markets.show").ready(function() {
 
     cableSubscribe(getMarketID(), getUserID());
+
+    //hide any flash messages after a button is clicked
+    $(".btn").click(function() {
+        $(".alert").hide();
+    });
 
 });
 

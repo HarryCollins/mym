@@ -10,8 +10,8 @@ class Message < ApplicationRecord
 
 	# Returns a list of users @mentioned in message content.
 	def mentions
-		message_text.scan(/@(\S+)/).flatten.map do |firstname|
-			User.find_by(firstname: firstname)
+		message_text.scan(/@(\S+)/).flatten.map do |username|
+			User.find_by(username: username)
 		end.compact
 	end
 	

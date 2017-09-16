@@ -16,12 +16,15 @@ class MessagesController < ApplicationController
 			#broadcast all '@' mentions
 			message.mentions.each do |mention|
 				ActionCable.server.broadcast "mentioned_user_#{mention.id}",
-												mention: true, market: market.name, from_user:current_user.firstname
+												mention: true, market: market.name, from_user:current_user.username
 			end
 		else 
-			can_chat_validation.add_errors
-			flash[:danger] = message.full_messages.join("<br>").html_safe
-			render js: %(window.location.pathname='#{market_path(@market)}')
+			#TODO
+			# flash[:danger] = message.full_messages.join("<br>").html_safe
+			# render js: %(window.location.pathname='#{market_path(@market)}')
+		 #    respond_to do |format|
+   #  			format.js { }
+			# end
 		end
 
 	end
