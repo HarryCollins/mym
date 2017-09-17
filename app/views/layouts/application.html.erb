@@ -1,24 +1,25 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
     <title>Mym</title>
+
     <%= csrf_meta_tags %>
     <%= action_cable_meta_tag %>
     <%= stylesheet_link_tag    'application', media: 'all' %>
     <%= javascript_include_tag 'application' %>
+
   </head>
 
-  <body class="<%= controller_name %> <%= action_name %>">
+  <body>
 
-  	<%= render 'layouts/navigation' %>
-  	
-  	<div class="container" id="yield-body">
+    <%= render 'layouts/navigation' %>
 
-		<%= render "layouts/messages" %>
+    <%= render "layouts/messages" %>
 
-		<%= yield %>
-		  
-	</div>
+    <%= yield %>
 
   </body>
 </html>

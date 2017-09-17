@@ -12,6 +12,7 @@
 //
 //= require jquery
 //= require jquery_ujs
+//= require foundation
 //= require jquery-readyselector
 //= require_tree .
 //= require_tree ./channels
@@ -26,3 +27,5 @@ $( document ).ready(function() {
     
 });
 
+
+$(function(){ $(document).foundation(); });
