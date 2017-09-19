@@ -1,57 +1,25 @@
-<!-- <nav class="navbar navbar-default">
-  <div class="container-fluid">
-    <div class="navbar-header">
-      <%= link_to "MakeYourMarket", home_path, class: "navbar-brand" %>
-    </div>
-    <ul class="nav navbar-nav">
-      <li><%= link_to "About", about_path %></li>
-      <li class="dropdown">
-        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">Markets<span class="caret"></span></a>
-        <ul class="dropdown-menu">
-          <li><%= link_to "All Live Markets", markets_path %></li>
-          <li><%= link_to "Your Live Markets", markets_path(joined: true) %></li>
-          <li><%= link_to "Your Completed Markets", markets_path(joinedandcomplete: true) %></li>
-          <hr>
-          <li><%= link_to "Create New Market", new_market_path %></li>
-        </ul>
-      </li>
-
-    </ul>
-    <ul class="nav navbar-nav navbar-right">
-      <% if !logged_in? %>
-        <li><%= link_to "Register", register_path %></li> 
-        <li><%= link_to "Login", login_path %></li>
-      <% else %>
-        <% if admin_user? %>
-          <li><%= link_to "Admin Settings", admin_path %></li>
-        <% end %>
-        <li><%= link_to current_user.username, user_path(current_user) %></li>
-        <li><%= link_to "Logout", '/logout' %></li> 
-      <% end %>
-    </ul>
-  </div>
-</nav>
- -->
 <div class="top-bar">
   <div class="top-bar-left">
     <ul class="dropdown menu" data-dropdown-menu>
-      <li class="menu-text">Site Title</li>
-      <li>
-        <a href="#">One</a>
+      <li class="logo"><%= link_to "MYM", home_path %></li>
+      <li class="links"><%= link_to "About", about_path %></li>
+      <li class="links">
+        <a href="">Markets</a>
         <ul class="menu vertical">
-          <li><a href="#">One</a></li>
-          <li><a href="#">Two</a></li>
-          <li><a href="#">Three</a></li>
+          <li class="links"><%= link_to "All Live Markets", markets_path %></li>
+          <li class="links"><%= link_to "Your Live Markets", markets_path(joined: true) %></li>
+          <li class="links"><%= link_to "Your Completed Markets", markets_path(joinedandcomplete: true) %></li>
+          <li class="links"><%= link_to "Create New Market", new_market_path %></li>
         </ul>
       </li>
-      <li><a href="#">Two</a></li>
-      <li><a href="#">Three</a></li>
     </ul>
   </div>
+  
   <div class="top-bar-right">
     <ul class="menu">
       <li><input type="search" placeholder="Search"></li>
       <li><button type="button" class="button">Search</button></li>
     </ul>
   </div>
+  
 </div>

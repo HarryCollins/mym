@@ -2,3 +2,115 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
  
+
+@import 'settings';
+
+$subnav-hero-bg: $primary-color;
+$subnav-hero-link-padding: 0.9rem 1rem;
+$subnav-hero-font-size: 0.75rem;
+$subnav-hero-link-opacity: 0.15;
+$subnav-hero-height: 300px;
+$subnav-hero-transition: all 0.35s ease-in-out;
+
+@font-face {
+  font-family: "Balik Kampung";
+  src: url(/assets/balik-kampung.regular.ttf) format("truetype");
+}
+
+
+.subnav-hero-section {
+  text-align: center;
+  background: $subnav-hero-bg;
+  background-size: cover;
+  position: relative;
+  overflow: visible;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: $subnav-hero-height;
+
+  .subnav-hero-headline {
+    color: $white;
+  }
+
+  .main-name{
+	font-family: "Balik Kampung";
+	font-size: 3em;
+  }
+
+  .secondary-name {
+	font-size: 0.5em;
+  }  
+
+}
+
+.subnav-hero-subnav {
+  float: none;
+  position: absolute;
+  text-align: center;
+  margin: 0 auto;
+  bottom: 0;
+  width: 100%;
+
+  li {
+    float: none;
+    display: inline-block;
+
+    a {
+      padding: $subnav-hero-link-padding;
+      font-size: $subnav-hero-font-size;
+      color: $white;
+      text-transform: uppercase;
+      display: block;
+      font-weight: bold;
+      letter-spacing: 1px;
+      transition: $subnav-hero-transition;
+
+      &.is-active {
+        background: rgba($white, $subnav-hero-link-opacity);
+      }
+
+      &:hover {
+        background: rgba($white, $subnav-hero-link-opacity);
+      }
+    }
+  }
+}
+
+
+$menu-underline-from-center-bg: #2C3840;
+$menu-underline-from-center-border-thickness: 0.125rem;
+
+.hover-underline-menu {
+  width: 100%;
+
+  .menu {
+    background-color: $menu-underline-from-center-bg;
+
+    a {
+      color: $white;
+      padding: 1.2rem 1.5rem;
+    }
+
+    .underline-from-center {
+      position: relative;
+
+      &::after {
+        content: "";
+        position: absolute;
+        top: calc(100% - #{$menu-underline-from-center-border-thickness});
+        border-bottom: $menu-underline-from-center-border-thickness solid $white;
+        left: 50%;
+        right: 50%;
+        transition: all 0.5s ease;
+      }
+
+      &:hover::after {
+        left: 0;
+        right: 0;
+        transition: all 0.5s ease;
+      }
+    }
+  }
+}
+

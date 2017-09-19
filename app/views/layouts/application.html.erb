@@ -15,7 +15,10 @@
 
   <body>
 
+  <!-- this 'if' is just here for testing -->
+  <% if action_name != "about" %>
     <%= render 'layouts/navigation' %>
+  <% end %>
 
     <%= render "layouts/messages" %>
 

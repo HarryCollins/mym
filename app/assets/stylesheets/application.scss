@@ -12,73 +12,63 @@
  *
  *= require_tree .
  *= require_self
+ *= require font-awesome
 //= require foundation_and_overrides
+
 
  */
 
+$main-dark: #01010A;
+$main-med-dark: #070734;
+$main-med:#343477;
+$main-med-light: #9090C4;
+$main-light: #BCBCF3;
 
-#new_market_form input,
-textarea,
-select,
-.uneditable-input {
-  border: 1px solid #D2D2D2;
-  border-radius: 3px;
-  width: 100%;
-  margin-bottom: 15px;
-}
+$comp-dark: #0E0A00;
+$comp-med-dark: #4A3700;
+$comp-med:#AA8E39;
+$comp-med-light: #FFEBAE;
+$comp-light: #FFEEBC;
 
-input_checkbox input {
-  width: auto !important;
-}
 
-input {
-  height: auto !important;
-}
-
-.no-indent {
-  padding: 0;
-}
-
-.no-bullets {
-  list-style-type: none;
-}
-
-.no-return {
-  display: inline;
-}
-
-.get-over {
-  float: left;
-}
-
-.lb-sm {
-  font-size: 12px;
-}
-
-.lb-md {
-  font-size: 16px;
-}
-
-.lb-lg {
-  font-size: 20px;
-}
-
-.margin_1px {
-  margin: 1px;
-}
-
-.standard_box {
-  border-top: 1px solid #abb9d1;
-  padding: 0.5em;
-  height: 20em;
-  overflow-y: scroll;
-}
-
-.short-width-input {
-  width: auto !important;
+@font-face {
+  font-family: "Balik Kampung";
+  src: url(/assets/balik-kampung.regular.ttf) format("truetype");
 }
 
 
-input[readonly] {
-    background-color: #DCDAD1;
+
+.top-bar {
+  background: $main-med;
+
+
+  .menu {
+    background: $main-med;
+
+    .vertical {
+      background: $main-med;
+      font-size: 0.9em;
+    }
+
+  }
+
+  a {
+    color: white;
+  }
+
+  .links:hover {
+    background-color: $main-med-dark;
+  }
+
+  .logo {
+    font-family: "Balik Kampung";
+    font-size: 2.2em;
+  }
+
+  .button {
+    background-color: $comp-dark;
+  }
 }
+
+
+
