@@ -1,18 +1,19 @@
 <nav class="hover-underline-menu" data-menu-underline-from-center>
   <ul class="menu align-center">
-    <li><a href="#">One</a></li>
-    <li><a href="#">Two</a></li>
-    <li><a href="#">Three</a></li>
+    <li>
+      <%= link_to login_path do %>
+        <i class="fa fa-sign-in"> Sign-in</i>
+      <% end %>
+    </li>
   </ul>
 </nav>
 
-
-
 <header class="subnav-hero-section">
-  <h1 class="subnav-hero-headline"><span class="main-name">MYM</span> <small class="secondary-name">MakeYourMarket</small></h1>
+  <h1 class="subnav-hero-headline"><span class="main-name">MYM</span></h1>
   <ul class="subnav-hero-subnav">
     <li><a href="#">Browse markets</a></li>
     <li><a href="#" class="is-active">Sign up</a></li>
     <li><a target="_blank" href="https://zurb.com/responsive">About mym</a></li>
   </ul>
 </header>
+
