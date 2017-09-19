@@ -1,22 +1,16 @@
 // Place all the styles related to the pages controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
- 
-
 @import 'settings';
+@import 'fonts';
+@import 'colors';
 
-$subnav-hero-bg: $primary-color;
+$subnav-hero-bg: $mym-primary-2;
 $subnav-hero-link-padding: 0.9rem 1rem;
 $subnav-hero-font-size: 0.75rem;
 $subnav-hero-link-opacity: 0.15;
 $subnav-hero-height: 300px;
 $subnav-hero-transition: all 0.35s ease-in-out;
-
-@font-face {
-  font-family: "Balik Kampung";
-  src: url(/assets/balik-kampung.regular.ttf) format("truetype");
-}
-
 
 .subnav-hero-section {
   text-align: center;
@@ -33,14 +27,14 @@ $subnav-hero-transition: all 0.35s ease-in-out;
     color: $white;
   }
 
-  .main-name{
-	font-family: "Balik Kampung";
-	font-size: 3em;
+  .main-name {
+    font-family: $main-font;
+    font-size: 3em;
   }
 
   .secondary-name {
-	font-size: 0.5em;
-  }  
+    font-size: 0.5em;
+  }
 
 }
 
@@ -78,7 +72,7 @@ $subnav-hero-transition: all 0.35s ease-in-out;
 }
 
 
-$menu-underline-from-center-bg: #2C3840;
+$menu-underline-from-center-bg: $mym-primary-4;
 $menu-underline-from-center-border-thickness: 0.125rem;
 
 .hover-underline-menu {
@@ -113,4 +107,3 @@ $menu-underline-from-center-border-thickness: 0.125rem;
     }
   }
 }
-
