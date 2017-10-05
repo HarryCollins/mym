@@ -24,8 +24,8 @@ $(document).ready(function() {
 
     console.log($("#market_show_id").attr('data-category'));
 
-    $("#dismiss-error-message").click(function() {
-        $("#error_partial").remove();
+    $('body').on('click', '#dismiss-error-message', function() {
+        $("#error_partial").html('');
     });
 
 });

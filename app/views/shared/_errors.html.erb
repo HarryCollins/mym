@@ -6,17 +6,18 @@
       <div class="alert alert-danger col-md-8 col-md-offset-2">
         <div class="error_messages col-sm-11">
           <!-- <h5>Please correct the following errors</h5> -->
-          <% obj.errors.full_messages.each do |error| %>
-            <ul>
-              <li><%= error %></li>
-            </ul>
+          <% obj.errors.full_messages.each_with_index do |error, index| %>
+            <% if index != 0 %>
+              <br>
+            <% end %>
+            <%= error %>
           <% end %>
         </div>
           
         <div class="col-sm-1">
-          <a href="">
-            <span class="glyphicon glyphicon-remove dismiss-error-message"></span>
-          </a>
+          <%= link_to "", remote: true do %>
+              <i class="glyphicon glyphicon-remove" id="dismiss-error-message"></i>
+          <% end %>
         </div>
       </div>
     </div>
