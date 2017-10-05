@@ -1,4 +1,6 @@
-<%= render 'shared/errors', obj: @market %>
+<div id="error_partial">
+    <%= render "shared/errors", obj: @market %>
+</div>
 
 <div id="market_show_id" data-category="<%= @market.id  %>" style="display: none;"></div>
 

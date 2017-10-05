@@ -122,10 +122,7 @@ class MarketsController < ApplicationController
 				format.js { }
 			else	
 				format.html { redirect_to market_path(@market) }
-				format.js do
-					flash[:danger] = @user_market.errors.full_messages.join("<br>").html_safe
-					render js: "window.location = '#{market_path(@market)}'"					
-				end	
+				format.js {}
 			end
 		end
 	end

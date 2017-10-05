@@ -1,5 +1,13 @@
-$('#joinleave-market').text('Join Market');
-$('#joinleave-market').attr('class', 'btn btn-primary');
-$('#joinleave-market').attr('href', '<%= join_market_path %>');
-$("#user_partial").html("<%= escape_javascript(render partial: 'user', collection: @market.users) %>"); 
+<% if @user_market.errors.any? %>
+	
+	$("#error_partial").html("<%= escape_javascript(render partial: 'shared/errors', locals: { obj: @user_market } ) %>")
 
+
+<% else %>
+
+	$('#joinleave-market').text('Join Market');
+	$('#joinleave-market').attr('class', 'btn btn-primary');
+	$('#joinleave-market').attr('href', '<%= join_market_path %>');
+	$("#user_partial").html("<%= escape_javascript(render partial: 'user', collection: @market.users) %>");
+
+<% end %>

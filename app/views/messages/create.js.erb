@@ -1,0 +1,5 @@
+<% if @message.errors.any? %>
+	
+	$("#error_partial").html("<%= escape_javascript(render partial: 'shared/errors', locals: { obj: @message } ) %>")
+
+<% end %>
