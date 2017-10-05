@@ -1,7 +1,7 @@
 <% if @user_market.errors.any? %>
 	
 	$("#error_partial").html("<%= escape_javascript(render partial: 'shared/errors', locals: { obj: @user_market } ) %>")
-
+	$("html, body").animate({ scrollTop: 0 }, "slow");
 
 <% else %>
 

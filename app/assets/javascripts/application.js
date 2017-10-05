@@ -18,12 +18,14 @@
 //= require_tree ./channels
 
 
-$( document ).ready(function() {
+$(document).ready(function() {
 
     console.log('Application.js Loaded');
 
     console.log($("#market_show_id").attr('data-category'));
 
-    
-});
+    $("#dismiss-error-message").click(function() {
+        $("#error_partial").remove();
+    });
 
+});
