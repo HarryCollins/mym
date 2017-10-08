@@ -1,5 +1,7 @@
 class MarketsController::ProcessMarketPayments
 
+	#this class calculated the most efficient way of users settling up after a market is completed
+
 	def initialize(market)
 		@market = market
 	end
@@ -47,14 +49,14 @@ class MarketsController::ProcessMarketPayments
 		if sorted_users_pnl_array.first[:pnl].abs > sorted_users_pnl_array.last[:pnl].abs
 			#lowest pnl is lower than highest pnl is high
 			payment_hash[:amount] = sorted_users_pnl_array.last[:pnl].abs
-			sorted_users_pnl_array.pop
 			sorted_users_pnl_array.first[:pnl] = sorted_users_pnl_array.first[:pnl] + sorted_users_pnl_array.last[:pnl]
+			sorted_users_pnl_array.pop
 
 		elsif sorted_users_pnl_array.first[:pnl].abs < sorted_users_pnl_array.last[:pnl].abs
 			#highest pnl is higher than lowest pnl is low
 			payment_hash[:amount] = sorted_users_pnl_array.first[:pnl].abs
-			sorted_users_pnl_array.shift
 			sorted_users_pnl_array.last[:pnl] = sorted_users_pnl_array.last[:pnl] + sorted_users_pnl_array.first[:pnl]
+			sorted_users_pnl_array.shift
 
 		elsif sorted_users_pnl_array.first[:pnl].abs == sorted_users_pnl_array.last[:pnl].abs
 			#highest pnl and lowest pnl are exactly equal
@@ -62,7 +64,7 @@ class MarketsController::ProcessMarketPayments
 			sorted_users_pnl_array.shift
 			sorted_users_pnl_array.pop
 		end
-			
+
 		payments_array.push(payment_hash)
 
 

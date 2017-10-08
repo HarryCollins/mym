@@ -50,7 +50,7 @@
                                                     <tr>
                                                         <th><%= result.hit.back.odds %></th>
                                                         <th><%= result.hit.amount %></th>
-                                                        <th><%= result.layer.firstname %></th>
+                                                        <th><%= result.layer.username %></th>
                                                         <th><%= result.backer_pnl %></th>
                                                     </tr>
                                                 <% end %>
@@ -76,7 +76,7 @@
                                                     <tr>
                                                         <th><%= result.hit.lay.odds %></th>
                                                         <th><%= result.hit.amount %></th>
-                                                        <th><%= result.backer.firstname %></th>
+                                                        <th><%= result.backer.username %></th>
                                                         <th><%= result.layer_pnl %></th>
                                                     </tr>
                                                 <% end %>
@@ -102,8 +102,8 @@
                                             <tr>
                                                 <th><%= hit.back.odds %></th>
                                                 <th><%= hit.amount %></th>
-                                                <th><%= hit.back.user.firstname %></th>
-                                                <th><%= hit.lay.user.firstname %></th>
+                                                <th><%= hit.back.user.username %></th>
+                                                <th><%= hit.lay.user.username %></th>
                                             </tr>
                                         <% end %>                                   
                                     </tbody>
@@ -128,8 +128,8 @@
                 <tbody>
                     <% @market.payments.each do |payment| %>
                         <tr>
-                            <th><%= payment.payer.firstname %></th>
-                            <th><%= payment.receiver.firstname %></th>
+                            <th><%= payment.payer.username %></th>
+                            <th><%= payment.receiver.username %></th>
                             <th><%= payment.amount %></th>
                         </tr>
                     <% end %>                                   
