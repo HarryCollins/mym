@@ -38,7 +38,7 @@
 
     <!-- bet collection = all lays of current market outcome -->
     <% bet_collection = mo_presenter.lays.non_zero_current_amount %>
-    <% mo_presenter.create_bet_hash(bet_collection).each do |odds, amount| %>
+    <% mo_presenter.create_bet_hash(bet_collection, :lays).each do |odds, amount| %>
     
       <% str_odds = odds.to_s.tr('.','_') %>
         
@@ -111,7 +111,7 @@
     </div>
 
     <% bet_collection = mo_presenter.backs.non_zero_current_amount %>
-    <% mo_presenter.create_bet_hash(bet_collection).each do |odds, amount| %> 
+    <% mo_presenter.create_bet_hash(bet_collection, :backs).each do |odds, amount| %> 
 
       <% str_odds = odds.to_s.tr('.','_') %>
         <!-- Trigger the new lay modal with a button -->

@@ -2,10 +2,16 @@ class MarketOutcomePresenter < BasePresenter
 
 	include Rails.application.routes.url_helpers
 
-	def create_bet_hash(bet_collection, user = User.all)
+	def create_bet_hash(bet_collection, direction, user = User.all)
 		bet_groups_hash = Hash.new
 		bet_groups = bet_collection.by_user(user).group_by(&:odds)
-		bet_groups = bet_groups.sort_by{|key, values| key}.reverse
+
+		if direction === :backs
+			bet_groups = bet_groups.sort_by{|key, values| key}
+		else
+			bet_groups = bet_groups.sort_by{|key, values| key}.reverse
+		end
+
 		bet_groups.each do |odds, bet_group|
         	bet_groups_hash[odds] = bet_group.inject(0) {|sum, bet| sum + bet.current_amount }
 	    end
