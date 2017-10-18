@@ -10,7 +10,11 @@
 
   <body class="<%= controller_name %> <%= action_name %>">
 
+  <% if action_name != "home" %>
   	<%= render 'layouts/navigation' %>
+  <% else %>
+    <%= render 'layouts/navigation_home' %>
+  <% end %>
   	
   	<div class="container" id="yield-body">
 
