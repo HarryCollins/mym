@@ -71,7 +71,7 @@ Rails.application.configure do
   # Use default logging formatter so that PID and timestamp are not suppressed.
   config.log_formatter = ::Logger::Formatter.new
 
-
+  # Below config allows images to be uploaded/displayed in Heroku
   config.serve_static_assets = true
   config.assets.compile = true
 
