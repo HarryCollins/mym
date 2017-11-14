@@ -99,3 +99,8 @@ hr {
 
 }
 
+@media all and (max-width: 1200px) {
+    body header {
+        font-size: 0.8em;
+    }
+}
