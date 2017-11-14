@@ -22,8 +22,6 @@ $(document).ready(function() {
 
     console.log('Application.js Loaded');
 
-    console.log($("#market_show_id").attr('data-category'));
-
     $('body').on('click', '#dismiss-error-message', function() {
         $("#error_partial").html('');
     });

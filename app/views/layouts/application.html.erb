@@ -6,15 +6,12 @@
     <%= action_cable_meta_tag %>
     <%= stylesheet_link_tag    'application', media: 'all' %>
     <%= javascript_include_tag 'application' %>
+    <link href="https://fonts.googleapis.com/css?family=PT+Sans" rel="stylesheet">
   </head>
 
   <body class="<%= controller_name %> <%= action_name %>">
 
-  <% if action_name != "home" %>
   	<%= render 'layouts/navigation' %>
-  <% else %>
-    <%= render 'layouts/navigation_home' %>
-  <% end %>
   	
   	<div class="container" id="yield-body">
 

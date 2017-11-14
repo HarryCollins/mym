@@ -12,9 +12,19 @@
  *
  *= require_tree .
  *= require_self
+ *= require font-awesome
  */
 
 @import "bootstrap-sprockets";
 @import "bootstrap";
+@import 'colors';
+
+body {
+	font-family: 'PT Sans', sans-serif;
+	background-color: $color-primary-1;
+}
+
+
+
 
 

@@ -1,0 +1,37 @@
+@import 'colors';
+
+body {
+
+	.header-main .navbar-default {
+
+		background-color: $color-complement-4;
+
+		.navbar-brand {
+			font-size: 2em;
+			font-weight: bold;
+			color: $color-complement-1;
+		}
+
+		.dropdown {
+
+			li {
+				a {
+					color: $color-complement-1;
+					font-size: 1.2em;
+				}
+			}			
+		}
+
+		.dropdown-menu{
+			background-color: $color-complement-4;
+		}
+
+		li {
+			a {
+				color: $color-complement-1;
+				font-size: 1.2em;
+			}
+		}
+	}
+}
+
