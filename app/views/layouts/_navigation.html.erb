@@ -1,5 +1,5 @@
 <div class="header-main">
-    <nav class="navbar navbar-default navbar-fixed-top">
+    <nav class="navbar navbar-default">
         <div class="container">
             <%= link_to "MYM", root_path, class: "navbar-brand" %>
             <div class="navbar-header">
@@ -30,10 +30,10 @@
                       <li><%= link_to "SIGN UP", register_path, class: "sign-up-button" %></li> 
                     <% else %>
                       <% if admin_user? %>
-                        <li><%= link_to "Admin Settings", admin_path %></li>
+                        <li><%= link_to "ADMIN", admin_path %></li>
                       <% end %>
                       <li><%= link_to current_user.username, user_path(current_user) %></li>
-                      <li><%= link_to "Logout", '/logout' %></li> 
+                      <li><%= link_to "LOGOUT", '/logout' %></li> 
                     <% end %>
                 </ul>
             </div>

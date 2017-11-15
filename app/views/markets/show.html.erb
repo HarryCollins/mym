@@ -5,98 +5,152 @@
 <div id="market_show_id" data-category="<%= @market.id  %>" style="display: none;"></div>
 
 <% if current_user %>
-    <div id="user_show_id" data-category="<%= current_user.id  %>" style="display: none;"></div>
+<div id="user_show_id" data-category="<%= current_user.id  %>" style="display: none;"></div>
 <% end %>
 
 <div class= "container">
+
     <div class="row">
-        <div class= "well col-md-8">
-            <h1><%= @market.name %> </br>
-            <small><%= @market.description %></small></h1>
-            <h5>Market Type: <%= @market.market_type.mechanism %></h5>
-            <h5>Founder: <%= @market.founder_name %></h5>
-            <h5>Status: <%= @market.market_status.market_status %></h5>
-            <h2>Outcomes</h2>
-            <div id="outcome_partial">
-                <%= render partial: "outcome_stager", collection: @market.market_outcomes %>
+        <div class= "col-sm-8">
+            <div class= "well">
+                <h1 class="text-center"><%= @market.name %></h1>
             </div>
         </div>
-        
-        <% if current_user %>
-            <div class= "col-md-4 standard_box">
-                <h3 class="text-center">Your Open Bets</h3>
-                    <div class= "col-md-6" >
-                        <h4>Open Backs</h4>
-                        <div id="userbacks_partial">              
-                            <%= render partial: "user_bet", collection: @market.user_backs(current_user, true) %>
-                        </div>                
-                    </div>
-                    <div class= "col-md-6">
-                        <h4>Open Lays</h4>
-                        <div id="userlays_partial"> 
-                            <%= render partial: "user_bet", collection: @market.user_lays(current_user, true) %>
-                        </div>
-                    </div>
+        <div class= "col-sm-4">
+            <div class= "well">
+                <p class="market-description"><%= @market.description %></p>
+                <h5>Market Type: <b><%= @market.market_type.mechanism %></b></h5>
+                <h5>Founder: <b><%= @market.founder_name %></b></h5>
+                <h5>Status: <b><%= @market.market_status.market_status %></b></h5>
             </div>
-            <div class= "col-md-4 standard_box">
-                <h3 class="text-center">Your Matched Bets</h3>
-                <% if @market.user_lays(current_user) %>
-                    <div class= "col-md-6" >
-                        <h4>Backs</h4>
-                        <div id="userback_hits_partial">
-                            <% @market.user_backs(current_user).each do |back| %>
-                                <%= render partial: "user_hit", collection: back.hits %>
-                            <% end %>
-                        </div>
-                    </div>
-                    <div class= "col-md-6">
-                        <h4>Lays</h4>
-                        <div id="userlay_hits_partial"> 
-                            <% @market.user_lays(current_user).each do |lay| %>
-                                <%= render partial: "user_hit", collection: lay.hits %>
-                            <% end %>
-                        </div>
-                    </div>               
-                <% end %>
+        </div>
+    </div>
+
+    <div class="row">
+
+        <div class= "col-sm-8">
+            <div class= "well outcome-well">
+                <h2 class="text-center">Outcomes</h2>
+                <div id="outcome_partial">
+                    <%= render partial: "outcome_stager", collection: @market.market_outcomes %>
+                </div>
             </div>
-        <% end %>
-
-        <div class= "col-md-4 standard_box box_height_medium">
-
-            <h3 class="text-center">Users</h3>
-                <ul id="market-users-list" class="no-bullets">
-                    <div id="user_partial">
-                        <%= render partial: "user", collection: @market.users %>
-                    </div>
-                </ul>
         </div>
 
-        <div class= "col-md-4 standard_box box_height_medium">
 
-            <h3 class="text-center">Chat</h3>
+        <div class= "col-sm-4">
+            <% if current_user %>
+                <div class="row">
 
-            <div id="messages_partial">
+                    <div class="panel-group">
+                      <div class="panel panel-default">
+                        <div class="panel-heading">
+                          <h4 class="panel-title">
+                            <a data-toggle="collapse" href="#collapse1">Your Open Bets</a>
+                          </h4>
+                        </div>
+                        <div id="collapse1" class="panel-collapse collapse">
+                          <div class="panel-body">
+                            <div class= "col-xs-6">
+                                <h4>Open Backs</h4>
+                                <div id="userbacks_partial">              
+                                    <%= render partial: "user_bet", collection: @market.user_backs(current_user, true) %>
+                                </div>                
+                            </div>
+                            <div class= "col-xs-6">
+                                <h4>Open Lays</h4>
+                                <div id="userlays_partial"> 
+                                    <%= render partial: "user_bet", collection: @market.user_lays(current_user, true) %>
+                                </div>
+                            </div>                                     
+                          </div>
+                        </div>
+                      </div>
+                    </div>
 
-                <% if @market.messages.any? %>
-                      <%= render partial: 'messages/message', collection: @market.messages %>
-                <%end%>
-            
-            </div> 
+                </div>
 
-            <%= render partial: 'messages/message_form', locals: {message: @message, market: @market}%>
+                <div class="row">
+
+                    <div class="panel-group">
+                      <div class="panel panel-default">
+                        <div class="panel-heading">
+                          <h4 class="panel-title">
+                            <a data-toggle="collapse" href="#collapse2">Your Matched Bets</a>
+                          </h4>
+                        </div>
+                        <div id="collapse2" class="panel-collapse collapse">
+                          <div class="panel-body">
+                                <% if @market.user_lays(current_user) %>
+                                <div class= "col-xs-6" >
+                                    <h4>Backs</h4>
+                                    <div id="userback_hits_partial">
+                                        <% @market.user_backs(current_user).each do |back| %>
+                                        <%= render partial: "user_hit", collection: back.hits %>
+                                        <% end %>
+                                    </div>
+                                </div>
+                                <div class= "col-xs-6">
+                                    <h4>Lays</h4>
+                                    <div id="userlay_hits_partial"> 
+                                        <% @market.user_lays(current_user).each do |lay| %>
+                                        <%= render partial: "user_hit", collection: lay.hits %>
+                                        <% end %>
+                                    </div>
+                                </div>               
+                                <% end %>                                   
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                </div>
+            <% end %>
+
+            <div class="row">
+                <div class="panel-group">
+                  <div class="panel panel-default">
+                    <div class="panel-heading">
+                      <h4 class="panel-title">
+                        <a data-toggle="collapse" href="#collapse3">Members</a>
+                      </h4>
+                    </div>
+                    <div id="collapse3" class="panel-collapse collapse">
+                      <div class="panel-body">
+                        <ul id="market-users-list" class="list-unstyled">
+                            <div id="user_partial">
+                                <%= render partial: "user", collection: @market.users %>
+                            </div>
+                        </ul>                                  
+                      </div>
+                    </div>
+                  </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class= "col-md-4">
+                    <h3 class="text-center">Chat</h3>
+                    <div id="messages_partial">
+                        <% if @market.messages.any? %>
+                        <%= render partial: 'messages/message', collection: @market.messages %>
+                        <%end%>
+                    </div> 
+                    <%= render partial: 'messages/message_form', locals: {message: @message, market: @market}%>
+                </div>
+            </div>
         </div>
-
     </div>
 
     <div class="row">
         <div class= "col-md-8">
             <% if current_user && current_user == @market.mkfounder %>
-                <p class="text-center"><%= link_to "Edit Market", edit_market_path, class: "btn btn-warning" %></p>
+            <p class="text-center"><%= link_to "Edit Market", edit_market_path, class: "btn btn-warning" %></p>
             <% end %>
             <% if @market.user_markets.where(user: current_user).exists? %>
-                <p class="text-center inline"><%= link_to "Leave Market", leave_market_path, remote: true, id: "joinleave-market", class: "btn btn-warning" %></p>
+            <p class="text-center inline"><%= link_to "Leave Market", leave_market_path, remote: true, id: "joinleave-market", class: "btn btn-warning" %></p>
             <% else %>
-                <p class="text-center inline"><%= link_to "Join Market", join_market_path, remote: true, id: "joinleave-market", class: "btn btn-primary" %></p>
+            <p class="text-center inline"><%= link_to "Join Market", join_market_path, remote: true, id: "joinleave-market", class: "btn btn-primary" %></p>
             <% end %> 
         </div>
     </div>
