@@ -6,11 +6,15 @@
   </div>
 
   <div class="row">
-    <div class= "col-xs-6">
+    <div class= "col-xs-6 bet-group">
+
+      
+
       <p class="text-center">Back</p>
 
+      <div class="button-container">
       <!-- Trigger the new back modal with a button -->
-      <button type="button" class="btn btn-sm btn-info btn-lg pull-right" data-toggle="modal" data-target=<%= "#back_modal_#{outcome.id}" %>>Create<br>Back Odds</button>
+      <button type="button" class="btn btn-sm btn-info btn-lg pull-right bet-button data-toggle="modal" data-target=<%= "#back_modal_#{outcome.id}" %>>Create<br>Back Odds</button>
 
       <!-- Modal -->
       <div id=<%= "back_modal_#{outcome.id}"%> class="modal fade" role="dialog">
@@ -47,7 +51,7 @@
 
       <% str_odds = odds.to_s.tr('.','_') %>
 
-      <button type="button" class="btn btn-sm btn-danger pull-right margin_1px" data-toggle="modal" data-target=<%= "#hit_back_modal_#{outcome.id}_#{str_odds}" %>><%= odds %> <br> <%= "(£#{amount})" %></button>
+      <button type="button" class="btn btn-sm btn-danger pull-right bet-button" data-toggle="modal" data-target=<%= "#hit_back_modal_#{outcome.id}_#{str_odds}" %>><%= odds %> <br> <%= "(£#{amount})" %></button>
 
       <!-- Modal -->
       <div id=<%= "hit_back_modal_#{outcome.id}_#{str_odds}" %> class="modal fade" role="dialog">
@@ -77,13 +81,18 @@
       </div>
 
       <% end %>
+
+      </div>
+
     </div>
 
-    <div class= "col-xs-6">
+    <div class= "col-xs-6 bet-group">
       <p class="text-center">Lay</p>
 
+      <div class="button-container">
+
       <!-- Trigger the new lay modal with a button -->
-      <button type="button" class="btn btn-sm btn-info btn-lg pull-left" data-toggle="modal" data-target=<%= "#lay_modal_#{outcome.id}" %>>Create<br>Lay Odds</button>
+      <button type="button" class="btn btn-sm btn-info btn-lg pull-left bet-button" data-toggle="modal" data-target=<%= "#lay_modal_#{outcome.id}" %>>Create<br>Lay Odds</button>
 
       <!-- Modal -->
       <div id=<%= "lay_modal_#{outcome.id}"%> class="modal fade" role="dialog">
@@ -120,7 +129,7 @@
 
       <% str_odds = odds.to_s.tr('.','_') %>
       <!-- Trigger the new lay modal with a button -->
-      <button type="button" class="btn btn-sm btn-primary pull-left margin_1px" data-toggle="modal" data-target=<%= "#hit_lay_modal_#{outcome.id}_#{str_odds}" %>><%= odds %> <br> <%= "(£#{amount})" %></button>
+      <button type="button" class="btn btn-sm btn-primary pull-left bet-button" data-toggle="modal" data-target=<%= "#hit_lay_modal_#{outcome.id}_#{str_odds}" %>><%= odds %> <br> <%= "(£#{amount})" %></button>
 
       <!-- Modal -->
       <div id=<%= "hit_lay_modal_#{outcome.id}_#{str_odds}" %> class="modal fade" role="dialog">
@@ -150,6 +159,8 @@
       </div>
       
       <% end %>   
+
+      </div>
 
     </div>
   </div>

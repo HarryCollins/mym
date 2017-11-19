@@ -35,3 +35,9 @@ body {
 	}
 }
 
+// overriding weird bootstrap mobile view color setting
+@media (max-width: 767px){
+	.navbar-default .navbar-nav .open .dropdown-menu > li > a {
+	    color: $color-complement-1 !important;
+	}
+}
