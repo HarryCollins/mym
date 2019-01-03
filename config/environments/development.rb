@@ -36,7 +36,7 @@ Rails.application.configure do
     authentication: "plain",
     enable_starttls_auto: true,
     user_name: ENV["GMAIL_MYM_USERNAME"],
-    password: ENV["GMAIL_MYM_APP_PASSWORD"]
+    password: ENV["GMAIL_MYM_APP_PASSWORD"],
   }
 
   config.action_mailer.perform_caching = false
@@ -62,11 +62,11 @@ Rails.application.configure do
   # routes, locales, etc. This feature depends on the listen gem.
   config.file_watcher = ActiveSupport::EventedFileUpdateChecker
 
-  #config.action_cable.url = "ws://localhost:3000/cable"
+  config.action_cable.url = "ws://localhost:3000/cable"
 
-  # Add Cloud9 origin for Action Cable requests.
-  config.action_cable.allowed_request_origins = [
-    'https://test-harrycollins.c9users.io' ]
+  # # Add Cloud9 origin for Action Cable requests.
+  # config.action_cable.allowed_request_origins = [
+  #   'https://test-harrycollins.c9users.io' ]
 
 
 end
