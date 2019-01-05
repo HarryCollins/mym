@@ -4,34 +4,62 @@
 
 <div class= "container">
   <div class="row">
-    <div id= "new_market_form" class= "well col-md-8 col-md-offset-2">
-      <%= form_for @market, html: { id: "market_form" } do |f| %>
-        <%= f.label :name %>
-        <%= f.text_field :name %>
 
-        <%= f.label :description %>
-        <%= f.text_field :description %>
-        
-        <%= f.label 'Market Type' %>
-        <%= f.collection_select(:market_type_id, MarketType.all, :id, :mechanism) %> </br></br>
- 
-        <%= f.label 'Outcomes' %> <i class="glyphicon glyphicon-plus" id="add_outcome"></i>
+    <div id= "new_market_form" class= "col-md-8 col-md-offset-2">
 
-        <ul class="no-indent no-bullets" id='new_outcomes_input_group'>
-        	<%= f.fields_for :market_outcomes do |mo_form| %>
+        <%= form_for @market, html: { id: "market_form" } do |f| %>
 
-          		<li>
-          		    <%= mo_form.check_box '_destroy', class:"delete_checkbox" %>
-          			  <%= mo_form.text_field :outcome, html_options={ placeholder:'New Outcome' } %>
-          		</li>        			  
-    			  
-        	<% end %>
-        </ul>
-        <%= f.label 'Publish market?' %>
-        <%= f.check_box :market_status_id, {id: "publish_checkbox"}, "2", "1" %>
-        <%= f.submit(@market.new_record? ? 'New Market' : 'Edit Market', class: "btn btn-success") %>
-      <% end %>
+          <h2 class="form-signin-heading">
+            <%= @market.new_record? ? 'Create your market' : 'Edit your market' %>
+          </h2>
+
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <%= f.label :name %>
+              <%= f.text_field :name, class:"form-control" %>
+            </div>
+            <div class="form-group col-md-6">
+              <%= f.label :description %>
+              <%= f.text_area :description, class:"form-control" %>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <%= f.label 'Market Type' %>
+              <%= f.collection_select(:market_type_id, MarketType.all, :id, :mechanism, {}, {class: "form-control"}) %>
+            </div>
+            <div class="form-group col-md-6">
+              <%= f.label 'Outcomes' %>
+              <Ul class="list-unstyled" id="new_outcomes_input_group">
+                <%= f.fields_for :market_outcomes do |mo_form| %>
+                    <li>
+                        <%= mo_form.text_field :outcome, html_options={placeholder:'New Outcome', class: "form-control"} %>
+                    </li>                 
+                <% end %>               
+              </ul>
+              <button type="button" class="btn btn-sm btn-primary btn-block"  id="add_outcome">Add outcome</button>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group col-md-6 form-check form-check-inline">
+                <%= f.check_box :market_status_id, {id: "publish_checkbox", class:"form-check-input"}, "2", "1" %>
+                <%= f.label 'Publish market?', class:"form-check-label" %>
+            </div>
+
+            <div class="form-group col-xs-12">
+              <%= f.submit(@market.new_record? ? 'Save New Market' : 'Save Changes', class: "btn btn-success btn-block") %>
+            </div>
+          </div>
+
+        <% end %>
+
     </div>
+
   </div>
 </div>
+
+
+
 

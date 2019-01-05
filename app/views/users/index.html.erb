@@ -1,8 +1,15 @@
 
 <p class="text-center"><%= link_to "New User", "/register", class: "btn btn-primary" %></p>
 
-<% @users.each do |user| %>
-	<div class="panel">
-		<%= link_to "#{user.firstname} #{user.secondname}", user_path(user) %>
+<div class="row">
+	<div class="col-md-6 col-md-offset-3">	
+		<h2>Users</h2>
+
+		<% @users.each do |user| %>
+			<div class="panel">
+				<%= link_to "#{user.username}", user_path(user), class: "h4" %>
+			</div>
+		<% end %>
+
 	</div>
-<% end %>
+</div>

@@ -1,8 +1,21 @@
-<h2><%= "#{@user.firstname} #{@user.secondname}" %> <small><%= "#{@user.username}" %></small> </h2>
-<br>
-<br>
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+            <h1><%= "#{@user.firstname} #{@user.secondname}" %> <small><%= "#{@user.username}" %></small> </h2>
+        </div>
+    </div>
 
-<%= render 'form' %>
+    <div class="row">
+        <%= render 'form' %>
+    </div>
 
-<%= link_to "Your markets", markets_path(joined: true), class: "btn btn-info" %>
-<br>
+    <br>
+
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+            <%= link_to "Admin", login_path %>
+        </div>
+    </div>
+    
+
+</div>

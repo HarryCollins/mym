@@ -24,7 +24,7 @@ $(".markets.edit, .markets.new").ready(function() {
         idAttributOutcome = "market_market_outcomes_attributes_0_outcome".replace("0", mSec);
         nameAttributOutcome = "market[market_outcomes_attributes][0][outcome]".replace("0", mSec);
 
-        $("#new_outcomes_input_group").append('<li><input type="text" placeholder="New Outcome" name=' + nameAttributOutcome + ' id=' + idAttributOutcome + '></li>');
+        $("#new_outcomes_input_group").append('<br><li><input class="form-control" type="text" placeholder="New Outcome" name=' + nameAttributOutcome + ' id=' + idAttributOutcome + '></li>');
     });
 
     //grab status of 'publish' checkbox, for testing on submit
