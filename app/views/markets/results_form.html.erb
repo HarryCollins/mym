@@ -4,11 +4,12 @@
 <div class= "container">
   <div class="row">
 
-  <h3 class = "col-md-8 col-md-offset-2"><%= 'Outcomes' %></h3>
+  <!-- TODO need to add logic for spread markets -->
 
-  <!-- need to add logic for spread markets -->
+    <div id= "new_market_form" class= "col-md-8 col-md-offset-4">
 
-    <div id= "new_market_form" class= "well col-md-8 col-md-offset-2">
+      <h3>Outcomes</h3>
+
       <%= form_for @market, url: complete_market_path, method: :post do |f| %>
 
         <% if @market.market_type.id == 1 %>
@@ -17,27 +18,32 @@
           <h4>Enter the result of each outcome</h4>
         <% end %>
 
-        <ul class="no-indent no-bullets" id='new_outcomes_input_group'>
-        	<%= f.fields_for :market_outcomes do |mo_form| %>
+        <div class="row">
+          <div class= "col-xs-6 col-sm-4">
+            <ul class="list-unstyled" id='new_outcomes_input_group'>
+              <%= f.fields_for :market_outcomes do |mo_form| %>
 
-            <% if @market.market_type.id == 1 %>
-  
-          		<li>
-          			<%= mo_form.label :outcome, mo_form.object.outcome %>
-          			  <%= mo_form.check_box :result %>
-          		</li>        			  
-      			
-      			<% else %>
-      			
-           		<li>
-          			<%= mo_form.label :outcome, mo_form.object.outcome %> | Result:
-          			  <%= mo_form.number_field :result, class: "short-width-input"%>
-          		</li>   
-          		
-      			<% end %>
-    			
-        	<% end %>
-        </ul>
+                <% if @market.market_type.id == 1 %>
+      
+                  <li>
+                    <%= mo_form.label :outcome, mo_form.object.outcome %>
+                      <%= mo_form.check_box :result, class:"form-control" %>
+                  </li>        			  
+                  <br>
+
+                <% else %>
+                
+                  <li>
+                    <%= mo_form.label :outcome, mo_form.object.outcome %> | Result:
+                      <%= mo_form.number_field :result, class: "form-control"%>
+                  </li>   
+                  <br>
+                <% end %>
+              <% end %>
+            </ul>
+          </div>      
+        </div>
+
         <%= f.submit "Save results and mark as complete", class: "btn btn-success" %>
       <% end %>
     </div>
