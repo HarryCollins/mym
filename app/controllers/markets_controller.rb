@@ -71,14 +71,15 @@ class MarketsController < ApplicationController
 	def complete
 		market = Market.find(params[:id])
 		market.assign_attributes(market_params)
-		market.assign_attributes(market_status_id: 3)
 		market_result_processor = ProcessMarketResults.new(market)
 		market_payments_processor = ProcessMarketPayments.new(market)
 		
 		ActiveRecord::Base.transaction do
+			market.assign_attributes(market_status_id: 3)
 			market.save
-			market_result_processor.process	
-			market_payments_processor.process		
+			byebug
+			market_result_processor.process
+			market_payments_processor.process	
 		end
 
 		ActionCable.server.broadcast "all_users_in_market_#{params[:id]}", "reload_page": true

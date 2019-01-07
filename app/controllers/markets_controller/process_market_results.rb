@@ -12,7 +12,7 @@ class MarketsController::ProcessMarketResults
 			end
 		else #spread
 			@market.market_outcomes.each do |mo|
-				save_market_outcome_results_spread(mo)
+				return save_market_outcome_results_spread(mo)
 			end
 		end			
 	end
@@ -26,7 +26,7 @@ class MarketsController::ProcessMarketResults
 			if mo.result == 1 #backer wins
 				backer_pnl = (hit.back.odds * hit.amount) - hit.amount
 				layer_pnl = backer_pnl * -1
-			else #layer wins
+			elsif mo.result == 2
 				layer_pnl = hit.amount
 				backer_pnl = layer_pnl * -1
 			end
@@ -44,8 +44,11 @@ class MarketsController::ProcessMarketResults
 
 			backer = hit.back.user
 			layer = hit.lay.user
-
-			if mo.result < hit.back.odds #layer wins
+			
+			if mo.result.nil? #no result entered (dealt with in market ourcome model)
+				byebug
+				return false
+			elsif mo.result < hit.back.odds #layer wins
 				layer_pnl = (hit.back.odds - mo.result) * hit.amount
 				backer_pnl = layer_pnl * -1
 			elsif mo.result > hit.back.odds #backer wins

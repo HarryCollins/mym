@@ -6,6 +6,14 @@ class Result < ApplicationRecord
 
 	scope :by_user_backer_or_layer, -> (user) { where('backer_id = ? OR layer_id = ?', user.id, user.id) }
 
+	validates :result, presence: true if :any_bets_matched_against_outcome
+
+	#does this work?
+	def any_bets_matched_against_outcome
+		byebug
+		market_outcome.hits.any?
+	end
+
 	def pnl(user, result)
 		if winner == user
 			if result

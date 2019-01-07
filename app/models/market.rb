@@ -16,7 +16,7 @@
 	validates :market_status_id, presence: true
 	validates :name, presence: true
 	validates :description, presence: true
-	
+
 	before_destroy :has_backs_or_lays, prepend: true
 	
 	accepts_nested_attributes_for :market_outcomes, allow_destroy: true
