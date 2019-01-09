@@ -74,12 +74,14 @@ class MarketsController < ApplicationController
 		market_result_processor = ProcessMarketResults.new(market)
 		market_payments_processor = ProcessMarketPayments.new(market)
 		
-		ActiveRecord::Base.transaction do
+		ActiveRecord::Base.transaction do #not working!!!
 			market.assign_attributes(market_status_id: 3)
-			market.save
-			byebug
-			market_result_processor.process
-			market_payments_processor.process	
+			market.save!
+			begin
+				market_result_processor.process.each(&:save!)
+			rescue
+			end
+			market_payments_processor.process
 		end
 
 		ActionCable.server.broadcast "all_users_in_market_#{params[:id]}", "reload_page": true

@@ -10,7 +10,6 @@ class Result < ApplicationRecord
 
 	#does this work?
 	def any_bets_matched_against_outcome
-		byebug
 		market_outcome.hits.any?
 	end
 

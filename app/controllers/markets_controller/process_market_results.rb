@@ -2,6 +2,7 @@ class MarketsController::ProcessMarketResults
 
 	def initialize(market)
 		@market = market
+		@results_array = []
 	end
 
 	def process
@@ -12,9 +13,10 @@ class MarketsController::ProcessMarketResults
 			end
 		else #spread
 			@market.market_outcomes.each do |mo|
-				return save_market_outcome_results_spread(mo)
+				save_market_outcome_results_spread(mo)
 			end
-		end			
+		end
+		return @results_array	
 	end
 
 	def save_market_outcome_results_fixed(mo)
@@ -34,9 +36,11 @@ class MarketsController::ProcessMarketResults
 			result = Result.new(result: mo.result, backer_id: backer.id, layer_id: layer.id, 
 				market_outcome_id: mo.id, hit_id: hit.id, 
 				backer_pnl: backer_pnl, layer_pnl: layer_pnl)
-			result.save
+
+			@results_array << result
 
 		end
+		return @results_array
 	end
 
 	def save_market_outcome_results_spread(mo)
@@ -46,8 +50,8 @@ class MarketsController::ProcessMarketResults
 			layer = hit.lay.user
 			
 			if mo.result.nil? #no result entered (dealt with in market ourcome model)
-				byebug
-				return false
+				layer_pnl = 0
+				backer_pnl = 0
 			elsif mo.result < hit.back.odds #layer wins
 				layer_pnl = (hit.back.odds - mo.result) * hit.amount
 				backer_pnl = layer_pnl * -1
@@ -62,9 +66,11 @@ class MarketsController::ProcessMarketResults
 			result = Result.new(result: mo.result, backer_id: backer.id, layer_id: layer.id, 
 				market_outcome_id: mo.id, hit_id: hit.id, 
 				backer_pnl: backer_pnl, layer_pnl: layer_pnl)
-			result.save
+
+			@results_array << result
 
 		end
+		return @results_array
 	end
 
 end
