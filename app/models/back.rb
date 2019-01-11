@@ -73,7 +73,7 @@ class Back < ApplicationRecord
 
         def create_hits(bets)
             bets.each do |bet|
-                if bet.current_amount >= @amount_of_hit_left && bet.current_amount != 0
+                if bet.current_amount >= @amount_of_hit_left && @amount_of_hit_left != 0 && bet.current_amount != 0
                     bet.update(current_amount: bet.current_amount - @amount_of_hit_left)
                     hit = self.hits.build(lay_id: bet.id, amount: @amount_of_hit_left)
                     hit.save!
