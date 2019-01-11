@@ -3,7 +3,7 @@
   <div class="row">
     <div class= "col-md-8 col-md-offset-2">
         <h2><%= @market.name %><small> Market <%= @market.market_status.market_status %></small></h2>
-            <% if @market.market_status_id != 1 %><%= link_to "Enter Market Results", results_form_market_path(@market), class:"btn btn-info btn-sm" %><% end %>
+            <% if @market.market_status_id != 1 %><%= link_to "Enter Market Results", complete_market_path(@market), class:"btn btn-info btn-sm" %><% end %>
             <%= link_to "Delete Market", @market, method: :delete, data:{confirm: "Are you sure?"}, class:"btn btn-danger btn-sm" %>
     </div>
   </div>

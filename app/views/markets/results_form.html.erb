@@ -38,6 +38,8 @@
                       <%= mo_form.number_field :result, class: "form-control"%>
                   </li>   
                   <br>
+                  <%= mo_form.object.hits.any? %>
+                  
                 <% end %>
               <% end %>
             </ul>

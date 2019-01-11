@@ -6,10 +6,10 @@ class Result < ApplicationRecord
 
 	scope :by_user_backer_or_layer, -> (user) { where('backer_id = ? OR layer_id = ?', user.id, user.id) }
 
-	validates :result, presence: true if :any_bets_matched_against_outcome
-
+	validates :result, presence: true, if: :any_hits_against_outcome?
+	
 	#does this work?
-	def any_bets_matched_against_outcome
+	def any_hits_against_outcome?
 		market_outcome.hits.any?
 	end
 
