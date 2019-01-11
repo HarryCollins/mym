@@ -1,6 +1,6 @@
 class MarketsController::ProcessMarketPayments
 
-	#this class calculated the most efficient way of users settling up after a market is completed
+	#this class calculates the most efficient way of users settling up after a market is completed
 
 	def initialize(market)
 		@market = market

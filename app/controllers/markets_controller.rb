@@ -77,10 +77,7 @@ class MarketsController < ApplicationController
 		ActiveRecord::Base.transaction do #not working!!!
 			market.assign_attributes(market_status_id: 3)
 			market.save!
-			begin
-				market_result_processor.process.each(&:save!)
-			rescue
-			end
+			market_result_processor.process.each(&:save!)
 			market_payments_processor.process
 		end
 

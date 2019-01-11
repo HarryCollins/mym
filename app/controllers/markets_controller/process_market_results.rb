@@ -28,7 +28,7 @@ class MarketsController::ProcessMarketResults
 			if mo.result == 1 #backer wins
 				backer_pnl = (hit.back.odds * hit.amount) - hit.amount
 				layer_pnl = backer_pnl * -1
-			elsif mo.result == 2
+			elsif mo.result == 0
 				layer_pnl = hit.amount
 				backer_pnl = layer_pnl * -1
 			end
@@ -49,7 +49,7 @@ class MarketsController::ProcessMarketResults
 			backer = hit.back.user
 			layer = hit.lay.user
 			
-			if mo.result.nil? #no result entered (dealt with in market ourcome model)
+			if mo.result.nil? #no result entered, not valid (dealt with in market ourcome model)
 				layer_pnl = 0
 				backer_pnl = 0
 			elsif mo.result < hit.back.odds #layer wins
