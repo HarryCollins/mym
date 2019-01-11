@@ -8,7 +8,6 @@ class Result < ApplicationRecord
 
 	validates :result, presence: true, if: :any_hits_against_outcome?
 	
-	#does this work?
 	def any_hits_against_outcome?
 		market_outcome.hits.any?
 	end
