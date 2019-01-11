@@ -62,10 +62,12 @@ class Back < ApplicationRecord
             if hitter?
                 @amount_of_hit_left = self.original_amount
                 @total_amount_reached = false
-
+                
+                #first, deal with any offsetting exposure that the user has
                 user_offsetting_lays = array_of_user_opposite_exposure
                 create_hits(user_offsetting_lays)
-
+                
+                #second, use any remaining amount left on the hit against other users
                 lays = Lay.by_market_outcome(self.market_outcome).by_odds(self.odds)
                 create_hits(lays)      
             end
