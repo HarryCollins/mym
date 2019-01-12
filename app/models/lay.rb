@@ -63,9 +63,11 @@ class Lay < ApplicationRecord
                 @amount_of_hit_left = self.original_amount
                 @total_amount_reached = false
 
+                #first, deal with any offsetting exposure that the user has
                 user_offsetting_backs = array_of_user_opposite_exposure
                 create_hits(user_offsetting_backs)
 
+                #second, use any remaining amount left on the hit against other users
                 backs = Back.by_market_outcome(self.market_outcome).by_odds(self.odds)
                 create_hits(backs)      
             end
@@ -73,7 +75,7 @@ class Lay < ApplicationRecord
 
         def create_hits(bets)
             bets.each do |bet|
-                if bet.current_amount >= @amount_of_hit_left && bet.current_amount != 0
+                if bet.current_amount >= @amount_of_hit_left && @amount_of_hit_left != 0 && bet.current_amount != 0
                     bet.update(current_amount: bet.current_amount - @amount_of_hit_left)
                     hit = self.hits.build(back_id: bet.id, amount: @amount_of_hit_left)
                     hit.save!
